@@ -40,7 +40,7 @@ src="{{ bp.featured_image | image_url: width: 120 }}"
           </div>
            <div class="product-bundle__item-action">
             {% if bp.available %}
-              <form action="/cart/add" method="post">
+              <form action="/" method="post">
                 <input type="hidden" name="id" value="{{ bp.selected_or_first_available_variant.id }}">
                 <input type="hidden" name="quantity" value="1">
                 <button type="submit" class="product-bundle__add-btn">
