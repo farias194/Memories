@@ -4,7 +4,7 @@
 
     {%- assign bundle_products = bundle.fields.products.value -%}
     {%- assign discount_label = bundle.fields.bundle_discount.value -%}
-    {%- assign bundle_title = bundle.fields.upsell_product.value -%}
+    {%- assign bundle_title = bundle.fields.upsell_bundle.value -%}
 
     <div class = 'product-bundle' id = 'product-bundle'>
 <div class = 'product-bundle__header'>
@@ -40,7 +40,7 @@ src="{{ bp.featured_image | image_url: width: 120 }}"
           </div>
            <div class="product-bundle__item-action">
             {% if bp.available %}
-              <form action="/" method="post">
+              <form action="/cart/add" method="post">
                 <input type="hidden" name="id" value="{{ bp.selected_or_first_available_variant.id }}">
                 <input type="hidden" name="quantity" value="1">
                 <button type="submit" class="product-bundle__add-btn">
