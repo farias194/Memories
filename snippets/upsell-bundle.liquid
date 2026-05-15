@@ -2,9 +2,9 @@
 
 {% if bundle != blank %}
 
-    {%- assign bundle_products = bundle.fields.bundle_products.value -%}
+    {%- assign bundle_products = bundle.fields.products.value -%}
     {%- assign discount_label = bundle.fields.bundle_discount.value -%}
-    {%- assign bundle_title = bundle.fields.heading.value -%}
+    {%- assign bundle_title = bundle.fields.upsell_product.value -%}
 
     <div class = 'product-bundle' id = 'product-bundle'>
 <div class = 'product-bundle__header'>
