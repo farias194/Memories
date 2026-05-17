@@ -1,0 +1,97 @@
+{% doc %}
+  @prompt
+    a text block that displays the collection name this product belongs to in small 10px font with options to change the color,  set the font to all caps and add a setting range that allows changiong the font from 10 to 16 px, add a setting dropdown select to allow the user to set the font to ones allowed in the theme settings  , now remove the font setting, and make it so that if the product is not set to a collection it is set to 'Products', chaange the font style to bold
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-collection-name-{{ ai_gen_id }} {
+    display: block;
+    width: {{ block.settings.desktop_width_percent }}%;
+  }
+
+  .ai-collection-name__text-{{ ai_gen_id }} {
+    font-size: {{ block.settings.font_size }}px;
+    color: {{ block.settings.text_color }};
+    margin: 0;
+    line-height: 1.4;
+    text-transform: uppercase;
+    font-weight: bold;
+  }
+
+  .ai-collection-name__text-{{ ai_gen_id }} a {
+    color: {{ block.settings.text_color }};
+    text-decoration: none;
+  }
+
+  .ai-collection-name__text-{{ ai_gen_id }} a:hover {
+    text-decoration: underline;
+  }
+{% endstyle %}
+
+<div class="ai-collection-name-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  {% if product.collections.size > 0 %}
+    <p class="ai-collection-name__text-{{ ai_gen_id }}">
+      {% if block.settings.show_link %}
+        <a href="{{ product.collections.first.url }}">{{ product.collections.first.title }}</a>
+      {% else %}
+        {{ product.collections.first.title }}
+      {% endif %}
+    </p>
+  {% else %}
+    <p class="ai-collection-name__text-{{ ai_gen_id }}">Products</p>
+  {% endif %}
+</div>
+
+{% schema %}
+{
+  "name": "Collection name",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "range",
+      "id": "font_size",
+      "label": "Font size",
+      "min": 10,
+      "max": 16,
+      "step": 1,
+      "unit": "px",
+      "default": 10
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_link",
+      "label": "Link to collection",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Desktop width",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    }
+  ],
+  "presets": [
+    {
+      "name": "Collection name"
+    }
+  ]
+}
+{% endschema %}
