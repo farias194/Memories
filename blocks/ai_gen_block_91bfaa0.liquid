@@ -8,14 +8,17 @@
 {% style %}
   .ai-collection-name-{{ ai_gen_id }} {
     display: block;
+  
     width: {{ block.settings.desktop_width_percent }}%;
-    text-align: {{ block.settings.text_alignment }};
   }
 
   .ai-collection-name__text-{{ ai_gen_id }} {
     font-size: {{ block.settings.font_size }}px;
     color: {{ block.settings.text_color }};
     margin: 0;
+        text-align: {{ block.settings.text_alignment }};
+
+
     line-height: 1.4;
     text-transform: uppercase;
     font-weight: bold;
