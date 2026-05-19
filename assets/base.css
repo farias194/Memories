@@ -512,7 +512,13 @@ p:empty {
 }
 
 .section--height-small {
-  --section-min-height: var(--section-height-small);
+  --section-min-height: var(  :root {
+    /* ... */
+    --section-height-small: 300px; /* or another value */
+    --section-height-medium: 500px;
+    --section-height-large: 700px;
+    /* ... */
+  });
 }
 
 .section--height-medium {
@@ -523,9 +529,13 @@ p:empty {
   --section-min-height: var(--section-height-large);
 }
 
+
 .section--height-full-screen {
   --section-min-height: 100svh;
 }
+
+.section--height-extra-large{
+  --section-min-height: 80vh;}
 
 .section-content-wrapper.section-content-wrapper {
   min-height: calc(var(--section-min-height, 'auto') - var(--section-height-offset, 0px));
