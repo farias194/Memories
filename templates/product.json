@@ -8,7 +8,7 @@
           "static": true,
           "settings": {
             "media_presentation": "grid",
-            "media_columns": "two",
+            "media_columns": "one",
             "image_gap": 12,
             "large_first_image": false,
             "icons_style": "none",
@@ -17,7 +17,7 @@
             "thumbnail_position": "right",
             "thumbnail_width": 44,
             "thumbnail_radius": 0,
-            "aspect_ratio": "1\/1.25",
+            "aspect_ratio": "1",
             "constrain_to_viewport": true,
             "media_fit": "contain",
             "media_radius": 0,
@@ -62,10 +62,11 @@
             "ai_gen_block_91bfaa0_LhUq4c": {
               "type": "ai_gen_block_91bfaa0",
               "settings": {
-                "font_size": 12,
-                "text_color": "#456cea",
+                "font_size": 10,
+                "text_color": "#a5b6ef",
                 "show_link": false,
-                "desktop_width_percent": 100
+                "desktop_width_percent": 100,
+                "text_alignment": "start"
               },
               "blocks": {}
             },

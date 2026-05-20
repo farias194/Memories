@@ -1,0 +1,633 @@
+{% doc %}
+  @prompt
+    video slider section
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-video-slider-{{ ai_gen_id }} {
+    width: {{ block.settings.desktop_width_percent }}%;
+    max-width: 100%;
+    position: relative;
+    overflow: hidden;
+    display: block;
+  }
+
+  .ai-video-slider__container-{{ ai_gen_id }} {
+    position: relative;
+    width: 100%;
+  }
+
+  .ai-video-slider__track-{{ ai_gen_id }} {
+    display: flex;
+    transition: transform 0.5s ease;
+    gap: {{ block.settings.slide_gap }}px;
+  }
+
+  .ai-video-slider__slide-{{ ai_gen_id }} {
+    flex: 0 0 calc(100% / {{ block.settings.slides_per_view }} - {{ block.settings.slide_gap }}px * ({{ block.settings.slides_per_view }} - 1) / {{ block.settings.slides_per_view }});
+    position: relative;
+    border-radius: {{ block.settings.video_border_radius }}px;
+    overflow: hidden;
+    background-color: {{ block.settings.video_background_color }};
+  }
+
+  .ai-video-slider__video-wrapper-{{ ai_gen_id }} {
+    position: relative;
+    width: 100%;
+    padding-bottom: {{ block.settings.video_aspect_ratio }}%;
+    background-color: #f4f4f4;
+  }
+
+  .ai-video-slider__video-{{ ai_gen_id }} {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .ai-video-slider__placeholder-{{ ai_gen_id }} {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f4f4f4;
+  }
+
+  .ai-video-slider__placeholder-{{ ai_gen_id }} svg {
+    width: 100%;
+    height: 100%;
+    max-width: 200px;
+    max-height: 200px;
+  }
+
+  .ai-video-slider__empty-state-{{ ai_gen_id }} {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 12px 20px;
+    font-size: 14px;
+    color: #666;
+    text-align: center;
+    pointer-events: none;
+  }
+
+  .ai-video-slider__controls-{{ ai_gen_id }} {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    margin-top: {{ block.settings.controls_spacing }}px;
+  }
+
+  .ai-video-slider__button-{{ ai_gen_id }} {
+    width: {{ block.settings.button_size }}px;
+    height: {{ block.settings.button_size }}px;
+    border-radius: 50%;
+    background-color: {{ block.settings.button_background }};
+    color: {{ block.settings.button_color }};
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease;
+  }
+
+  .ai-video-slider__button-{{ ai_gen_id }}:hover {
+    background-color: {{ block.settings.button_hover_background }};
+  }
+
+  .ai-video-slider__button-{{ ai_gen_id }}:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+
+  .ai-video-slider__button-{{ ai_gen_id }} svg {
+    width: calc({{ block.settings.button_size }}px * 0.5);
+    height: calc({{ block.settings.button_size }}px * 0.5);
+  }
+
+  .ai-video-slider__dots-{{ ai_gen_id }} {
+    display: flex;
+    gap: 8px;
+  }
+
+  .ai-video-slider__dot-{{ ai_gen_id }} {
+    width: {{ block.settings.dot_size }}px;
+    height: {{ block.settings.dot_size }}px;
+    border-radius: 50%;
+    background-color: {{ block.settings.dot_color }};
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    padding: 0;
+  }
+
+  .ai-video-slider__dot-{{ ai_gen_id }}.active {
+    background-color: {{ block.settings.dot_active_color }};
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-video-slider__slide-{{ ai_gen_id }} {
+      flex: 0 0 calc(100% / {{ block.settings.slides_per_view_mobile }} - {{ block.settings.slide_gap }}px * ({{ block.settings.slides_per_view_mobile }} - 1) / {{ block.settings.slides_per_view_mobile }});
+    }
+  }
+{% endstyle %}
+
+<video-slider-{{ ai_gen_id }} class="ai-video-slider-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-video-slider__container-{{ ai_gen_id }}">
+    <div class="ai-video-slider__track-{{ ai_gen_id }}" data-track>
+      {% for i in (1..6) %}
+        {% liquid
+          assign video_key = 'video_' | append: i
+          assign video = block.settings[video_key]
+        %}
+        <div class="ai-video-slider__slide-{{ ai_gen_id }}" data-slide="{{ forloop.index0 }}">
+          <div class="ai-video-slider__video-wrapper-{{ ai_gen_id }}">
+            {% if video %}
+              {{ video | video_tag: 
+                class: 'ai-video-slider__video-' | append: ai_gen_id,
+                autoplay: block.settings.autoplay,
+                loop: block.settings.loop,
+                muted: block.settings.muted,
+                controls: block.settings.show_controls
+              }}
+            {% else %}
+              <div class="ai-video-slider__placeholder-{{ ai_gen_id }}">
+                {{ 'image' | placeholder_svg_tag }}
+                <div class="ai-video-slider__empty-state-{{ ai_gen_id }}">
+                  Add video {{ i }}
+                </div>
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  {% if block.settings.show_navigation %}
+    <div class="ai-video-slider__controls-{{ ai_gen_id }}">
+      <button 
+        class="ai-video-slider__button-{{ ai_gen_id }}" 
+        data-prev
+        aria-label="Previous slide"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+      </button>
+
+      {% if block.settings.show_dots %}
+        <div class="ai-video-slider__dots-{{ ai_gen_id }}" data-dots></div>
+      {% endif %}
+
+      <button 
+        class="ai-video-slider__button-{{ ai_gen_id }}" 
+        data-next
+        aria-label="Next slide"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="9 18 15 12 9 6"></polyline>
+        </svg>
+      </button>
+    </div>
+  {% endif %}
+</video-slider-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class VideoSlider{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+        this.currentIndex = 0;
+        this.slidesPerView = {{ block.settings.slides_per_view }};
+        this.slidesPerViewMobile = {{ block.settings.slides_per_view_mobile }};
+        this.autoplayEnabled = {{ block.settings.enable_autoplay }};
+        this.autoplayDelay = {{ block.settings.autoplay_delay }} * 1000;
+        this.autoplayTimer = null;
+      }
+
+      connectedCallback() {
+        this.track = this.querySelector('[data-track]');
+        this.slides = this.querySelectorAll('[data-slide]');
+        this.prevButton = this.querySelector('[data-prev]');
+        this.nextButton = this.querySelector('[data-next]');
+        this.dotsContainer = this.querySelector('[data-dots]');
+
+        this.updateSlidesPerView();
+        this.createDots();
+        this.setupEventListeners();
+        this.updateSlider();
+
+        if (this.autoplayEnabled) {
+          this.startAutoplay();
+        }
+      }
+
+      updateSlidesPerView() {
+        if (window.innerWidth <= 749) {
+          this.currentSlidesPerView = this.slidesPerViewMobile;
+        } else {
+          this.currentSlidesPerView = this.slidesPerView;
+        }
+        this.totalSlides = Math.max(0, this.slides.length - this.currentSlidesPerView + 1);
+      }
+
+      createDots() {
+        if (!this.dotsContainer) return;
+        
+        this.dotsContainer.innerHTML = '';
+        for (let i = 0; i < this.totalSlides; i++) {
+          const dot = document.createElement('button');
+          dot.className = 'ai-video-slider__dot-{{ ai_gen_id }}';
+          dot.setAttribute('aria-label', 'Go to slide ' + (i + 1));
+          dot.addEventListener('click', () => this.goToSlide(i));
+          this.dotsContainer.appendChild(dot);
+        }
+      }
+
+      setupEventListeners() {
+        if (this.prevButton) {
+          this.prevButton.addEventListener('click', () => this.prev());
+        }
+        if (this.nextButton) {
+          this.nextButton.addEventListener('click', () => this.next());
+        }
+
+        window.addEventListener('resize', () => {
+          this.updateSlidesPerView();
+          this.createDots();
+          this.currentIndex = Math.min(this.currentIndex, this.totalSlides - 1);
+          this.updateSlider();
+        });
+
+        this.addEventListener('mouseenter', () => this.stopAutoplay());
+        this.addEventListener('mouseleave', () => {
+          if (this.autoplayEnabled) {
+            this.startAutoplay();
+          }
+        });
+      }
+
+      prev() {
+        if (this.currentIndex > 0) {
+          this.currentIndex--;
+          this.updateSlider();
+          this.resetAutoplay();
+        }
+      }
+
+      next() {
+        if (this.currentIndex < this.totalSlides - 1) {
+          this.currentIndex++;
+          this.updateSlider();
+          this.resetAutoplay();
+        }
+      }
+
+      goToSlide(index) {
+        this.currentIndex = index;
+        this.updateSlider();
+        this.resetAutoplay();
+      }
+
+      updateSlider() {
+        const slideWidth = 100 / this.currentSlidesPerView;
+        const gap = {{ block.settings.slide_gap }};
+        const gapOffset = gap * this.currentIndex;
+        const translateX = -(this.currentIndex * slideWidth) - (gapOffset / this.track.offsetWidth * 100);
+        
+        this.track.style.transform = 'translateX(' + translateX + '%)';
+
+        if (this.prevButton) {
+          this.prevButton.disabled = this.currentIndex === 0;
+        }
+        if (this.nextButton) {
+          this.nextButton.disabled = this.currentIndex >= this.totalSlides - 1;
+        }
+
+        if (this.dotsContainer) {
+          const dots = this.dotsContainer.querySelectorAll('.ai-video-slider__dot-{{ ai_gen_id }}');
+          dots.forEach((dot, index) => {
+            if (index === this.currentIndex) {
+              dot.classList.add('active');
+            } else {
+              dot.classList.remove('active');
+            }
+          });
+        }
+      }
+
+      startAutoplay() {
+        if (!this.autoplayEnabled) return;
+        this.stopAutoplay();
+        this.autoplayTimer = setInterval(() => {
+          if (this.currentIndex < this.totalSlides - 1) {
+            this.next();
+          } else {
+            this.currentIndex = 0;
+            this.updateSlider();
+          }
+        }, this.autoplayDelay);
+      }
+
+      stopAutoplay() {
+        if (this.autoplayTimer) {
+          clearInterval(this.autoplayTimer);
+          this.autoplayTimer = null;
+        }
+      }
+
+      resetAutoplay() {
+        if (this.autoplayEnabled) {
+          this.stopAutoplay();
+          this.startAutoplay();
+        }
+      }
+
+      disconnectedCallback() {
+        this.stopAutoplay();
+      }
+    }
+
+    customElements.define('video-slider-{{ ai_gen_id }}', VideoSlider{{ ai_gen_id }});
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Video slider",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Videos"
+    },
+    {
+      "type": "video",
+      "id": "video_1",
+      "label": "Video 1"
+    },
+    {
+      "type": "video",
+      "id": "video_2",
+      "label": "Video 2"
+    },
+    {
+      "type": "video",
+      "id": "video_3",
+      "label": "Video 3"
+    },
+    {
+      "type": "video",
+      "id": "video_4",
+      "label": "Video 4"
+    },
+    {
+      "type": "video",
+      "id": "video_5",
+      "label": "Video 5"
+    },
+    {
+      "type": "video",
+      "id": "video_6",
+      "label": "Video 6"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Desktop width",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "slides_per_view",
+      "label": "Slides per view (desktop)",
+      "min": 1,
+      "max": 4,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "select",
+      "id": "slides_per_view_mobile",
+      "label": "Slides per view (mobile)",
+      "options": [
+        {
+          "value": "1",
+          "label": "1"
+        },
+        {
+          "value": "2",
+          "label": "2"
+        }
+      ],
+      "default": "1"
+    },
+    {
+      "type": "range",
+      "id": "slide_gap",
+      "label": "Gap between slides",
+      "min": 0,
+      "max": 40,
+      "step": 4,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "select",
+      "id": "video_aspect_ratio",
+      "label": "Video aspect ratio",
+      "options": [
+        {
+          "value": "56.25",
+          "label": "16:9"
+        },
+        {
+          "value": "75",
+          "label": "4:3"
+        },
+        {
+          "value": "100",
+          "label": "1:1"
+        },
+        {
+          "value": "125",
+          "label": "4:5"
+        },
+        {
+          "value": "177.78",
+          "label": "9:16"
+        }
+      ],
+      "default": "56.25"
+    },
+    {
+      "type": "header",
+      "content": "Video settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "autoplay",
+      "label": "Autoplay videos",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "loop",
+      "label": "Loop videos",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "muted",
+      "label": "Mute videos",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_controls",
+      "label": "Show video controls",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Slider autoplay"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_autoplay",
+      "label": "Enable slider autoplay",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "autoplay_delay",
+      "label": "Autoplay delay",
+      "min": 2,
+      "max": 10,
+      "step": 1,
+      "unit": "s",
+      "default": 5
+    },
+    {
+      "type": "header",
+      "content": "Navigation"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_navigation",
+      "label": "Show navigation",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_dots",
+      "label": "Show dots",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "controls_spacing",
+      "label": "Controls spacing",
+      "min": 10,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "button_size",
+      "label": "Button size",
+      "min": 30,
+      "max": 60,
+      "step": 5,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "color",
+      "id": "button_background",
+      "label": "Button background",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_background",
+      "label": "Button hover background",
+      "default": "#333333"
+    },
+    {
+      "type": "color",
+      "id": "button_color",
+      "label": "Button icon color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "dot_size",
+      "label": "Dot size",
+      "min": 6,
+      "max": 16,
+      "step": 2,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "color",
+      "id": "dot_color",
+      "label": "Dot color",
+      "default": "#cccccc"
+    },
+    {
+      "type": "color",
+      "id": "dot_active_color",
+      "label": "Active dot color",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "range",
+      "id": "video_border_radius",
+      "label": "Video border radius",
+      "min": 0,
+      "max": 32,
+      "step": 4,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "color",
+      "id": "video_background_color",
+      "label": "Video background",
+      "default": "#000000"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Video slider"
+    }
+  ]
+}
+{% endschema %}

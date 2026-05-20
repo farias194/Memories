@@ -3,6 +3,18 @@
     "collection_list_Wfgh3m": {
       "type": "main-collection-list",
       "blocks": {
+        "divider_dGD9Hg": {
+          "type": "_divider",
+          "name": "t:names.divider",
+          "settings": {
+            "thickness": 1,
+            "corner_radius": "square",
+            "width_percent": 100,
+            "padding-block-start": 0,
+            "padding-block-end": 0
+          },
+          "blocks": {}
+        },
         "group_4FtiAg": {
           "type": "group",
           "name": "t:names.header",
@@ -82,7 +94,7 @@
             "placement": "on_image",
             "horizontal_alignment": "center",
             "vertical_alignment": "center",
-            "collection_card_gap": 8,
+            "collection_card_gap": 20,
             "inherit_color_scheme": false,
             "color_scheme": "scheme-5",
             "border": "none",
@@ -121,8 +133,8 @@
               "name": "t:names.collection_card_image",
               "static": true,
               "settings": {
-                "image_ratio": "landscape",
-                "toggle_overlay": false,
+                "image_ratio": "square",
+                "toggle_overlay": true,
                 "overlay_color": "#00000026",
                 "overlay_style": "solid",
                 "gradient_direction": "to top",
@@ -140,25 +152,41 @@
         }
       },
       "block_order": [
+        "divider_dGD9Hg",
         "group_4FtiAg"
       ],
+      "custom_css": [],
       "name": "Collection list",
       "settings": {
         "layout_type": "grid",
         "carousel_on_mobile": false,
         "columns": 2,
         "mobile_columns": "1",
-        "columns_gap": 41,
-        "bento_gap": 8,
-        "rows_gap": 45,
+        "columns_gap": 69,
+        "bento_gap": 100,
+        "rows_gap": 53,
         "max_collections": 4,
         "icons_style": "arrow",
         "icons_shape": "none",
-        "section_width": "page-width",
-        "gap": 12,
+        "section_width": "full-width",
+        "gap": 59,
+        "color_scheme": "scheme-b47cba1b-a009-4dfb-8517-ae8309e76dfc",
+        "padding-block-start": 54,
+        "padding-block-end": 79
+      }
+    },
+    "divider_jcHLPX": {
+      "type": "divider",
+      "name": "t:names.divider_section",
+      "settings": {
         "color_scheme": "",
-        "padding-block-start": 48,
-        "padding-block-end": 48
+        "section_width": "full-width",
+        "thickness": 1,
+        "corner_radius": "square",
+        "width_percent": 100,
+        "alignment_horizontal": "center",
+        "padding-block-start": 16,
+        "padding-block-end": 16
       }
     },
     "section_YirjiW": {
@@ -859,6 +887,7 @@
   },
   "order": [
     "collection_list_Wfgh3m",
+    "divider_jcHLPX",
     "section_YirjiW",
     "section_PXUKWA",
     "section_wC6G9K"
