@@ -205,35 +205,35 @@
         window.addEventListener('resize', this.handleScroll);
       }
 
-      updateTimeline() {
-        const windowHeight = window.innerHeight;
-        const timelineHeight = this.timelineLine.offsetHeight;
+    updateTimeline() {
+  const windowHeight = window.innerHeight;
+  const timelineHeight = this.timelineWrapper.offsetHeight;
 
-        let maxProgress = 0;
+  let maxProgress = 0;
 
-        this.items.forEach((item) => {
-          const itemRect = item.getBoundingClientRect();
-          const itemMiddle = itemRect.top + (itemRect.height / 2);
+  this.items.forEach((item) => {
+    const itemRect = item.getBoundingClientRect();
+    const itemMiddle = itemRect.top + (itemRect.height / 2);
 
-          const triggerPoint = windowHeight * 0.7;
+    const triggerPoint = windowHeight * 0.7;
 
-          if (itemMiddle < triggerPoint) {
-            item.classList.add('active');
+    if (itemMiddle < triggerPoint) {
+      item.classList.add('active');
 
-            const itemPosition = item.offsetTop;
-            const progress = (itemPosition / timelineHeight) * 100;
+      const itemPosition = item.offsetTop;
+      const progress = (itemPosition / timelineHeight) * 100;
 
-            maxProgress = Math.max(maxProgress, progress);
-          } else {
-            item.classList.remove('active');
-          }
-        });
+      maxProgress = Math.max(maxProgress, progress);
+    } else {
+      item.classList.remove('active');
+    }
+  });
 
-        if (this.progressBar) {
-          this.progressBar.style.height =
-            Math.min(maxProgress, 100) + '%';
-        }
-      }
+  if (this.progressBar) {
+    this.progressBar.style.height =
+      Math.min(maxProgress, 100) + '%';
+  }
+}
 
       disconnectedCallback() {
         window.removeEventListener('scroll', this.handleScroll);
