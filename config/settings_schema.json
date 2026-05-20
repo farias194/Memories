@@ -2103,7 +2103,19 @@
         "id": "product_card_carousel",
         "label": "t:settings.product_card_carousel",
         "default": true
+      },
+      /*custom setting for product cards to add borders*/
+      {
+        "type": "range",
+        "id": "product_card_border",
+        "label": "settings.product_card_border",
+        "min": 0,
+        "max": 4,
+        "step": 0.5,
+        "unit": "px",
+        "default": 0.5,
       }
+      /*end of custom setting*/
     ]
   },
   {
