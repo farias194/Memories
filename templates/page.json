@@ -486,6 +486,65 @@
         "padding-block-start": 0,
         "padding-block-end": 0
       }
+    },
+    "custom_timeline_wyqTEg": {
+      "type": "custom-timeline",
+      "blocks": {
+        "timeline_item_G69nbh": {
+          "type": "timeline_item",
+          "settings": {
+            "date": "May 2026",
+            "title": "Timeline event",
+            "description": "Describe this moment in your timeline."
+          }
+        },
+        "timeline_item_xR8HRq": {
+          "type": "timeline_item",
+          "settings": {
+            "date": "May 2026",
+            "title": "Timeline event",
+            "description": "Describe this moment in your timeline."
+          }
+        },
+        "timeline_item_cBXzYW": {
+          "type": "timeline_item",
+          "settings": {
+            "date": "May 2026",
+            "title": "Timeline event",
+            "description": "Describe this moment in your timeline."
+          }
+        }
+      },
+      "block_order": [
+        "timeline_item_G69nbh",
+        "timeline_item_xR8HRq",
+        "timeline_item_cBXzYW"
+      ],
+      "name": "Custom Timeline",
+      "settings": {
+        "line_position": 40,
+        "line_width": 2,
+        "line_color": "#e6e6e6",
+        "line_active_color": "#000000",
+        "dot_size": 16,
+        "dot_color": "#ffffff",
+        "dot_border_color": "#e6e6e6",
+        "dot_border_width": 2,
+        "dot_active_color": "#000000",
+        "dot_active_border_color": "#000000",
+        "dot_active_scale": 1.2,
+        "content_bg_color": "#f5f5f5",
+        "content_padding": 20,
+        "content_border_radius": 8,
+        "content_inactive_opacity": 0.3,
+        "date_color": "#666666",
+        "date_font_size": 14,
+        "title_color": "#000000",
+        "title_font_size": 20,
+        "description_color": "#333333",
+        "description_font_size": 14,
+        "desktop_width_percent": 100
+      }
     }
   },
   "order": [
@@ -495,6 +554,7 @@
     "section_4JeGn8",
     "177929253798762928",
     "177929293538f138da",
-    "17792933703ab393d4"
+    "17792933703ab393d4",
+    "custom_timeline_wyqTEg"
   ]
 }
