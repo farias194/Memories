@@ -48,15 +48,11 @@
     when 'large'
       assign slide_min_height = slide_min_height | replace: 'auto', '25rem'
       assign slide_min_height_desktop = slide_min_height_desktop | replace: 'auto', '45rem'
-      {%comment%}
-      /*custom setting to add height to slide*/ 
-      {%endcomment%}
+  
     when 'extra-large'
       assign slide_min_height = slide_min_height | replace: 'auto', '80vh'
-      assign slide_min_height_desktop = slide_min_height_desktop | replace: 'auto', '80rem'
-      {% comment  %}
-      end of custom setting for extra large slides, not included in original settings options, but can be used by adding "extra-large" as a value for slide_size when rendering the slideshow
-      {% endcomment %}
+      assign slide_min_height_desktop = slide_min_height_desktop | replace: 'auto', '80vh'
+      
   endcase
 
   case slide_position
