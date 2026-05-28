@@ -22,10 +22,10 @@
             "overlay_color": "#1212129c",
             "overlay_style": "solid",
             "gradient_direction": "to top",
-            "padding-block-start": 100,
-            "padding-block-end": 100,
-            "padding-inline-start": 89,
-            "padding-inline-end": 86
+            "padding-block-start": 5,
+            "padding-block-end": 3,
+            "padding-inline-start": 8,
+            "padding-inline-end": 8
           },
           "blocks": {
             "text_k3Dgc4": {
@@ -216,8 +216,8 @@
         "slideshow_controls_style": "dots",
         "autoplay": true,
         "autoplay_speed": 4,
-        "padding-block-start": 79,
-        "padding-block-end": 85
+        "padding-block-start": 0,
+        "padding-block-end": 0
       }
     },
     "featured_product_information_bK9LWL": {
@@ -241,10 +241,10 @@
             "thumbnail_position": "bottom",
             "thumbnail_width": 44,
             "thumbnail_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
+            "padding-block-start": 95,
+            "padding-block-end": 95,
+            "padding-inline-start": 95,
+            "padding-inline-end": 96
           },
           "blocks": {}
         },
@@ -319,17 +319,17 @@
                   "type": "product-title",
                   "name": "t:names.title",
                   "settings": {
-                    "width": "fit-content",
+                    "width": "100%",
                     "max_width": "normal",
-                    "alignment": "left",
-                    "type_preset": "h3",
+                    "alignment": "center",
+                    "type_preset": "h1",
                     "font": "var(--font-body--family)",
                     "font_size": "1rem",
                     "line_height": "normal",
                     "letter_spacing": "normal",
                     "case": "none",
                     "wrap": "pretty",
-                    "color": "var(--color-foreground)",
+                    "color": "var(--color-foreground-heading)",
                     "background": false,
                     "background_color": "#00000026",
                     "corner_radius": 0,
@@ -349,17 +349,17 @@
                     "show_tax_info": false,
                     "type_preset": "",
                     "width": "100%",
-                    "alignment": "left",
+                    "alignment": "center",
                     "font": "var(--font-body--family)",
                     "font_size": "1rem",
                     "line_height": "normal",
                     "letter_spacing": "normal",
                     "case": "none",
                     "color": "var(--color-foreground)",
-                    "padding-block-start": 0,
-                    "padding-block-end": 0,
-                    "padding-inline-start": 0,
-                    "padding-inline-end": 0
+                    "padding-block-start": 15,
+                    "padding-block-end": 17,
+                    "padding-inline-start": 16,
+                    "padding-inline-end": 17
                   },
                   "blocks": {}
                 }
@@ -575,9 +575,9 @@
               "type": "product-title",
               "name": "t:names.product_title",
               "settings": {
-                "width": "fit-content",
+                "width": "100%",
                 "max_width": "narrow",
-                "alignment": "left",
+                "alignment": "center",
                 "type_preset": "h4",
                 "font": "var(--font-body--family)",
                 "font_size": "1rem",
@@ -735,7 +735,7 @@
         "vertical_alignment_flex_direction_column": "flex-end",
         "gap": 0,
         "section_width": "full-width",
-        "section_height": "large",
+        "section_height": "full-screen",
         "section_height_custom": 50,
         "color_scheme": "scheme-1be183ca-398d-4673-9be5-93de466733c1",
         "background_media": "image",
@@ -889,7 +889,7 @@
           "settings": {
             "placement": "on_image",
             "horizontal_alignment": "center",
-            "vertical_alignment": "flex-start",
+            "vertical_alignment": "center",
             "collection_card_gap": 16,
             "inherit_color_scheme": true,
             "color_scheme": "",
@@ -952,7 +952,10 @@
       ],
       "name": "t:names.collections_grid",
       "settings": {
-        "collection_list": [],
+        "collection_list": [
+          "souvenirs",
+          "frontpage"
+        ],
         "layout_type": "grid",
         "carousel_on_mobile": false,
         "columns": 2,
