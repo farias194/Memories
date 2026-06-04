@@ -1,382 +1,103 @@
-{% comment %}
-========================================================
-SECTION
-sections/product-upsell-bundle.liquid
-========================================================
-
-WHAT THIS SECTION DOES
-
-1. Reads the current product's metafield
-2. Gets the attached Upsell Bundle metaobject
-3. Renders a configurable upsell bundle UI
-4. Adds all products in the bundle to cart
-   when checkbox is selected
-
-========================================================
-SHOPIFY ADMIN SETUP
-========================================================
-
---------------------------------------------------------
-STEP 1 — CREATE METAOBJECT
---------------------------------------------------------
-
-Settings
-→ Custom Data
-→ Metaobjects
-→ Add Definition
-
-Name:
-Upsell Bundle
-
-Fields:
-
-1. heading
-   Type: Single line text
-
-2. badge
-   Type: Single line text
-
-3. description
-   Type: Rich text
-
-4. products
-   Type: List of products
-
-5. theme
-   Type: Single line text
-
---------------------------------------------------------
-STEP 2 — CREATE METAOBJECT ENTRY
---------------------------------------------------------
-
-Example Entry:
-Coffee Starter Bundle
-
-heading:
-Complete Your Coffee Setup
-
-badge:
-Save 15%
-
-description:
-Everything you need to begin brewing at home.
-
-products:
-- Coffee Grinder
-- Coffee Beans
-- Filters
-
-theme:
-dark
-
---------------------------------------------------------
-STEP 3 — CREATE PRODUCT METAFIELD
---------------------------------------------------------
-
-Settings
-→ Custom Data
-→ Products
-→ Add Definition
-
-Name:
-Upsell Bundle
-
-Namespace and key:
-custom.upsell_bundle
-
-Type:
-Metaobject Reference
-
-Reference:
-Upsell Bundle
-
---------------------------------------------------------
-STEP 4 — ASSIGN METAOBJECT TO PRODUCT
---------------------------------------------------------
-
-Products
-→ Espresso Machine
-
-Metafield:
-Upsell Bundle
-
-Select:
-Coffee Starter Bundle
-
-========================================================
-SECTION LOGIC
-========================================================
-{% endcomment %}
-
-{% assign upsell = product.metafields.custom.upsell_product.value %}
-
-{% if upsell %}
-
-  <div
-    class="
-      upsell-bundle">
-
-    <label class="upsell-bundle__label">
-
-      <input
-        type="checkbox"
-        class="upsell-bundle__checkbox"
-        id="UpsellBundleCheckbox-{{ section.id }}"
-      >
-
-      <div class="upsell-bundle__inner">
-
-        {% if upsell.badge != blank %}
-
-          <div class="upsell-bundle__badge">
-            {{ upsell.badge }}
-          </div>
-
-        {% endif %}
-
-        <h3 class="upsell-bundle__heading">
-          {{ upsell.heading }}
-        </h3>
-
-        {% if upsell.description != blank %}
-
-          <div class="upsell-bundle__description">
-            {{ upsell.description }}
-          </div>
-
-        {% endif %}
-
-        <ul class="upsell-bundle__products">
-
-          {% assign bundle_total = 0 %}
-
-          {% for item in upsell.products.value %}
-
-            {% assign bundle_total = bundle_total | plus: item.price %}
-
-            <li class="upsell-bundle__product">
-
-              <div class="upsell-bundle__media">
-
-                {% if item.featured_image %}
-
-                  <img
-                    src="{{ item.featured_image | image_url: width: 200 }}"
-                    alt="{{ item.title }}"
-                    width="100"
-                    height="100"
-                    loading="lazy"
-                  >
-
-                {% endif %}
-
-              </div>
-
-              <div class="upsell-bundle__product-info">
-
-                <p class="upsell-bundle__product-title">
-                  {{ item.title }}
-                </p>
-
-                <p class="upsell-bundle__product-price">
-                  {{ item.price | money }}
-                </p>
-
-              </div>
-
-            </li>
-
-          {% endfor %}
-
-        </ul>
-
-        <div class="upsell-bundle__footer">
-
-          <p class="upsell-bundle__total">
-
-            Bundle Total:
-            {{ bundle_total | money }}
-
-          </p>
-
-          <p class="upsell-bundle__cta">
-
-            Add complete setup
-
-          </p>
-
+{%- comment -%}
+UPSELL BUNDLE COMPONENT (UI layer)
+Receives:
+- upsell (metaobject)
+- section_id
+{%- endcomment -%}
+
+<div class="upsell-bundle upsell-bundle--{{ upsell.theme | default: 'default' }}">
+
+  <label class="upsell-bundle__label">
+
+    <input
+      type="checkbox"
+      class="upsell-bundle__checkbox"
+      id="Upsell-{{ section_id }}"
+    >
+
+    <div class="upsell-bundle__content">
+
+      {% if upsell.badge %}
+        <span class="upsell-bundle__badge">
+          {{ upsell.badge }}
+        </span>
+      {% endif %}
+
+      <h3 class="upsell-bundle__title">
+        {{ upsell.heading }}
+      </h3>
+
+      {% if upsell.description %}
+        <div class="upsell-bundle__desc">
+          {{ upsell.description }}
         </div>
+      {% endif %}
 
-      </div>
+      <ul class="upsell-bundle__items">
 
-    </label>
+        {% for product in upsell.products.value %}
 
-  </div>
+          <li class="upsell-bundle__item">
 
-{% endif %}
+            {% if product.featured_image %}
+              <img
+                src="{{ product.featured_image | image_url: width: 120 }}"
+                alt="{{ product.title }}"
+              >
+            {% endif %}
 
+            <div>
+              <p>{{ product.title }}</p>
+              <p>{{ product.price | money }}</p>
+            </div>
 
-<style>
-
-  .upsell-bundle {
-    border: 1px solid #ddd;
-    padding: 20px;
-    margin-top: 24px;
-    border-radius: 12px;
-  }
-
-  .upsell-bundle--dark {
-    background: #111;
-    color: #fff;
-  }
-
-  .upsell-bundle__label {
-    display: block;
-    cursor: pointer;
-  }
-
-  .upsell-bundle__checkbox {
-    margin-bottom: 16px;
-  }
-
-  .upsell-bundle__badge {
-    display: inline-block;
-    margin-bottom: 10px;
-    padding: 4px 10px;
-    background: #000;
-    color: #fff;
-    border-radius: 999px;
-    font-size: 12px;
-  }
-
-  .upsell-bundle__heading {
-    margin: 0 0 10px;
-  }
-
-  .upsell-bundle__description {
-    margin-bottom: 20px;
-  }
-
-  .upsell-bundle__products {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-
-  .upsell-bundle__product {
-    display: flex;
-    gap: 14px;
-    align-items: center;
-    margin-bottom: 16px;
-  }
-
-  .upsell-bundle__media img {
-    border-radius: 8px;
-  }
-
-  .upsell-bundle__product-title {
-    margin: 0;
-    font-weight: 600;
-  }
-
-  .upsell-bundle__product-price {
-    margin: 4px 0 0;
-    opacity: 0.7;
-  }
-
-  .upsell-bundle__footer {
-    margin-top: 20px;
-    padding-top: 20px;
-    border-top: 1px solid rgba(0,0,0,.1);
-  }
-
-  .upsell-bundle__total {
-    font-weight: bold;
-    margin-bottom: 8px;
-  }
-
-</style>
-
-
-<script>
-
-  document.addEventListener('DOMContentLoaded', () => {
-
-    const checkbox = document.querySelector(
-      '#UpsellBundleCheckbox-{{ section.id }}'
-    );
-
-    if (!checkbox) return;
-
-    checkbox.addEventListener('change', async () => {
-
-      if (!checkbox.checked) return;
-
-      const items = [
-
-        {% for item in upsell.products.value %}
-
-          {
-            id: {{ item.selected_or_first_available_variant.id }},
-            quantity: 1
-          }
-
-          {% unless forloop.last %}
-            ,
-          {% endunless %}
+          </li>
 
         {% endfor %}
 
-      ];
+      </ul>
 
-      try {
+    </div>
 
-        const response = await fetch('/cart/add.js', {
+  </label>
 
-          method: 'POST',
+</div>
 
-          headers: {
-            'Content-Type': 'application/json'
-          },
+<script>
 
-          body: JSON.stringify({
-            items: items
-          })
+document.addEventListener('DOMContentLoaded', () => {
 
-        });
+  const checkbox = document.getElementById('Upsell-{{ section_id }}');
 
-        const data = await response.json();
+  if (!checkbox) return;
 
-        console.log('Bundle added:', data);
+  checkbox.addEventListener('change', async () => {
 
-      } catch(error) {
+    if (!checkbox.checked) return;
 
-        console.error('Bundle add failed:', error);
+    const items = [
 
-      }
+      {% for product in upsell.products.value %}
 
+        {
+          id: {{ product.selected_or_first_available_variant.id }},
+          quantity: 1
+        }
+
+        {% unless forloop.last %},{% endunless %}
+
+      {% endfor %}
+
+    ];
+
+    await fetch('/cart/add.js', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ items })
     });
 
   });
 
+});
+
 </script>
-
-
-{% schema %}
-{
-  "name": "Product Upsell Bundle",
-  "settings": [
-    {
-      "type": "checkbox",
-      "id": "enable_spacing",
-      "label": "Enable top spacing",
-      "default": true
-    }
-  ],
-  "presets": [
-    {
-      "name": "Product Upsell Bundle"
-    }
-  ]
-}
-{% endschema %}
