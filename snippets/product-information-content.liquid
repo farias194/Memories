@@ -110,10 +110,7 @@
   </div>
 
   {{ additional_blocks }}
-{% assign upsell = product.metafields.custom.upsell_product.value %}
-  {% if upsell  %}
-    {% render 'upsell-bundle', upsell: upsell  %}
-    {% endif %}
+
 </div>
 
 {% stylesheet %}

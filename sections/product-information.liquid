@@ -19,11 +19,7 @@
     closest.product: closest.product
   %}
 {% endcapture %}
-{% capture upsell_bundle %}
-  {% render 'upsell-bundle', upsell: closest.product.metafields.custom.upsell_product.value, section_id: section.id %}
-{% endcapture %}
 
-{{upsell_bundle}}
 
 {% capture additional_blocks %}
   {% content_for 'blocks' %}

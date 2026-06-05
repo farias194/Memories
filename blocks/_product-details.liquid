@@ -1,6 +1,6 @@
 
 
-{%- assign block_settings = block.settings -%}
+{%- assign block_setti{ngs = block.settings -%}
 <div
   id="ProductInformation-{{ section.id }}"
   class="
@@ -24,6 +24,13 @@
       </a>
     </div>
     {% content_for 'blocks' %}
+    {%assign upsell = closest.product.metafields.custom.upsell_product.value%}
+
+    {% if upsell  %}
+      <div {{block.shopify_attributes}}>
+        {%render 'upsell-bundle', upsell: upsell %}
+        </div>
+        {%endif%}
   {% endcapture %}
 
   {% render 'group', children: children, settings: block_settings, shopify_attributes: block.shopify_attributes %}
@@ -128,6 +135,9 @@
     },
     {
       "type": "product-custom-property"
+    },
+    {
+      "type": "upsell-bundle"
     }
   ],
   "tag": null,
