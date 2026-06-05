@@ -28,7 +28,9 @@
 
     {% if upsell  %}
       <div {{block.shopify_attributes}}>
-        {%render 'upsell-bundle', upsell: upsell %}
+        {%render 'upsell-bundle', upsell: upsell,
+        section_id: section.id
+    block_id: block.id        %}
         </div>
         {%endif%}
   {% endcapture %}
