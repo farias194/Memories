@@ -2,11 +2,18 @@
   <pre class="debug-upsell">{{ closest.product.metafields.custom.upsell_product.value | json }}</pre>
     <pre class="debug-upsell-all">{{ closest.product.metafields | json }}</pre>
 
-{% render 'upsell-bundle',
-     upsell: closest.product.metafields.custom.upsell_product.value,
-     section_id: section.id,
-     block_id: block.id %}
-</div>
+{%- assign upsell_field = closest.product.metafields.custom.upsell_product -%}
+{% if upsell_field and upsell_field.value %}
+  {%- assign upsell = upsell_field.value -%}
+  <div id="UpsellBlock-{{ block.id }}-{{ section.id }}" class="upsell-block" {{ block.shopify_attributes }}>
+    {% render 'upsell-bundle',
+       upsell: upsell,
+       section_id: section.id,
+       block_id: block.id %}
+  </div>
+{% else %}
+  {%- comment -%} no upsell configured for this product — render nothing {%- endcomment -%}
+{% endif %}
 
 {% schema %}
 {
