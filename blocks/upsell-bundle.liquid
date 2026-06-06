@@ -1,4 +1,4 @@
-{%- assign upsell_field = closest.product.metafields.custom.upsell_product -%}
+{%- assign upsell_field = closest.product.metafields.custom.brooklyn-souvenir -%}
 {% if upsell_field and upsell_field.value %}
   {%- assign upsell = upsell_field.value -%}
   <div id="UpsellBlock-{{ block.id }}-{{ section.id }}" class="upsell-block" {{ block.shopify_attributes }}>
