@@ -1,5 +1,8 @@
-<div class="upsell-wrapper-debug">WRAPPER LOADED — closest.product present? {{ closest.product != nil }}</div>
 
+<div class="upsell-wrapper-debug">
+  WRAPPER LOADED — closest.product present?
+  {% if closest.product %}true{% else %}false{% endif %}
+</div>
 {%- assign upsell = closest.product.metafields.custom.upsell_product.value -%}
 {% if upsell %}
   <div id="UpsellBlock-{{ block.id }}-{{ section.id }}" {{ block.shopify_attributes }}>
