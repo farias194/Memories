@@ -29,7 +29,7 @@ Receives:
           {% for product in upsell.products.value %}
             <li class="upsell-bundle__item">
               {% if product.featured_image %}
-                <img src="{{ product.featured_image | image_url: 120 }}" alt="{{ product.title }}">
+                <img src="{{ product.featured_image | image_url: 120 }}" height="200" width="200" alt="{{ product.title }}">
               {% endif %}
               <div>
                 <p>{{ product.title }}</p>
