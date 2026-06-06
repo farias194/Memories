@@ -1,6 +1,7 @@
 <div id="UpsellBlock-{{ block.id }}-{{ section.id }}" class="upsell-block" {{ block.shopify_attributes }}>
   <pre class="debug-upsell">{{ closest.product.metafields.custom.upsell_product.value | json }}</pre>
-  
+    <pre class="debug-upsell-all">{{ closest.product.metafields | json }}</pre>
+
 {% render 'upsell-bundle',
      upsell: closest.product.metafields.custom.upsell_product.value,
      section_id: section.id,
