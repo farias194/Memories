@@ -4,6 +4,7 @@ Receives:
 - section_id
 - block_id
 {%- endcomment -%}
+<div class="upsell-debug">SNIPPET LOADED — upsell present? {{ upsell != nil }}</div>
 
 {%- if upsell -%}
 <div class="upsell-bundle upsell-bundle--{{ upsell.theme | default: 'default' }}">
