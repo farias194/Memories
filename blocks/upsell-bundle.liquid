@@ -4,14 +4,7 @@
   {% if closest.product %}true{% else %}false{% endif %}
 </div>
 
-{%- assign mf = closest.product.metafields.custom.upsell_product -%}
-<div class="upsell-mf-debug">
-  metafield object present? {% if mf %}true{% else %}false{% endif %} —
-  value present? {% if mf and mf.value %}true{% else %}false{% endif %}
-</div>
 
-{%- assign upsell = mf.value -%}
-{% render 'upsell-bundle', upsell: upsell, section_id: section.id, block_id: block.id %}
 
 
 {%- assign upsell = closest.product.metafields.custom.product_bundle.value -%}
@@ -20,6 +13,8 @@
     {% render 'upsell-bundle', upsell: upsell, section_id: section.id, block_id: block.id %}
   </div>
 {% endif %}
+
+
 
 {% schema %}
 {
@@ -32,3 +27,20 @@
   ]
 }
 {% endschema %}
+
+
+{%- assign mf = closest.product.metafields.custom.product_bundle -%}
+
+<script>
+  console.log('DEBUG: product context present? {% if closest.product %}true{% else %}false{% endif %}');
+  console.log('DEBUG: metafield object present? {% if mf %}true{% else %}false{% endif %}');
+  console.log('DEBUG: metafield value present? {% if mf and mf.value %}true{% else %}false{% endif %}');
+  {% if mf and mf.value %}
+    console.log('DEBUG: upsell id: {{ mf.value.id }}');
+    console.log('DEBUG: upsell title: {{ mf.value.title | escape }}');
+    {% comment %} If the metaobject contains product refs, print their count safely {% endcomment %}
+    {% if mf.value.products and mf.value.products.value %}
+      console.log('DEBUG: upsell products count: {{ mf.value.products.value.size }}');
+    {% endif %}
+  {% endif %}
+</script>
