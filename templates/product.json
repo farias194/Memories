@@ -59,6 +59,12 @@
             "padding-inline-end": 0
           },
           "blocks": {
+            "upsell_bundle_XgHghc": {
+              "type": "upsell-bundle",
+              "name": "Upsell bundle",
+              "settings": {},
+              "blocks": {}
+            },
             "ai_gen_block_91bfaa0_LhUq4c": {
               "type": "ai_gen_block_91bfaa0",
               "settings": {
@@ -319,6 +325,7 @@
             }
           },
           "block_order": [
+            "upsell_bundle_XgHghc",
             "ai_gen_block_91bfaa0_LhUq4c",
             "group_icgrde",
             "group_bHt9b6",
