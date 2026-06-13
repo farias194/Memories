@@ -31,7 +31,7 @@ Receives:
               {% if product.featured_image %}
                 <div class="upsell-bundle__item-image">
                   <img
-                    src="{{ product.featured_image | image_url: '80x80' }}"
+                    src="{{ product.featured_image | image_url: 'master' }}"
                     alt="{{ product.title }}"
                     loading="lazy"
                   />
