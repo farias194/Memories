@@ -1,0 +1,199 @@
+{% capture children %}{% content_for 'blocks' %}{% endcapture %}
+
+<div
+  id="HeroFade-{{ section.id }}"
+  class="hero-fade-custom section section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }}"
+  style="{% if section.settings.section_height == 'custom' %}--section-min-height: {{ section.settings.section_height_custom }}svh;{% endif %} {% render 'spacing-style', settings: section.settings %} {% if section.settings['margin-block-start'] != blank %}--margin-block-start: {{ section.settings['margin-block-start'] }}px;{% endif %} {% if section.settings['margin-block-end'] != blank %}--margin-block-end: {{ section.settings['margin-block-end'] }}px;{% endif %} {% if section.settings['margin-inline-start'] != blank %}--margin-inline-start: {{ section.settings['margin-inline-start'] }}px;{% endif %} {% if section.settings['margin-inline-end'] != blank %}--margin-inline-end: {{ section.settings['margin-inline-end'] }}px;{% endif %}"
+>
+  <div class="hero-fade-custom__background" {% if section.settings.image != blank %}style="background-image: url('{{ section.settings.image | image_url: width: 3840 }}');"{% endif %}></div>
+  <div class="hero-fade-custom__overlay"></div>
+
+  <div class="hero-fade-custom__content spacing-style" style="{% render 'spacing-style', settings: section.settings %}">
+    {{ children }}
+  </div>
+</div>
+
+{% stylesheet %}
+  .hero-fade-custom {
+    position: relative;
+    overflow: hidden;
+    --fade-overlay-color: rgba(0,0,0,0.32);
+  }
+
+  .hero-fade-custom__background {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: var(--layer-0);
+    will-change: transform, opacity;
+  }
+
+  .hero-fade-custom__overlay {
+    position: absolute;
+    inset: 0;
+    z-index: var(--layer-1);
+    pointer-events: none;
+    /* subtle top-to-bottom fade to transparent */
+    background: linear-gradient(to bottom, var(--fade-overlay-color), transparent 45%);
+  }
+
+  .hero-fade-custom__content {
+    position: relative;
+    z-index: var(--layer-flat);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: var(--section-min-height, auto);
+  }
+
+  /* Ensure inner block content is vertically stacked and readable */
+  .hero-fade-custom__content > .group-block-content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap, 12px);
+    max-width: 1200px;
+    width: 100%;
+  }
+
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Hero: Fade (Custom)",
+  "class": "hero-fade-custom-wrapper",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Top",
+      "min": 0,
+      "max": 200,
+      "step": 1,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Bottom",
+      "min": 0,
+      "max": 200,
+      "step": 1,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-start",
+      "label": "Left",
+      "min": 0,
+      "max": 200,
+      "step": 1,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-end",
+      "label": "Right",
+      "min": 0,
+      "max": 200,
+      "step": 1,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "header",
+      "content": "Margins"
+    },
+    {
+      "type": "range",
+      "id": "margin-block-start",
+      "label": "Top",
+      "min": -200,
+      "max": 500,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "margin-block-end",
+      "label": "Bottom",
+      "min": -200,
+      "max": 500,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "margin-inline-start",
+      "label": "Left",
+      "min": -200,
+      "max": 500,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "margin-inline-end",
+      "label": "Right",
+      "min": -200,
+      "max": 500,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Width",
+      "options": [
+        { "value": "page-width", "label": "Page" },
+        { "value": "full-width", "label": "Full" }
+      ],
+      "default": "full-width"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "text",
+      "name": "Header"
+    },
+    {
+      "type": "text",
+      "name": "Text"
+    },
+    {
+      "type": "button",
+      "name": "Button"
+    }
+  ],
+  "max_blocks": 5,
+  "presets": [
+    {
+      "name": "Hero Fade Custom",
+      "category": "Hero"
+    }
+  ]
+}
+{% endschema %}
