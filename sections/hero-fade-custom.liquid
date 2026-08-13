@@ -13,6 +13,9 @@
     {% endif %}
   </div>
   <div class="hero-fade-custom__overlay"></div>
+  {% if section.settings.enable_radial_overlay %}
+    <div class="hero-fade-custom__radial" style="--radial-pos: {{ section.settings.radial_position }}; --radial-strength: {{ section.settings.radial_strength | divided_by: 100.0 }}; --radial-duration: {{ section.settings.radial_duration }}s; --radial-scale-min: {{ section.settings.radial_scale_min }}%; --radial-scale-max: {{ section.settings.radial_scale_max }}%;"></div>
+  {% endif %}
 
   <div class="hero-fade-custom__content spacing-style" style="{% render 'spacing-style', settings: section.settings %}">
     {{ children }}
@@ -39,6 +42,29 @@
     display: block;
     object-fit: cover;
     object-position: center center;
+  }
+
+  .hero-fade-custom__radial {
+    position: absolute;
+    inset: 0;
+    z-index: calc(var(--layer-1) + 1);
+    pointer-events: none;
+    mix-blend-mode: multiply;
+    transform-origin: top left; /* default, will be overridden by --radial-pos */
+    animation: radial-pulse var(--radial-duration, 12s) ease-in-out infinite;
+    background: radial-gradient(circle at var(--radial-pos, "top left"), rgba(0,0,0,0) 40%, rgba(0,0,0,var(--radial-strength, 0.95)) 100%);
+    transform: scale(calc(var(--radial-scale-min, 80) / 100));
+  }
+
+  /* Position helpers for radial origin */
+  .hero-fade-custom__radial[style*="--radial-pos: top right"] { transform-origin: top right; }
+  .hero-fade-custom__radial[style*="--radial-pos: bottom left"] { transform-origin: bottom left; }
+  .hero-fade-custom__radial[style*="--radial-pos: bottom right"] { transform-origin: bottom right; }
+
+  @keyframes radial-pulse {
+    0% { transform: scale(calc(var(--radial-scale-min, 80) / 100)); opacity: 1; }
+    50% { transform: scale(calc(var(--radial-scale-max, 120) / 100)); opacity: 0.6; }
+    100% { transform: scale(calc(var(--radial-scale-min, 80) / 100)); opacity: 1; }
   }
 
   .hero-fade-custom__overlay {
@@ -184,6 +210,64 @@
       "id": "color_scheme",
       "label": "Color scheme",
       "default": "scheme-1"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_radial_overlay",
+      "label": "Enable radial animated overlay",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "radial_position",
+      "label": "Radial origin",
+      "options": [
+        { "value": "top left", "label": "Top left" },
+        { "value": "top right", "label": "Top right" },
+        { "value": "bottom left", "label": "Bottom left" },
+        { "value": "bottom right", "label": "Bottom right" }
+      ],
+      "default": "top left"
+    },
+    {
+      "type": "range",
+      "id": "radial_strength",
+      "label": "Corner fade strength",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "default": 95
+    },
+    {
+      "type": "range",
+      "id": "radial_duration",
+      "label": "Animation duration (seconds)",
+      "min": 2,
+      "max": 60,
+      "step": 1,
+      "unit": "s",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "radial_scale_min",
+      "label": "Animation scale (min)",
+      "min": 50,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "radial_scale_max",
+      "label": "Animation scale (max)",
+      "min": 100,
+      "max": 200,
+      "step": 1,
+      "unit": "%",
+      "default": 120
     }
   ],
   "blocks": [
@@ -200,7 +284,28 @@
   "presets": [
     {
       "name": "Hero Fade Custom",
-      "category": "Hero"
+      "category": "Hero",
+      "blocks": [
+        {
+          "type": "text",
+          "settings": {
+            "text": "<h1>Your headline here<\/h1>",
+            "alignment": "center",
+            "type_preset": "h1",
+            "padding-block-start": 1,
+            "padding-block-end": 1
+          }
+        },
+        {
+          "type": "button",
+          "settings": {
+            "label": "Shop now",
+            "link": "",
+            "style_class": "button",
+            "width": "fit-content"
+          }
+        }
+      ]
     }
   ]
 }
