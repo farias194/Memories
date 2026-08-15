@@ -6,16 +6,18 @@
   style="{% if section.settings.section_height == 'custom' %}--section-min-height: {{ section.settings.section_height_custom }}svh;{% endif %} {% render 'spacing-style', settings: section.settings %} {% if section.settings['margin-block-start'] != blank %}--margin-block-start: {{ section.settings['margin-block-start'] }}px;{% endif %} {% if section.settings['margin-block-end'] != blank %}--margin-block-end: {{ section.settings['margin-block-end'] }}px;{% endif %} {% if section.settings['margin-inline-start'] != blank %}--margin-inline-start: {{ section.settings['margin-inline-start'] }}px;{% endif %} {% if section.settings['margin-inline-end'] != blank %}--margin-inline-end: {{ section.settings['margin-inline-end'] }}px;{% endif %}"
 >
   <div class="hero-fade-custom__background">
-    {% if section.settings.image != blank %}
-      {% render 'image', image: section.settings.image, class: 'hero-fade-custom__media border-style' %}
-    {% else %}
-      {{ 'hero-apparel-1' | placeholder_svg_tag: 'hero-fade-custom__media' }}
-    {% endif %}
+    <div class="hero-fade-custom__media-wrapper">
+      {% if section.settings.image != blank %}
+        {% render 'image', image: section.settings.image, class: 'hero-fade-custom__media border-style' %}
+      {% else %}
+        {{ 'hero-apparel-1' | placeholder_svg_tag: 'hero-fade-custom__media' }}
+      {% endif %}
+      {% if section.settings.enable_radial_overlay %}
+        <div class="hero-fade-custom__radial" style="--radial-pos: {{ section.settings.radial_position }}; --radial-strength: {{ section.settings.radial_strength | divided_by: 100.0 }}; --radial-duration: {{ section.settings.radial_duration }}s; --radial-scale-min: {{ section.settings.radial_scale_min }}; --radial-scale-max: {{ section.settings.radial_scale_max }};"></div>
+      {% endif %}
+    </div>
   </div>
   <div class="hero-fade-custom__overlay"></div>
-  {% if section.settings.enable_radial_overlay %}
-    <div class="hero-fade-custom__radial" style="--radial-pos: {{ section.settings.radial_position }}; --radial-strength: {{ section.settings.radial_strength | divided_by: 100.0 }}; --radial-duration: {{ section.settings.radial_duration }}s; --radial-scale-min: {{ section.settings.radial_scale_min }}; --radial-scale-max: {{ section.settings.radial_scale_max }};"></div>
-  {% endif %}
 
   <div class="hero-fade-custom__content spacing-style" style="{% render 'spacing-style', settings: section.settings %}">
     {{ children }}
@@ -36,6 +38,12 @@
     overflow: hidden;
   }
 
+  .hero-fade-custom__media-wrapper {
+    position: relative;
+    display: block;
+    overflow: hidden;
+  }
+
   .hero-fade-custom__background img.hero-fade-custom__media {
     width: 100%;
     height: auto;
@@ -44,12 +52,12 @@
     object-position: center center;
   }
 
-  .hero-fade-custom__radial {
+  .hero-fade-custom__media-wrapper .hero-fade-custom__radial {
     position: absolute;
     inset: 0;
-    z-index: calc(var(--layer-1) + 1);
+    z-index: 2; /* above the image within the wrapper */
     pointer-events: none;
-    mix-blend-mode: multiply;
+    mix-blend-mode: normal;
     /* use the radial position directly for transform-origin */
     transform-origin: var(--radial-pos, top left);
     animation: radial-pulse var(--radial-duration, 12s) ease-in-out infinite;
