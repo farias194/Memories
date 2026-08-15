@@ -6,28 +6,31 @@
   style="{% if section.settings.section_height == 'custom' %}--section-min-height: {{ section.settings.section_height_custom }}svh;{% endif %} {% render 'spacing-style', settings: section.settings %} {% if section.settings['margin-block-start'] != blank %}--margin-block-start: {{ section.settings['margin-block-start'] }}px;{% endif %} {% if section.settings['margin-block-end'] != blank %}--margin-block-end: {{ section.settings['margin-block-end'] }}px;{% endif %} {% if section.settings['margin-inline-start'] != blank %}--margin-inline-start: {{ section.settings['margin-inline-start'] }}px;{% endif %} {% if section.settings['margin-inline-end'] != blank %}--margin-inline-end: {{ section.settings['margin-inline-end'] }}px;{% endif %}"
 >
   <div class="hero-fade-custom__background">
-    <div class="hero-fade-custom__media-wrapper">
+    {% comment %} Compute mask position based on setting and prepare mask image or gradient via CSS variables on the wrapper {% endcomment %}
+    {% case section.settings.radial_position %}
+      {% when 'top left' %}
+        {% assign rx = '0%' %}{% assign ry = '0%' %}
+      {% when 'top right' %}
+        {% assign rx = '100%' %}{% assign ry = '0%' %}
+      {% when 'bottom left' %}
+        {% assign rx = '0%' %}{% assign ry = '100%' %}
+      {% when 'bottom right' %}
+        {% assign rx = '100%' %}{% assign ry = '100%' %}
+      {% when 'center' %}
+        {% assign rx = '50%' %}{% assign ry = '50%' %}
+      {% else %}
+        {% assign rx = '50%' %}{% assign ry = '50%' %}
+    {% endcase %}
+
+    {% if section.settings.enable_radial_overlay %}
+      <div class="hero-fade-custom__media-wrapper" style="--mask-pos-x: {{ rx }}; --mask-pos-y: {{ ry }}; --mask-duration: {{ section.settings.radial_duration }}s; --mask-size-min: {{ section.settings.radial_scale_min }}%; --mask-size-max: {{ section.settings.radial_scale_max }}%; --mask-strength: {{ section.settings.radial_strength | divided_by: 100.0 }}; {% if section.settings.mask_image != blank %}--mask-image: url('{{ section.settings.mask_image | img_url: 'master' }}');{% else %}--mask-image: radial-gradient(circle at {{ rx }} {{ ry }}, rgba(0,0,0,0) 40%, rgba(0,0,0,{{ section.settings.radial_strength | divided_by: 100.0 }}) 100%);{% endif %}">
+    {% else %}
+      <div class="hero-fade-custom__media-wrapper">
+    {% endif %}
       {% if section.settings.image != blank %}
         {% render 'image', image: section.settings.image, class: 'hero-fade-custom__media border-style' %}
       {% else %}
         {{ 'hero-apparel-1' | placeholder_svg_tag: 'hero-fade-custom__media' }}
-      {% endif %}
-      {% if section.settings.enable_radial_overlay %}
-        {% case section.settings.radial_position %}
-          {% when 'top left' %}
-            {% assign rx = '0%' %}{% assign ry = '0%' %}
-          {% when 'top right' %}
-            {% assign rx = '100%' %}{% assign ry = '0%' %}
-          {% when 'bottom left' %}
-            {% assign rx = '0%' %}{% assign ry = '100%' %}
-          {% when 'bottom right' %}
-            {% assign rx = '100%' %}{% assign ry = '100%' %}
-          {% when 'center' %}
-            {% assign rx = '50%' %}{% assign ry = '50%' %}
-          {% else %}
-            {% assign rx = '50%' %}{% assign ry = '50%' %}
-        {% endcase %}
-        <div class="hero-fade-custom__radial" style="--radial-pos: {{ section.settings.radial_position }}; --radial-pos-x: {{ rx }}; --radial-pos-y: {{ ry }}; --radial-strength: {{ section.settings.radial_strength | divided_by: 100.0 }}; --radial-duration: {{ section.settings.radial_duration }}s; --radial-scale-min: {{ section.settings.radial_scale_min }}; --radial-scale-max: {{ section.settings.radial_scale_max }};"></div>
       {% endif %}
     </div>
   </div>
@@ -66,25 +69,24 @@
     object-position: center center;
   }
 
-  .hero-fade-custom__media-wrapper .hero-fade-custom__radial {
-    position: absolute;
-    inset: 0;
-    z-index: 2; /* above the image within the wrapper */
-    pointer-events: none;
-    mix-blend-mode: normal;
-    /* position the radial gradient by x/y vars and keep it circular */
-    transform-origin: var(--radial-pos-x, 0%) var(--radial-pos-y, 0%);
-    animation: radial-pulse var(--radial-duration, 12s) ease-in-out infinite;
-    background: radial-gradient(circle at var(--radial-pos-x, 0%) var(--radial-pos-y, 0%), rgba(0,0,0,0) 40%, rgba(0,0,0,var(--radial-strength, 0.95)) 100%);
-    background-repeat: no-repeat;
-    background-size: 200% 200%;
-    transform: scale(calc(var(--radial-scale-min, 80) / 100));
+  /* Apply a mask (uploaded image or radial gradient) to the image itself via CSS variables on the wrapper */
+  .hero-fade-custom__media-wrapper img.hero-fade-custom__media,
+  .hero-fade-custom__media-wrapper .hero-fade-custom__media {
+    -webkit-mask-image: var(--mask-image);
+    mask-image: var(--mask-image);
+    -webkit-mask-position: var(--mask-pos-x, 50%) var(--mask-pos-y, 50%);
+    mask-position: var(--mask-pos-x, 50%) var(--mask-pos-y, 50%);
+    -webkit-mask-size: var(--mask-size-min, 80%);
+    mask-size: var(--mask-size-min, 80%);
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    animation: radial-pulse var(--mask-duration, 12s) ease-in-out infinite;
   }
 
   @keyframes radial-pulse {
-    0% { transform: scale(calc(var(--radial-scale-min, 80) / 100)); opacity: 1; }
-    50% { transform: scale(calc(var(--radial-scale-max, 120) / 100)); opacity: 0.6; }
-    100% { transform: scale(calc(var(--radial-scale-min, 80) / 100)); opacity: 1; }
+    0% { -webkit-mask-size: var(--mask-size-min, 80%); mask-size: var(--mask-size-min, 80%); opacity: 1; }
+    50% { -webkit-mask-size: var(--mask-size-max, 120%); mask-size: var(--mask-size-max, 120%); opacity: 0.6; }
+    100% { -webkit-mask-size: var(--mask-size-min, 80%); mask-size: var(--mask-size-min, 80%); opacity: 1; }
   }
 
   .hero-fade-custom__overlay {
@@ -238,6 +240,11 @@
       "default": true
     },
     {
+      "type": "image_picker",
+      "id": "mask_image",
+      "label": "Mask image (optional)"
+    },
+    {
       "type": "select",
       "id": "radial_position",
       "label": "Radial origin",
@@ -250,6 +257,7 @@
       ],
       "default": "center"
     },
+
     {
       "type": "range",
       "id": "radial_strength",
