@@ -81,7 +81,7 @@
       <div class="about-story-item-{{ a_id }}" data-about-item {{ block.shopify_attributes }}>
         {% if block.settings.image != blank %}
           <div class="about-story-image-{{ a_id }}">
-            <img src="{{ block.settings.image | img_master: '200x200' }}" alt="{{ block.settings.title | escape }}" />
+            <img src="{{ block.settings.image | image_master: '200x200' }}" alt="{{ block.settings.title | escape }}" />
           </div>
         {% endif %}
 
