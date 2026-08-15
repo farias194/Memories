@@ -1,0 +1,1141 @@
+{% comment %}
+Gift Quiz section
+Walks visitors through a short questionnaire and recommends a suitable gift.
+Merchants edit questions/options and results in the theme editor.
+
+Question blocks: each line in "options" is one answer. To score toward a
+persona, write:  Label | tag1, tag2  (tags map to a result block's tags).
+Result blocks: each has tags + optional product handles. The result whose
+tags receive the most points wins, and its products are revealed.
+
+Fully self-contained: styles + scripts are scoped to this section. It uses
+the theme's design tokens (colors, fonts) rather than hard-coded look.
+{% endcomment %}
+
+{%- liquid
+  assign qz_id = section.id | replace: '_', '' | downcase
+-%}
+
+{% style %}
+  .gift-quiz-section-{{ qz_id }} {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-right: {{ section.settings.padding_right }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+    padding-left: {{ section.settings.padding_left }}px;
+    margin-top: {{ section.settings.margin_top }}px;
+    margin-right: {{ section.settings.margin_right }}px;
+    margin-bottom: {{ section.settings.margin_bottom }}px;
+    margin-left: {{ section.settings.margin_left }}px;
+  }
+
+  .gift-quiz-{{ qz_id }} {
+    max-width: {{ section.settings.content_max_width }}px;
+    margin: 0 auto;
+  }
+
+  .gift-quiz-{{ qz_id }}__header {
+    text-align: {{ section.settings.header_alignment }};
+    margin-bottom: 32px;
+  }
+
+  .gift-quiz-{{ qz_id }}__heading {
+    margin: 0 0 8px;
+  }
+
+  .gift-quiz-{{ qz_id }}__description {
+    margin: 0;
+    max-width: 640px;
+    margin-left: auto;
+    margin-right: auto;
+    opacity: 0.75;
+  }
+
+  .gift-quiz-{{ qz_id }}__progress-wrap {
+    margin-bottom: 32px;
+  }
+
+  .gift-quiz-{{ qz_id }}__progress-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 8px;
+    font-size: 13px;
+    opacity: 0.75;
+  }
+
+  .gift-quiz-{{ qz_id }}__progress {
+    display: block;
+    width: 100%;
+    height: 6px;
+    border-radius: 999px;
+    background-color: var(--color-border, #e5e5e5);
+    overflow: hidden;
+  }
+
+  .gift-quiz-{{ qz_id }}__progress-fill {
+    display: block;
+    height: 100%;
+    width: 0%;
+    border-radius: 999px;
+    background-color: var(--color-primary, #000000);
+    transition: width 0.3s ease;
+  }
+
+  .gift-quiz-{{ qz_id }}__body {
+    position: relative;
+  }
+
+  .gift-quiz-{{ qz_id }}__step {
+    display: none;
+  }
+
+  .gift-quiz-{{ qz_id }}__step[data-active] {
+    display: block;
+  }
+
+  .gift-quiz-{{ qz_id }}__question-text {
+    margin: 0 0 8px;
+  }
+
+  .gift-quiz-{{ qz_id }}__subtitle {
+    margin: 0 0 20px;
+    opacity: 0.75;
+  }
+
+  .gift-quiz-{{ qz_id }}__options {
+    display: grid;
+    gap: 12px;
+  }
+
+  .gift-quiz-{{ qz_id }}__option {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    text-align: left;
+    padding: 16px 18px;
+    border-radius: 10px;
+    border: 1px solid var(--color-border, #e5e5e5);
+    background-color: var(--color-background, #ffffff);
+    color: var(--color-foreground, #111111);
+    cursor: pointer;
+    font: inherit;
+    transition: border-color 0.15s ease, background-color 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  .gift-quiz-{{ qz_id }}__option:hover {
+    border-color: var(--color-primary, #000000);
+  }
+
+  .gift-quiz-{{ qz_id }}__option[aria-pressed="true"] {
+    border-color: var(--color-primary, #000000);
+    background-color: var(--color-primary-button-background, var(--color-primary, #000000));
+    color: var(--color-primary-button-text, #ffffff);
+  }
+
+  .gift-quiz-{{ qz_id }}__option:focus-visible {
+    outline: 2px solid var(--color-primary, #000000);
+    outline-offset: 2px;
+  }
+
+  .gift-quiz-{{ qz_id }}__options[data-multiple] .gift-quiz-{{ qz_id }}__option[aria-pressed="true"] {
+    background-color: color-mix(in srgb, var(--color-primary, #000000) 10%, transparent);
+    color: inherit;
+  }
+
+  .gift-quiz-{{ qz_id }}__option-check {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    border: 1px solid currentColor;
+    border-radius: 50%;
+    font-size: 13px;
+    opacity: 0.4;
+  }
+
+  .gift-quiz-{{ qz_id }}__options[data-multiple] .gift-quiz-{{ qz_id }}__option-check {
+    border-radius: 4px;
+  }
+
+  .gift-quiz-{{ qz_id }}__option[aria-pressed="true"] .gift-quiz-{{ qz_id }}__option-check {
+    opacity: 1;
+    background-color: currentColor;
+    color: var(--color-background, #ffffff);
+  }
+
+  .gift-quiz-{{ qz_id }}__nav {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 28px;
+  }
+
+  .gift-quiz-{{ qz_id }}__nav-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    border-radius: 999px;
+    font: inherit;
+    cursor: pointer;
+    transition: opacity 0.15s ease;
+  }
+
+  .gift-quiz-{{ qz_id }}__nav-btn[disabled] {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  .gift-quiz-{{ qz_id }}__nav-btn--primary {
+    border: 1px solid var(--color-primary-button-border, var(--color-primary, #000000));
+    background-color: var(--color-primary-button-background, var(--color-primary, #000000));
+    color: var(--color-primary-button-text, #ffffff);
+  }
+
+  .gift-quiz-{{ qz_id }}__nav-btn--primary:hover:not([disabled]) {
+    background-color: var(--color-primary-button-hover-background, var(--color-primary, #000000));
+    border-color: var(--color-primary-button-hover-border, var(--color-primary, #000000));
+    color: var(--color-primary-button-hover-text, #ffffff);
+  }
+
+  .gift-quiz-{{ qz_id }}__nav-btn--secondary {
+    border: 1px solid var(--color-secondary-button-border, var(--color-border, #e5e5e5));
+    background-color: var(--color-secondary-button-background, transparent);
+    color: var(--color-secondary-button-text, var(--color-foreground, #111111));
+  }
+
+  .gift-quiz-{{ qz_id }}__nav-btn--secondary:hover:not([disabled]) {
+    border-color: var(--color-secondary-button-hover-border, var(--color-primary, #000000));
+    color: var(--color-secondary-button-hover-text, var(--color-foreground, #111111));
+  }
+
+  .gift-quiz-{{ qz_id }}__results {
+    display: grid;
+    gap: 32px;
+  }
+
+  .gift-quiz-{{ qz_id }}__result[hidden] {
+    display: none;
+  }
+
+  .gift-quiz-{{ qz_id }}__result-card {
+    border: 1px solid var(--color-border, #e5e5e5);
+    border-radius: 14px;
+    overflow: hidden;
+    background-color: var(--color-background, #ffffff);
+  }
+
+  .gift-quiz-{{ qz_id }}__result-media {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    display: block;
+  }
+
+  .gift-quiz-{{ qz_id }}__result-body {
+    padding: 24px;
+  }
+
+  .gift-quiz-{{ qz_id }}__result-title {
+    margin: 0 0 8px;
+  }
+
+  .gift-quiz-{{ qz_id }}__result-description {
+    margin: 0 0 20px;
+    opacity: 0.8;
+  }
+
+  .gift-quiz-{{ qz_id }}__products {
+    display: grid;
+    grid-template-columns: repeat({{ section.settings.product_columns }}, 1fr);
+    gap: 16px;
+    margin-top: 20px;
+  }
+
+  .gift-quiz-{{ qz_id }}__product {
+    border: 1px solid var(--color-border, #e5e5e5);
+    border-radius: 10px;
+    overflow: hidden;
+    background-color: var(--color-background, #ffffff);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .gift-quiz-{{ qz_id }}__product-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+
+  .gift-quiz-{{ qz_id }}__product-media {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    display: block;
+  }
+
+  .gift-quiz-{{ qz_id }}__product-info {
+    padding: 12px 14px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex: 1 1 auto;
+  }
+
+  .gift-quiz-{{ qz_id }}__product-title {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.4;
+  }
+
+  .gift-quiz-{{ qz_id }}__product-price {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 600;
+  }
+
+  .gift-quiz-{{ qz_id }}__product-add {
+    margin-top: auto;
+  }
+
+  .gift-quiz-{{ qz_id }}__retake {
+    margin-top: 32px;
+    text-align: center;
+  }
+
+  .gift-quiz-{{ qz_id }}__retake-btn {
+    border: none;
+    background: none;
+    padding: 0;
+    font: inherit;
+    text-decoration: underline;
+    cursor: pointer;
+    color: var(--color-primary, #000000);
+  }
+
+  @media screen and (max-width: 749px) {
+    .gift-quiz-{{ qz_id }}__products {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media screen and (max-width: 479px) {
+    .gift-quiz-{{ qz_id }}__products {
+      grid-template-columns: 1fr;
+    }
+  }
+{% endstyle %}
+
+<div class="gift-quiz-section-{{ qz_id }}" data-gift-quiz-root="{{ qz_id }}">
+  <div class="gift-quiz-{{ qz_id }}">
+    {% if section.settings.heading != blank or section.settings.description != blank %}
+      <div class="gift-quiz-{{ qz_id }}__header">
+        {% if section.settings.heading != blank %}
+          <h2 class="gift-quiz-{{ qz_id }}__heading {{ section.settings.heading_type_preset | default: 'h2' }}">{{ section.settings.heading }}</h2>
+        {% endif %}
+        {% if section.settings.description != blank %}
+          <div class="gift-quiz-{{ qz_id }}__description {{ section.settings.description_type_preset | default: 'paragraph' }}">{{ section.settings.description }}</div>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    {%- assign qz_question_count = 0 -%}
+    {%- assign qz_has_result = false -%}
+    {%- for block in section.blocks -%}
+      {%- if block.type == 'question' -%}{%- assign qz_question_count = qz_question_count | plus: 1 -%}{%- endif -%}
+      {%- if block.type == 'result' -%}{%- assign qz_has_result = true -%}{%- endif -%}
+    {%- endfor -%}
+
+    {% if qz_question_count == 0 %}
+      <p>Add at least one question block in the theme editor to use the gift quiz.</p>
+    {% else %}
+      <div class="gift-quiz-{{ qz_id }}__progress-wrap" aria-hidden="true">
+        <div class="gift-quiz-{{ qz_id }}__progress-meta">
+          <span data-gift-quiz-progress-text>Question 1 of {{ qz_question_count }}</span>
+          <span data-gift-quiz-percent>0%</span>
+        </div>
+        <div class="gift-quiz-{{ qz_id }}__progress">
+          <div class="gift-quiz-{{ qz_id }}__progress-fill" data-gift-quiz-progress></div>
+        </div>
+      </div>
+
+      <div
+        class="gift-quiz-{{ qz_id }}__body"
+        data-gift-quiz-body
+        role="group"
+        aria-label="{{ section.settings.heading | default: 'Gift quiz' }}"
+      >
+        {%- assign qz_index = 0 -%}
+        {%- for block in section.blocks -%}
+          {%- if block.type != 'question' -%}{%- continue -%}{%- endif -%}
+          {%- assign qz_index = qz_index | plus: 1 -%}
+
+          <div
+            class="gift-quiz-{{ qz_id }}__step"
+            data-gift-quiz-step
+            data-index="{{ forloop.index0 }}"
+            {% if qz_index == 1 %}data-active{% endif %}
+            aria-labelledby="gift-quiz-q-{{ block.id }}"
+          >
+            {% if block.settings.question != blank %}
+              <h3 id="gift-quiz-q-{{ block.id }}" class="gift-quiz-{{ qz_id }}__question-text {{ section.settings.question_type_preset | default: 'h3' }}">{{ block.settings.question }}</h3>
+            {% endif %}
+            {% if block.settings.subtitle != blank %}
+              <div class="gift-quiz-{{ qz_id }}__subtitle">{{ block.settings.subtitle }}</div>
+            {% endif %}
+
+            <div
+              class="gift-quiz-{{ qz_id }}__options"
+              data-gift-quiz-options
+              {% if block.settings.allow_multiple %}data-multiple{% endif %}
+            >
+              {%- assign qz_lines = block.settings.options | newline_to_br | strip_newlines | split: '<br />' -%}
+              {%- for qz_line in qz_lines -%}
+                {%- assign qz_line = qz_line | strip -%}
+                {%- if qz_line == blank -%}{%- continue -%}{%- endif -%}
+                {%- assign qz_parts = qz_line | split: '|' -%}
+                {%- assign qz_label = qz_parts[0] | strip -%}
+                {%- assign qz_tags = qz_parts[1] | default: '' | strip -%}
+                {%- if qz_label == blank -%}{%- continue -%}{%- endif -%}
+                <button
+                  type="button"
+                  class="gift-quiz-{{ qz_id }}__option"
+                  data-gift-quiz-option
+                  data-qz-tags="{{ qz_tags }}"
+                  aria-pressed="false"
+                >
+                  <span class="gift-quiz-{{ qz_id }}__option-check" aria-hidden="true">
+                    {% if block.settings.allow_multiple %}&#10003;{% else %}&#10005;{% endif %}
+                  </span>
+                  <span>{{ qz_label }}</span>
+                </button>
+              {%- endfor -%}
+            </div>
+          </div>
+        {%- endfor -%}
+      </div>
+
+      <div class="gift-quiz-{{ qz_id }}__nav">
+        <button
+          type="button"
+          class="gift-quiz-{{ qz_id }}__nav-btn gift-quiz-{{ qz_id }}__nav-btn--secondary"
+          data-gift-quiz-prev
+          disabled
+        >&#8592; Back</button>
+        <button
+          type="button"
+          class="gift-quiz-{{ qz_id }}__nav-btn gift-quiz-{{ qz_id }}__nav-btn--primary"
+          data-gift-quiz-next
+        >Next &#8594;</button>
+      </div>
+
+      {% if qz_has_result %}
+        <div class="gift-quiz-{{ qz_id }}__results" data-gift-quiz-results hidden>
+          {%- for block in section.blocks -%}
+            {%- if block.type != 'result' -%}{%- continue -%}{%- endif -%}
+            <div
+              class="gift-quiz-{{ qz_id }}__result"
+              data-gift-quiz-result
+              data-result-id="{{ block.id }}"
+              data-qz-tags="{{ block.settings.tags }}"
+              hidden
+            >
+              <div class="gift-quiz-{{ qz_id }}__result-card">
+                {% if block.settings.image != blank %}
+                  <img
+                    class="gift-quiz-{{ qz_id }}__result-media"
+                    src="{{ block.settings.image | image_url: width: 1200 }}"
+                    alt="{{ block.settings.title | escape | default: 'Gift recommendation' }}"
+                    loading="lazy"
+                    width="1200"
+                    height="675"
+                  >
+                {% endif %}
+                <div class="gift-quiz-{{ qz_id }}__result-body">
+                  {% if block.settings.title != blank %}
+                    <h3 class="gift-quiz-{{ qz_id }}__result-title {{ section.settings.result_title_type_preset | default: 'h3' }}">{{ block.settings.title }}</h3>
+                  {% endif %}
+                  {% if block.settings.description != blank %}
+                    <div class="gift-quiz-{{ qz_id }}__result-description {{ section.settings.result_description_type_preset | default: 'paragraph' }}">{{ block.settings.description }}</div>
+                  {% endif %}
+
+                  {%- assign qz_handles = block.settings.products | newline_to_br | strip_newlines | split: '<br />' -%}
+                  <div class="gift-quiz-{{ qz_id }}__products">
+                    {%- for qz_handle in qz_handles -%}
+                      {%- assign qz_handle = qz_handle | strip -%}
+                      {%- if qz_handle == blank -%}{%- continue -%}{%- endif -%}
+                      {%- assign qz_product = all_products[qz_handle] -%}
+                      {%- if qz_product == blank -%}{%- continue -%}{%- endif -%}
+                      <div class="gift-quiz-{{ qz_id }}__product">
+                        <a
+                          class="gift-quiz-{{ qz_id }}__product-link"
+                          href="{{ qz_product.url }}"
+                          aria-label="{{ qz_product.title | escape }}"
+                        >
+                          {%- if qz_product.featured_image != blank -%}
+                            <img
+                              class="gift-quiz-{{ qz_id }}__product-media"
+                              src="{{ qz_product.featured_image | image_url: width: 600 }}"
+                              alt="{{ qz_product.title | escape }}"
+                              loading="lazy"
+                              width="600"
+                              height="600"
+                            >
+                          {%- else -%}
+                            <div class="gift-quiz-{{ qz_id }}__product-media" style="background-color: var(--color-border, #e5e5e5);"></div>
+                          {%- endif -%}
+                        </a>
+                        <div class="gift-quiz-{{ qz_id }}__product-info">
+                          <h4 class="gift-quiz-{{ qz_id }}__product-title">{{ qz_product.title }}</h4>
+                          <p class="gift-quiz-{{ qz_id }}__product-price">{{ qz_product.price | money }}</p>
+                          {% if qz_product.available %}
+                            <a class="gift-quiz-{{ qz_id }}__nav-btn gift-quiz-{{ qz_id }}__nav-btn--primary gift-quiz-{{ qz_id }}__product-add" href="{{ qz_product.url }}">
+                              View gift
+                            </a>
+                          {% endif %}
+                        </div>
+                      </div>
+                    {%- endfor -%}
+                  </div>
+                </div>
+              </div>
+            </div>
+          {%- endfor -%}
+        </div>
+
+        <div class="gift-quiz-{{ qz_id }}__retake" data-gift-quiz-retake hidden>
+          <button type="button" class="gift-quiz-{{ qz_id }}__retake-btn" data-gift-quiz-restart>Retake quiz</button>
+        </div>
+      {% endif %}
+    {% endif %}
+  </div>
+</div>
+
+<script>
+  (function () {
+    var id = '{{ qz_id }}';
+    var root = document.querySelector('[data-gift-quiz-root="' + id + '"]');
+    if (!root) return;
+
+    // Build question data from the DOM (no Liquid JSON serialization needed)
+    var steps = Array.prototype.slice.call(root.querySelectorAll('[data-gift-quiz-step]'));
+    var questions = steps.map(function (step) {
+      var opts = Array.prototype.slice.call(step.querySelectorAll('[data-gift-quiz-option]'));
+      var q = {
+        allowMultiple: !!(step.querySelector('[data-gift-quiz-options][data-multiple]')),
+        options: opts.map(function (o) {
+          return {
+            tags: (o.getAttribute('data-qz-tags') || '').split(',').map(function (t) { return t.trim(); }).filter(Boolean)
+          };
+        })
+      };
+      return q;
+    });
+    var results = Array.prototype.slice.call(root.querySelectorAll('[data-gift-quiz-result]')).map(function (el) {
+      return {
+        id: el.getAttribute('data-result-id'),
+        tags: (el.getAttribute('data-qz-tags') || '').split(',').map(function (t) { return t.trim(); }).filter(Boolean)
+      };
+    });
+    var prevBtn = root.querySelector('[data-gift-quiz-prev]');
+    var nextBtn = root.querySelector('[data-gift-quiz-next]');
+    var body = root.querySelector('[data-gift-quiz-body]');
+    var progress = root.querySelector('[data-gift-quiz-progress]');
+    var progressText = root.querySelector('[data-gift-quiz-progress-text]');
+    var percentEl = root.querySelector('[data-gift-quiz-percent]');
+    var resultsWrap = root.querySelector('[data-gift-quiz-results]');
+    var resultEls = resultsWrap ? Array.prototype.slice.call(resultsWrap.querySelectorAll('[data-gift-quiz-result]')) : [];
+    var retakeWrap = root.querySelector('[data-gift-quiz-retake]');
+    var restartBtn = root.querySelector('[data-gift-quiz-restart]');
+
+    var storageKey = 'gift-quiz-' + id;
+    var state = {
+      index: 0,
+      answers: {} // { questionIndex: [optionIndex,...] }
+    };
+
+    function loadState() {
+      try {
+        var saved = sessionStorage.getItem(storageKey);
+        if (saved) {
+          var parsed = JSON.parse(saved);
+          if (parsed && typeof parsed.index === 'number' && parsed.answers) {
+            state = parsed;
+          }
+        }
+      } catch (e) { /* ignore */ }
+    }
+
+    function saveState() {
+      try {
+        sessionStorage.setItem(storageKey, JSON.stringify(state));
+      } catch (e) { /* ignore */ }
+    }
+
+    function clearState() {
+      try { sessionStorage.removeItem(storageKey); } catch (e) { /* ignore */ }
+    }
+
+    function currentStep() {
+      return steps[state.index] || null;
+    }
+
+    function renderStep() {
+      steps.forEach(function (step, i) {
+        if (i === state.index) {
+          step.setAttribute('data-active', '');
+        } else {
+          step.removeAttribute('data-active');
+        }
+      });
+
+      var total = steps.length;
+      var done = state.index + 1;
+      var pct = Math.round((state.index / total) * 100);
+      if (progress) progress.style.width = pct + '%';
+      if (percentEl) percentEl.textContent = pct + '%';
+      if (progressText) progressText.textContent = 'Question ' + done + ' of ' + total;
+
+      if (prevBtn) prevBtn.disabled = state.index === 0;
+      if (nextBtn) nextBtn.disabled = state.answers[state.index] && state.answers[state.index].length ? false : (state.index === total - 1);
+
+      if (body) body.setAttribute('aria-activedescendant', '');
+
+      // Reset option focus for the new step
+      var step = currentStep();
+      if (step) {
+        var opts = step.querySelectorAll('[data-gift-quiz-option]');
+        // Restore selected state
+        var saved = state.answers[state.index] || [];
+        opts.forEach(function (opt, oi) {
+          opt.setAttribute('aria-pressed', saved.indexOf(oi) !== -1 ? 'true' : 'false');
+        });
+      }
+    }
+
+    function setActiveOptionFocus(step) {
+      var opts = step.querySelectorAll('[data-gift-quiz-option]');
+      var saved = state.answers[state.index] || [];
+      if (saved.length) {
+        // focus last selected
+        var last = saved[saved.length - 1];
+        if (opts[last]) opts[last].focus();
+      } else if (opts.length) {
+        opts[0].focus();
+      }
+    }
+
+    function handleOptionClick(opt) {
+      var step = currentStep();
+      if (!step) return;
+      var opts = Array.prototype.slice.call(step.querySelectorAll('[data-gift-quiz-option]'));
+      var oi = opts.indexOf(opt);
+      if (oi === -1) return;
+
+      var q = questions[state.index];
+      var ans = state.answers[state.index] || (state.answers[state.index] = []);
+
+      if (q.allowMultiple) {
+        var pos = ans.indexOf(oi);
+        if (pos === -1) {
+          ans.push(oi);
+        } else {
+          ans.splice(pos, 1);
+        }
+      } else {
+        ans.length = 0;
+        ans.push(oi);
+      }
+
+      // Update aria-pressed
+      opts.forEach(function (o, idx) {
+        o.setAttribute('aria-pressed', ans.indexOf(idx) !== -1 ? 'true' : 'false');
+      });
+
+      // If single-select, auto-advance after short delay
+      if (!q.allowMultiple && ans.length === 1 && state.index < steps.length - 1) {
+        setTimeout(function () { next(); }, 250);
+      }
+
+      saveState();
+      renderStep();
+    }
+
+    function next() {
+      if (state.index < steps.length - 1) {
+        state.index += 1;
+        saveState();
+        renderStep();
+        setActiveOptionFocus(currentStep());
+      } else {
+        finish();
+      }
+    }
+
+    function prev() {
+      if (state.index > 0) {
+        state.index -= 1;
+        saveState();
+        renderStep();
+        setActiveOptionFocus(currentStep());
+      }
+    }
+
+    function scoreAnswers() {
+      var scores = {}; // tag -> count
+      Object.keys(state.answers).forEach(function (qi) {
+        var q = questions[qi];
+        if (!q) return;
+        (state.answers[qi] || []).forEach(function (oi) {
+          var opt = q.options[oi];
+          if (!opt) return;
+          (opt.tags || []).forEach(function (tag) {
+            scores[tag] = (scores[tag] || 0) + 1;
+          });
+        });
+      });
+
+      var best = null;
+      var bestScore = 0;
+      results.forEach(function (res) {
+        var score = 0;
+        (res.tags || []).forEach(function (tag) {
+          score += scores[tag] || 0;
+        });
+        if (score > bestScore) {
+          bestScore = score;
+          best = res;
+        }
+      });
+      return best;
+    }
+
+    function finish() {
+      var winner = scoreAnswers();
+
+      // Show results
+      if (resultsWrap) resultsWrap.hidden = false;
+      resultEls.forEach(function (el) {
+        var isWinner = winner && String(el.dataset.resultId) === String(winner.id);
+        el.hidden = !isWinner;
+      });
+
+      if (retakeWrap) retakeWrap.hidden = false;
+      if (body) body.hidden = true;
+      if (progress) progress.style.width = '100%';
+      if (percentEl) percentEl.textContent = '100%';
+      if (progressText) progressText.textContent = 'Quiz complete';
+      if (prevBtn) prevBtn.disabled = true;
+      if (nextBtn) nextBtn.disabled = true;
+      nextBtn.textContent = 'Completed';
+
+      // Announce result
+      var live = root.querySelector('[data-gift-quiz-live]');
+      if (live) {
+        live.textContent = winner ? 'Here is your gift recommendation.' : 'No recommendation found.';
+      }
+
+      saveState();
+      clearState(); // ephemeral; start fresh next time
+
+      // Scroll result into view
+      var winnerEl = winner && resultEls.find(function (el) { return String(el.dataset.resultId) === String(winner.id); });
+      if (winnerEl) {
+        setTimeout(function () {
+          winnerEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 100);
+      }
+    }
+
+    function restart() {
+      state = { index: 0, answers: {} };
+      clearState();
+      if (resultsWrap) resultsWrap.hidden = true;
+      resultEls.forEach(function (el) { el.hidden = true; });
+      if (retakeWrap) retakeWrap.hidden = true;
+      if (body) body.hidden = false;
+      renderStep();
+    }
+
+    // Event wiring
+    document.addEventListener('click', function (e) {
+      var t = e.target;
+      if (t && t.closest && t.closest('[data-gift-quiz-option]')) {
+        handleOptionClick(t.closest('[data-gift-quiz-option]'));
+      }
+    });
+
+    if (nextBtn) nextBtn.addEventListener('click', next);
+    if (prevBtn) prevBtn.addEventListener('click', prev);
+    if (restartBtn) restartBtn.addEventListener('click', restart);
+
+    // Keyboard: Enter/Space handled natively by buttons. Arrow navigation between options.
+    document.addEventListener('keydown', function (e) {
+      if (!currentStep()) return;
+      if (e.key !== 'ArrowDown' && e.key !== 'ArrowUp') return;
+      var opts = Array.prototype.slice.call(currentStep().querySelectorAll('[data-gift-quiz-option]'));
+      if (!opts.length) return;
+      var idx = opts.indexOf(document.activeElement);
+      if (idx === -1) return;
+      e.preventDefault();
+      var dir = e.key === 'ArrowDown' ? 1 : -1;
+      var ni = (idx + dir + opts.length) % opts.length;
+      opts[ni].focus();
+    });
+
+    // Init
+    loadState();
+    if (state.index >= steps.length) {
+      // Previously finished; start fresh
+      state.index = 0;
+      state.answers = {};
+      clearState();
+    }
+    renderStep();
+  })();
+</script>
+
+<div class="visually-hidden" aria-live="polite" data-gift-quiz-live></div>
+
+{% schema %}
+{
+  "name": "Gift Quiz",
+  "tag": "section",
+  "class": "gift-quiz-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Find the perfect gift"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description",
+      "default": "<p>Answer a few questions and we'll recommend the perfect gift for you.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "content_max_width",
+      "label": "Content max width",
+      "min": 480,
+      "max": 1200,
+      "step": 20,
+      "unit": "px",
+      "default": 760
+    },
+    {
+      "type": "select",
+      "id": "header_alignment",
+      "label": "Header alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "range",
+      "id": "product_columns",
+      "label": "Product columns (desktop)",
+      "min": 1,
+      "max": 4,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "select",
+      "id": "heading_type_preset",
+      "label": "Heading style",
+      "options": [
+        { "value": "h1", "label": "Heading 1" },
+        { "value": "h2", "label": "Heading 2" },
+        { "value": "h3", "label": "Heading 3" },
+        { "value": "h4", "label": "Heading 4" },
+        { "value": "paragraph", "label": "Paragraph" }
+      ],
+      "default": "h2",
+      "info": "Uses your theme's typography settings"
+    },
+    {
+      "type": "select",
+      "id": "description_type_preset",
+      "label": "Description style",
+      "options": [
+        { "value": "paragraph", "label": "Paragraph" },
+        { "value": "h4", "label": "Heading 4" },
+        { "value": "h5", "label": "Heading 5" }
+      ],
+      "default": "paragraph",
+      "info": "Uses your theme's typography settings"
+    },
+    {
+      "type": "select",
+      "id": "question_type_preset",
+      "label": "Question style",
+      "options": [
+        { "value": "h3", "label": "Heading 3" },
+        { "value": "h4", "label": "Heading 4" },
+        { "value": "h5", "label": "Heading 5" },
+        { "value": "paragraph", "label": "Paragraph" }
+      ],
+      "default": "h3",
+      "info": "Uses your theme's typography settings"
+    },
+    {
+      "type": "select",
+      "id": "result_title_type_preset",
+      "label": "Result title style",
+      "options": [
+        { "value": "h2", "label": "Heading 2" },
+        { "value": "h3", "label": "Heading 3" },
+        { "value": "h4", "label": "Heading 4" },
+        { "value": "paragraph", "label": "Paragraph" }
+      ],
+      "default": "h3",
+      "info": "Uses your theme's typography settings"
+    },
+    {
+      "type": "select",
+      "id": "result_description_type_preset",
+      "label": "Result description style",
+      "options": [
+        { "value": "paragraph", "label": "Paragraph" },
+        { "value": "h4", "label": "Heading 4" },
+        { "value": "h5", "label": "Heading 5" }
+      ],
+      "default": "paragraph",
+      "info": "Uses your theme's typography settings"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "padding_left",
+      "label": "Left",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "padding_right",
+      "label": "Right",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Margins"
+    },
+    {
+      "type": "range",
+      "id": "margin_top",
+      "label": "Top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "margin_bottom",
+      "label": "Bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "margin_left",
+      "label": "Left",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "margin_right",
+      "label": "Right",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "blocks": [
+    {
+      "type": "question",
+      "name": "Question",
+      "settings": [
+        {
+          "type": "text",
+          "id": "question",
+          "label": "Question",
+          "default": "Who is this gift for?"
+        },
+        {
+          "type": "text",
+          "id": "subtitle",
+          "label": "Subtitle (optional)",
+          "default": "This helps us narrow things down."
+        },
+        {
+          "type": "checkbox",
+          "id": "allow_multiple",
+          "label": "Allow multiple answers",
+          "default": false
+        },
+        {
+          "type": "textarea",
+          "id": "options",
+          "label": "Answer options",
+          "info": "One per line. To score toward a result, add tags after a pipe: Label | tag1, tag2",
+          "default": "Partner | romantic,sparkle\nParent | thoughtful,cozy\nFriend | fun,trendy\nChild | playful"
+        }
+      ]
+    },
+    {
+      "type": "result",
+      "name": "Result",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Result title",
+          "default": "A thoughtful classic"
+        },
+        {
+          "type": "richtext",
+          "id": "description",
+          "label": "Description",
+          "default": "<p>Based on your answers, we recommend something timeless and personal.</p>"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Result image",
+          "info": "Optional hero image for this result card"
+        },
+        {
+          "type": "text",
+          "id": "tags",
+          "label": "Scoring tags",
+          "info": "Comma-separated. The result whose tags earn the most points wins.",
+          "default": "thoughtful,classic"
+        },
+        {
+          "type": "textarea",
+          "id": "products",
+          "label": "Product handles",
+          "info": "One product handle per line. Shown as cards in the winning result.",
+          "default": "product-handle-1\nproduct-handle-2\nproduct-handle-3"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 40,
+  "presets": [
+    {
+      "name": "Gift Quiz",
+      "category": "t:categories.custom",
+      "blocks": [
+        {
+          "type": "question",
+          "settings": {
+            "question": "Who is this gift for?",
+            "subtitle": "This helps us narrow things down.",
+            "allow_multiple": false,
+            "options": "Partner | romantic,sparkle\nParent | thoughtful,cozy\nFriend | fun,trendy\nChild | playful"
+          }
+        },
+        {
+          "type": "question",
+          "settings": {
+            "question": "What's the occasion?",
+            "subtitle": "Pick the closest match.",
+            "allow_multiple": false,
+            "options": "Anniversary | romantic\nBirthday | fun,trendy\nJust because | thoughtful\nHoliday | cozy,classic"
+          }
+        },
+        {
+          "type": "result",
+          "settings": {
+            "title": "A romantic sparkle",
+            "description": "<p>Something that says it best — elegant and personal.</p>",
+            "tags": "romantic,sparkle",
+            "products": "product-handle-1\nproduct-handle-2"
+          }
+        },
+        {
+          "type": "result",
+          "settings": {
+            "title": "Cozy & thoughtful",
+            "description": "<p>Warm, personal, and made to be remembered.</p>",
+            "tags": "thoughtful,cozy,classic",
+            "products": "product-handle-3\nproduct-handle-4"
+          }
+        },
+        {
+          "type": "result",
+          "settings": {
+            "title": "Fun & trendy",
+            "description": "<p>Something current and sure to make them smile.</p>",
+            "tags": "fun,trendy,playful",
+            "products": "product-handle-5"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

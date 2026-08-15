@@ -1,0 +1,94 @@
+{
+  "sections": {
+    "gift_quiz_main": {
+      "type": "gift-quiz",
+      "settings": {
+        "heading": "Find the perfect gift",
+        "description": "<p>Answer a few quick questions and we'll recommend the perfect gift for your loved one.</p>",
+        "content_max_width": 760,
+        "header_alignment": "center",
+        "product_columns": 3,
+        "heading_type_preset": "h1",
+        "description_type_preset": "paragraph",
+        "question_type_preset": "h3",
+        "result_title_type_preset": "h3",
+        "result_description_type_preset": "paragraph",
+        "padding_top": 64,
+        "padding_bottom": 64,
+        "padding_left": 20,
+        "padding_right": 20,
+        "margin_top": 0,
+        "margin_bottom": 0,
+        "margin_left": 0,
+        "margin_right": 0
+      },
+      "blocks": {
+        "q1": {
+          "type": "question",
+          "settings": {
+            "question": "Who is this gift for?",
+            "subtitle": "This helps us narrow things down.",
+            "allow_multiple": false,
+            "options": "Partner | romantic,sparkle\nParent | thoughtful,cozy\nFriend | fun,trendy\nChild | playful"
+          }
+        },
+        "q2": {
+          "type": "question",
+          "settings": {
+            "question": "What's the occasion?",
+            "subtitle": "Pick the closest match.",
+            "allow_multiple": false,
+            "options": "Anniversary | romantic\nBirthday | fun,trendy\nJust because | thoughtful\nHoliday | cozy,classic"
+          }
+        },
+        "q3": {
+          "type": "question",
+          "settings": {
+            "question": "What's your budget?",
+            "subtitle": "Optional — helps us pick from the right range.",
+            "allow_multiple": true,
+            "options": "Under $50 | affordable\n$50–$150 | midrange\n$150+ | premium\nNo limit | premium"
+          }
+        },
+        "r1": {
+          "type": "result",
+          "settings": {
+            "title": "A romantic sparkle",
+            "description": "<p>Something that says it best — elegant, personal, and sure to be treasured.</p>",
+            "tags": "romantic,sparkle",
+            "products": "product-handle-1\nproduct-handle-2"
+          }
+        },
+        "r2": {
+          "type": "result",
+          "settings": {
+            "title": "Cozy & thoughtful",
+            "description": "<p>Warm, personal, and made to be remembered for years to come.</p>",
+            "tags": "thoughtful,cozy,classic",
+            "products": "product-handle-3\nproduct-handle-4"
+          }
+        },
+        "r3": {
+          "type": "result",
+          "settings": {
+            "title": "Fun & trendy",
+            "description": "<p>Something current and guaranteed to make them smile.</p>",
+            "tags": "fun,trendy,playful",
+            "products": "product-handle-5"
+          }
+        }
+      },
+      "block_order": [
+        "q1",
+        "q2",
+        "q3",
+        "r1",
+        "r2",
+        "r3"
+      ]
+    }
+  },
+  "order": [
+    "gift_quiz_main"
+  ]
+}
