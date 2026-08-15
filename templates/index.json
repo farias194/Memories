@@ -1423,6 +1423,113 @@
         "padding-block-end": 24,
         "gap_between_elements": 24
       }
+    },
+    "store_location_x36pmi": {
+      "type": "store-location",
+      "blocks": {
+        "hours_BYJUKF": {
+          "type": "hours",
+          "settings": {
+            "day": "Monday – Friday",
+            "time": "9:00 AM – 6:00 PM",
+            "closed": false
+          }
+        },
+        "hours_Kf4MfL": {
+          "type": "hours",
+          "settings": {
+            "day": "Saturday",
+            "time": "10:00 AM – 5:00 PM",
+            "closed": false
+          }
+        },
+        "hours_C3weFW": {
+          "type": "hours",
+          "settings": {
+            "day": "Sunday",
+            "time": "",
+            "closed": true
+          }
+        }
+      },
+      "block_order": [
+        "hours_BYJUKF",
+        "hours_Kf4MfL",
+        "hours_C3weFW"
+      ],
+      "name": "Store Location & Hours",
+      "settings": {
+        "heading": "Visit Our Store",
+        "description": "<p>Stop by and browse our full selection of official NYC souvenirs.<\/p>",
+        "address": "123 Broadway\nNew York, NY 10001",
+        "phone": "(212) 555-0199",
+        "email": "hello@memoriesnyc.com",
+        "map_url": "",
+        "map_height": 420,
+        "show_directions": true,
+        "directions_url": "",
+        "card_background_color": "#F5F5F5",
+        "text_color": "#1A1A1A",
+        "accent_color": "#B33030",
+        "card_border_radius": 12,
+        "heading_size": 32
+      }
+    },
+    "testimonials_bFBqDq": {
+      "type": "testimonials",
+      "blocks": {
+        "review_XhQWir": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "quote": "<p>Found the perfect gift for my mom — great selection and quick shipping!<\/p>",
+            "quote_type_preset": "paragraph",
+            "author": "Alex Rivera",
+            "source": "Google"
+          }
+        },
+        "review_9ekUkH": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "quote": "<p>Authentic souvenirs and friendly staff. My kids loved the snow globes.<\/p>",
+            "quote_type_preset": "paragraph",
+            "author": "Jordan Lee",
+            "source": "Yelp"
+          }
+        },
+        "review_4Eqyda": {
+          "type": "review",
+          "settings": {
+            "rating": 4,
+            "quote": "<p>Great quality t-shirts and the prices are fair. Will be back!<\/p>",
+            "quote_type_preset": "paragraph",
+            "author": "Sam Patel",
+            "source": "Trustpilot"
+          }
+        }
+      },
+      "block_order": [
+        "review_XhQWir",
+        "review_9ekUkH",
+        "review_4Eqyda"
+      ],
+      "name": "Testimonials",
+      "settings": {
+        "heading": "What our customers say",
+        "description": "<p>Read why customers love shopping with us.<\/p>",
+        "layout": "carousel",
+        "columns": 3,
+        "card_width": 33,
+        "autoplay_enable": true,
+        "autoplay_speed": 5,
+        "card_background_color": "#F5F5F5",
+        "card_text_color": "#1A1A1A",
+        "star_color": "#F5A623",
+        "card_border_radius": 12,
+        "heading_type_preset": "h3",
+        "description_type_preset": "paragraph"
+      }
     }
   },
   "order": [
@@ -1434,6 +1541,8 @@
     "featured_product_information_mAkrEW",
     "media_with_content_RmPxat",
     "featured_blog_posts_mCVBw4",
-    "marquee_gHzWf6"
+    "marquee_gHzWf6",
+    "store_location_x36pmi",
+    "testimonials_bFBqDq"
   ]
 }
