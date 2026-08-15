@@ -1,0 +1,529 @@
+{% comment %}
+Store Location & Hours section
+Displays a Google Maps embed alongside the store address, opening hours,
+phone and email, with a "Get directions" call-to-action.
+Fully self-contained: styles are scoped to this section only.
+{% endcomment %}
+
+{% assign sl_id = section.id | replace: '_', '' | downcase %}
+
+{% assign address_encoded = section.settings.address | url_encode %}
+
+{% if section.settings.map_url != blank %}
+  {% assign embed_url = section.settings.map_url %}
+{% elsif section.settings.address != blank %}
+  {% assign embed_url = 'https://www.google.com/maps?q=' | append: address_encoded | append: '&output=embed' %}
+{% else %}
+  {% assign embed_url = blank %}
+{% endif %}
+
+{% if section.settings.directions_url != blank %}
+  {% assign directions_href = section.settings.directions_url %}
+{% elsif section.settings.address != blank %}
+  {% assign directions_href = 'https://www.google.com/maps/dir/?api=1&destination=' | append: address_encoded %}
+{% else %}
+  {% assign directions_href = blank %}
+{% endif %}
+
+{% style %}
+  .store-location-{{ sl_id }} {
+    --sl-bg: {{ section.settings.card_background_color }};
+    --sl-text: {{ section.settings.text_color }};
+    --sl-accent: {{ section.settings.accent_color }};
+    padding: 48px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .store-location-{{ sl_id }}__header {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  .store-location-{{ sl_id }}__heading {
+    margin: 0 0 8px;
+    font-size: {{ section.settings.heading_size }}px;
+    line-height: 1.2;
+  }
+
+  .store-location-{{ sl_id }}__description {
+    margin: 0;
+    max-width: 560px;
+    margin-left: auto;
+    margin-right: auto;
+    color: var(--sl-text);
+    opacity: 0.75;
+  }
+
+  .store-location-{{ sl_id }}__layout {
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    gap: 24px;
+    align-items: stretch;
+  }
+
+  .store-location-{{ sl_id }}__map {
+    border-radius: {{ section.settings.card_border_radius }}px;
+    overflow: hidden;
+    background: var(--sl-bg);
+  }
+
+  .store-location-{{ sl_id }}__map-frame {
+    width: 100%;
+    border: 0;
+    display: block;
+  }
+
+  .store-location-{{ sl_id }}__map-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 24px;
+    text-align: center;
+    color: var(--sl-text);
+  }
+
+  .store-location-{{ sl_id }}__map-empty-icon {
+    width: 40px;
+    height: 40px;
+    color: var(--sl-accent);
+  }
+
+  .store-location-{{ sl_id }}__map-empty-link {
+    color: var(--sl-accent);
+    font-weight: 700;
+    text-underline-offset: 2px;
+  }
+
+  .store-location-{{ sl_id }}__card {
+    background-color: var(--sl-bg);
+    border-radius: {{ section.settings.card_border_radius }}px;
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    color: var(--sl-text);
+  }
+
+  .store-location-{{ sl_id }}__row {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  .store-location-{{ sl_id }}__icon {
+    flex: 0 0 20px;
+    width: 20px;
+    height: 20px;
+    color: var(--sl-accent);
+    margin-top: 2px;
+  }
+
+  .store-location-{{ sl_id }}__address {
+    margin: 0;
+    line-height: 1.6;
+    white-space: pre-line;
+  }
+
+  .store-location-{{ sl_id }}__contact-link {
+    color: inherit;
+    text-decoration: none;
+    line-height: 1.6;
+    transition: opacity 0.2s ease;
+  }
+
+  .store-location-{{ sl_id }}__contact-link:hover {
+    opacity: 0.7;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .store-location-{{ sl_id }}__hours {
+    flex: 1 1 auto;
+  }
+
+  .store-location-{{ sl_id }}__subheading {
+    margin: 0 0 8px;
+    font-size: 15px;
+    font-weight: 700;
+  }
+
+  .store-location-{{ sl_id }}__hours-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .store-location-{{ sl_id }}__hours-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 16px;
+    padding: 8px 0;
+    border-bottom: 1px dashed rgba(0, 0, 0, 0.15);
+    font-size: 14px;
+  }
+
+  .store-location-{{ sl_id }}__hours-item:last-child {
+    border-bottom: 0;
+  }
+
+  .store-location-{{ sl_id }}__hours-day {
+    font-weight: 600;
+  }
+
+  .store-location-{{ sl_id }}__hours-time {
+    text-align: right;
+    opacity: 0.85;
+  }
+
+  .store-location-{{ sl_id }}__hours-time.is-closed {
+    color: var(--sl-accent);
+    opacity: 1;
+    font-weight: 700;
+  }
+
+  .store-location-{{ sl_id }}__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 4px;
+  }
+
+  .store-location-{{ sl_id }}__button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 22px;
+    border-radius: {{ section.settings.card_border_radius }}px;
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: opacity 0.2s ease, background-color 0.2s ease, color 0.2s ease;
+  }
+
+  .store-location-{{ sl_id }}__button--primary {
+    background-color: var(--sl-accent);
+    color: #FFFFFF;
+  }
+
+  .store-location-{{ sl_id }}__button--primary:hover {
+    opacity: 0.85;
+  }
+
+  .store-location-{{ sl_id }}__button--secondary {
+    background: transparent;
+    color: var(--sl-accent);
+    border: 1px solid var(--sl-accent);
+  }
+
+  .store-location-{{ sl_id }}__button--secondary:hover {
+    background-color: var(--sl-accent);
+    color: #FFFFFF;
+  }
+
+  .store-location-{{ sl_id }}__button-icon {
+    width: 16px;
+    height: 16px;
+  }
+
+  @media screen and (max-width: 749px) {
+    .store-location-{{ sl_id }}__layout {
+      grid-template-columns: 1fr;
+    }
+
+    .store-location-{{ sl_id }}__map {
+      order: -1;
+    }
+  }
+{% endstyle %}
+
+<div class="store-location-{{ sl_id }}">
+  <div class="store-location-{{ sl_id }}__header">
+    {% if section.settings.heading != blank %}
+      <h2 class="store-location-{{ sl_id }}__heading">{{ section.settings.heading }}</h2>
+    {% endif %}
+    {% if section.settings.description != blank %}
+      <div class="store-location-{{ sl_id }}__description">{{ section.settings.description }}</div>
+    {% endif %}
+  </div>
+
+  <div class="store-location-{{ sl_id }}__layout">
+    <div class="store-location-{{ sl_id }}__map">
+      {% if embed_url != blank %}
+        <iframe
+          class="store-location-{{ sl_id }}__map-frame"
+          src="{{ embed_url }}"
+          style="height: {{ section.settings.map_height }}px"
+          title="{{ section.settings.heading | default: 'Store location' | escape }} map"
+          loading="lazy"
+          allowfullscreen
+          referrerpolicy="no-referrer-when-downgrade"
+        ></iframe>
+      {% else %}
+        <div class="store-location-{{ sl_id }}__map-empty" style="height: {{ section.settings.map_height }}px">
+          <svg class="store-location-{{ sl_id }}__map-empty-icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+            {% render 'icon', icon: 'map_pin' %}
+          </svg>
+          <p class="store-location-{{ sl_id }}__address">Add your Google Maps embed URL or store address to show a map here.</p>
+          {% if directions_href != blank %}
+            <a class="store-location-{{ sl_id }}__map-empty-link" href="{{ directions_href }}" target="_blank" rel="noopener noreferrer">Open in Google Maps</a>
+          {% endif %}
+        </div>
+      {% endif %}
+    </div>
+
+    <div class="store-location-{{ sl_id }}__card">
+      {% if section.settings.address != blank %}
+        <div class="store-location-{{ sl_id }}__row">
+          <svg class="store-location-{{ sl_id }}__icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+            {% render 'icon', icon: 'map_pin' %}
+          </svg>
+          <p class="store-location-{{ sl_id }}__address">{{ section.settings.address }}</p>
+        </div>
+      {% endif %}
+
+      {% if section.blocks.size > 0 %}
+        <div class="store-location-{{ sl_id }}__row">
+          <svg class="store-location-{{ sl_id }}__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
+          </svg>
+          <div class="store-location-{{ sl_id }}__hours">
+            <h3 class="store-location-{{ sl_id }}__subheading">Opening hours</h3>
+            <ul class="store-location-{{ sl_id }}__hours-list">
+              {% for block in section.blocks %}
+                <li class="store-location-{{ sl_id }}__hours-item" {{ block.shopify_attributes }}>
+                  <span class="store-location-{{ sl_id }}__hours-day">{{ block.settings.day }}</span>
+                  <span class="store-location-{{ sl_id }}__hours-time{% if block.settings.closed %} is-closed{% endif %}">
+                    {%- if block.settings.closed -%}Closed{%- else -%}{{ block.settings.time }}{%- endif -%}
+                  </span>
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+      {% endif %}
+
+      {% if section.settings.phone != blank %}
+        <div class="store-location-{{ sl_id }}__row">
+          <svg class="store-location-{{ sl_id }}__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+          </svg>
+          <a class="store-location-{{ sl_id }}__contact-link" href="tel:{{ section.settings.phone | replace: ' ', '' }}">{{ section.settings.phone }}</a>
+        </div>
+      {% endif %}
+
+      {% if section.settings.email != blank %}
+        <div class="store-location-{{ sl_id }}__row">
+          <svg class="store-location-{{ sl_id }}__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+            <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+            <path d="m22 7-10 6L2 7"></path>
+          </svg>
+          <a class="store-location-{{ sl_id }}__contact-link" href="mailto:{{ section.settings.email }}">{{ section.settings.email }}</a>
+        </div>
+      {% endif %}
+
+      {% if section.settings.show_directions and directions_href != blank %}
+        <div class="store-location-{{ sl_id }}__actions">
+          <a class="store-location-{{ sl_id }}__button store-location-{{ sl_id }}__button--primary" href="{{ directions_href }}" target="_blank" rel="noopener noreferrer">
+            Get directions
+            <svg class="store-location-{{ sl_id }}__button-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+              <path d="M7 17 17 7"></path>
+              <path d="M7 7h10v10"></path>
+            </svg>
+          </a>
+          {% if section.settings.phone != blank %}
+            <a class="store-location-{{ sl_id }}__button store-location-{{ sl_id }}__button--secondary" href="tel:{{ section.settings.phone | replace: ' ', '' }}">
+              Call us
+            </a>
+          {% endif %}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Store Location & Hours",
+  "tag": "section",
+  "class": "store-location-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Visit Our Store"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description",
+      "default": "<p>Stop by and browse our full selection of official NYC souvenirs.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Location"
+    },
+    {
+      "type": "textarea",
+      "id": "address",
+      "label": "Address",
+      "default": "123 Broadway\nNew York, NY 10001"
+    },
+    {
+      "type": "text",
+      "id": "phone",
+      "label": "Phone",
+      "default": "(212) 555-0199"
+    },
+    {
+      "type": "text",
+      "id": "email",
+      "label": "Email",
+      "default": "hello@memoriesnyc.com"
+    },
+    {
+      "type": "header",
+      "content": "Map"
+    },
+    {
+      "type": "text",
+      "id": "map_url",
+      "label": "Google Maps embed URL",
+      "info": "Optional. Paste the embed src from Google Maps (Share → Embed a map). If left blank, a map is generated from the address."
+    },
+    {
+      "type": "range",
+      "id": "map_height",
+      "label": "Map height",
+      "min": 250,
+      "max": 700,
+      "step": 10,
+      "unit": "px",
+      "default": 420
+    },
+    {
+      "type": "checkbox",
+      "id": "show_directions",
+      "label": "Show “Get directions” button",
+      "default": true
+    },
+    {
+      "type": "url",
+      "id": "directions_url",
+      "label": "Directions link",
+      "info": "Optional. Defaults to a Google Maps route to the address above."
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "color",
+      "id": "card_background_color",
+      "label": "Card background",
+      "default": "#F5F5F5"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#1A1A1A"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent color",
+      "default": "#B33030"
+    },
+    {
+      "type": "range",
+      "id": "card_border_radius",
+      "label": "Card border radius",
+      "min": 0,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "label": "Heading size",
+      "min": 20,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "default": 32
+    }
+  ],
+  "blocks": [
+    {
+      "type": "hours",
+      "name": "Opening hours",
+      "settings": [
+        {
+          "type": "text",
+          "id": "day",
+          "label": "Day",
+          "default": "Monday"
+        },
+        {
+          "type": "text",
+          "id": "time",
+          "label": "Hours",
+          "default": "9:00 AM – 6:00 PM"
+        },
+        {
+          "type": "checkbox",
+          "id": "closed",
+          "label": "Closed",
+          "default": false
+        }
+      ]
+    }
+  ],
+  "max_blocks": 14,
+  "presets": [
+    {
+      "name": "Store Location & Hours",
+      "category": "t:categories.custom",
+      "blocks": [
+        {
+          "type": "hours",
+          "settings": {
+            "day": "Monday – Friday",
+            "time": "9:00 AM – 6:00 PM",
+            "closed": false
+          }
+        },
+        {
+          "type": "hours",
+          "settings": {
+            "day": "Saturday",
+            "time": "10:00 AM – 5:00 PM",
+            "closed": false
+          }
+        },
+        {
+          "type": "hours",
+          "settings": {
+            "day": "Sunday",
+            "time": "",
+            "closed": true
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
