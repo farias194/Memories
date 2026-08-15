@@ -23,8 +23,6 @@ Fully self-contained: styles and scripts are scoped to this section only.
 
   .testimonials-{{ t_id }}__heading {
     margin: 0 0 8px;
-    font-size: {{ section.settings.heading_size }}px;
-    line-height: 1.2;
   }
 
   .testimonials-{{ t_id }}__description {
@@ -85,9 +83,7 @@ Fully self-contained: styles and scripts are scoped to this section only.
 
   .testimonials-{{ t_id }}__quote {
     margin: 0;
-    font-size: {{ section.settings.quote_size }}px;
-    line-height: 1.6;
-    color: var(--testimonial-text);
+    --color: var(--testimonial-text);
     flex: 1 1 auto;
   }
 
@@ -158,10 +154,10 @@ Fully self-contained: styles and scripts are scoped to this section only.
 <div class="testimonials-{{ t_id }}" data-testimonials="{{ t_id }}">
   <div class="testimonials-{{ t_id }}__header">
     {% if section.settings.heading != blank %}
-      <h2 class="testimonials-{{ t_id }}__heading">{{ section.settings.heading }}</h2>
+      <h2 class="testimonials-{{ t_id }}__heading {{ section.settings.heading_type_preset | default: 'h3' }}">{{ section.settings.heading }}</h2>
     {% endif %}
     {% if section.settings.description != blank %}
-      <div class="testimonials-{{ t_id }}__description">{{ section.settings.description }}</div>
+      <div class="testimonials-{{ t_id }}__description {{ section.settings.description_type_preset | default: 'paragraph' }}">{{ section.settings.description }}</div>
     {% endif %}
   </div>
 
@@ -184,7 +180,7 @@ Fully self-contained: styles and scripts are scoped to this section only.
         </div>
 
         {% if block.settings.quote != blank %}
-          <div class="testimonials-{{ t_id }}__quote">{{ block.settings.quote }}</div>
+          <div class="testimonials-{{ t_id }}__quote {{ block.settings.quote_type_preset | default: 'paragraph' }}">{{ block.settings.quote }}</div>
         {% endif %}
 
         <div class="testimonials-{{ t_id }}__meta">
@@ -405,24 +401,66 @@ Fully self-contained: styles and scripts are scoped to this section only.
       "default": 12
     },
     {
-      "type": "range",
-      "id": "heading_size",
-      "label": "Heading size",
-      "min": 20,
-      "max": 48,
-      "step": 2,
-      "unit": "px",
-      "default": 32
+      "type": "select",
+      "id": "heading_type_preset",
+      "label": "Heading style",
+      "options": [
+        {
+          "value": "h1",
+          "label": "Heading 1"
+        },
+        {
+          "value": "h2",
+          "label": "Heading 2"
+        },
+        {
+          "value": "h3",
+          "label": "Heading 3"
+        },
+        {
+          "value": "h4",
+          "label": "Heading 4"
+        },
+        {
+          "value": "h5",
+          "label": "Heading 5"
+        },
+        {
+          "value": "h6",
+          "label": "Heading 6"
+        },
+        {
+          "value": "paragraph",
+          "label": "Paragraph"
+        }
+      ],
+      "default": "h3",
+      "info": "Uses your theme's typography settings"
     },
     {
-      "type": "range",
-      "id": "quote_size",
-      "label": "Quote text size",
-      "min": 14,
-      "max": 24,
-      "step": 1,
-      "unit": "px",
-      "default": 16
+      "type": "select",
+      "id": "description_type_preset",
+      "label": "Description style",
+      "options": [
+        {
+          "value": "paragraph",
+          "label": "Paragraph"
+        },
+        {
+          "value": "h4",
+          "label": "Heading 4"
+        },
+        {
+          "value": "h5",
+          "label": "Heading 5"
+        },
+        {
+          "value": "h6",
+          "label": "Heading 6"
+        }
+      ],
+      "default": "paragraph",
+      "info": "Uses your theme's typography settings"
     }
   ],
   "blocks": [
@@ -444,6 +482,31 @@ Fully self-contained: styles and scripts are scoped to this section only.
           "id": "quote",
           "label": "Review",
           "default": "<p>This shop is amazing! The perfect souvenir, and the staff was so helpful.</p>"
+        },
+        {
+          "type": "select",
+          "id": "quote_type_preset",
+          "label": "Review text style",
+          "options": [
+            {
+              "value": "paragraph",
+              "label": "Paragraph"
+            },
+            {
+              "value": "h4",
+              "label": "Heading 4"
+            },
+            {
+              "value": "h5",
+              "label": "Heading 5"
+            },
+            {
+              "value": "h6",
+              "label": "Heading 6"
+            }
+          ],
+          "default": "paragraph",
+          "info": "Uses your theme's typography settings"
         },
         {
           "type": "text",
