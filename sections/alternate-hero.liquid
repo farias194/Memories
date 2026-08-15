@@ -19,7 +19,7 @@
     background-position: center;
     background-image: url('{{ section.settings.image | image_url: width: 1600 }}');
     transform: scale(1.05);
-    animation: altHeroSubtleZoom-{{ a_id }} 20s ease-in-out infinite alternate;
+    animation: altHeroSubtleZoom-{{ a_id }} {{ section.settings.zoom_duration }}s ease-in-out infinite alternate;
   }
 
   .alt-hero-overlay-{{ a_id }} {
@@ -29,13 +29,13 @@
     background: radial-gradient(
       circle at center,
       rgba(0, 0, 0, 0) 0%,
-      rgba(0, 0, 0, 0.4) 45%,
-      rgba(0, 0, 0, 0.85) 75%,
+      rgba(0, 0, 0, 0.4) {{ section.settings.gradient_mid }}%,
+      rgba(0, 0, 0, 0.85) {{ section.settings.gradient_end }}%,
       rgba(0, 0, 0, 0.98) 100%
     );
     background-size: 100% 100%;
     background-position: center;
-    animation: altHeroPulse-{{ a_id }} 8s ease-in-out infinite;
+    animation: altHeroPulse-{{ a_id }} {{ section.settings.pulse_duration }}s ease-in-out infinite;
   }
 
   .alt-hero-content-{{ a_id }} {
@@ -45,6 +45,9 @@
     color: #fff;
     padding: 2rem;
     max-width: 700px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
   .alt-hero-title-{{ a_id }} {
@@ -53,7 +56,7 @@
     letter-spacing: -0.02em;
     margin: 0 0 1rem 0;
     opacity: 0;
-    animation: altHeroFadeUp-{{ a_id }} 1.2s ease-out 0.3s forwards;
+    animation: altHeroFadeUp-{{ a_id }} {{ section.settings.fade_duration }}s ease-out {{ section.settings.fade_duration | times: 0.25 }}s forwards;
     text-shadow: 0 2px 20px rgba(0,0,0,0.3);
   }
 
@@ -61,10 +64,38 @@
     font-size: clamp(1rem, 2vw, 1.35rem);
     font-weight: 300;
     color: rgba(255, 255, 255, 0.75);
-    margin: 0;
+    margin: 0 0 1rem 0;
     opacity: 0;
-    animation: altHeroFadeUp-{{ a_id }} 1.2s ease-out 0.6s forwards;
+    animation: altHeroFadeUp-{{ a_id }} {{ section.settings.fade_duration }}s ease-out {{ section.settings.fade_duration | times: 0.5 }}s forwards;
     text-shadow: 0 1px 10px rgba(0,0,0,0.3);
+  }
+
+  .alt-hero-body-{{ a_id }} {
+    font-size: clamp(1rem, 1.6vw, 1.1rem);
+    font-weight: 300;
+    color: rgba(255, 255, 255, 0.85);
+    margin: 0 0 1.5rem 0;
+    line-height: 1.6;
+    max-width: 560px;
+  }
+
+  .alt-hero-button-{{ a_id }} {
+    display: inline-block;
+    padding: 12px 32px;
+    font-size: 1rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: #111;
+    background: #fff;
+    border-radius: 2px;
+    text-decoration: none;
+    transition: opacity 200ms ease, transform 200ms ease;
+  }
+
+  .alt-hero-button-{{ a_id }}:hover {
+    opacity: 0.85;
+    transform: translateY(-2px);
   }
 
   @keyframes altHeroSubtleZoom-{{ a_id }} {
@@ -78,7 +109,7 @@
       opacity: 0.9;
     }
     50% {
-      background-size: 140% 140%;
+      background-size: {{ section.settings.pulse_scale }}% {{ section.settings.pulse_scale }}%;
       opacity: 1;
     }
     100% {
@@ -103,12 +134,25 @@
   <div class="alt-hero-media-{{ a_id }}" aria-hidden="true"></div>
   <div class="alt-hero-overlay-{{ a_id }}" aria-hidden="true"></div>
   <div class="alt-hero-content-{{ a_id }}">
-    {% if section.settings.title != blank %}
-      <h1 class="alt-hero-title-{{ a_id }}">{{ section.settings.title }}</h1>
-    {% endif %}
-    {% if section.settings.subtitle != blank %}
-      <p class="alt-hero-subtitle-{{ a_id }}">{{ section.settings.subtitle }}</p>
-    {% endif %}
+    {% for block in section.blocks %}
+      {% case block.type %}
+        {% when 'heading' %}
+          {% if block.settings.title != blank %}
+            <h1 class="alt-hero-title-{{ a_id }}" {{ block.shopify_attributes }}>{{ block.settings.title }}</h1>
+          {% endif %}
+          {% if block.settings.subtitle != blank %}
+            <p class="alt-hero-subtitle-{{ a_id }}" {{ block.shopify_attributes }}>{{ block.settings.subtitle }}</p>
+          {% endif %}
+        {% when 'text' %}
+          {% if block.settings.text != blank %}
+            <div class="alt-hero-body-{{ a_id }}" {{ block.shopify_attributes }}>{{ block.settings.text }}</div>
+          {% endif %}
+        {% when 'button' %}
+          {% if block.settings.label != blank and block.settings.link != blank %}
+            <a class="alt-hero-button-{{ a_id }}" href="{{ block.settings.link }}" {% if block.settings.open_in_new_tab %}target="_blank" rel="noopener"{% endif %} {{ block.shopify_attributes }}>{{ block.settings.label }}</a>
+          {% endif %}
+      {% endcase %}
+    {% endfor %}
   </div>
 </div>
 
@@ -122,22 +166,145 @@
       "label": "Background image"
     },
     {
-      "type": "text",
-      "id": "title",
-      "label": "Title",
-      "default": "Breathe In"
+      "type": "header",
+      "content": "Animation"
+    },
+    {
+      "type": "range",
+      "id": "zoom_duration",
+      "label": "Zoom animation duration",
+      "min": 5,
+      "max": 60,
+      "step": 1,
+      "unit": "s",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "pulse_duration",
+      "label": "Pulse animation duration",
+      "min": 2,
+      "max": 30,
+      "step": 1,
+      "unit": "s",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "pulse_scale",
+      "label": "Pulse scale",
+      "min": 100,
+      "max": 200,
+      "step": 5,
+      "unit": "%",
+      "default": 140
+    },
+    {
+      "type": "range",
+      "id": "fade_duration",
+      "label": "Content fade-in duration",
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "unit": "s",
+      "default": 2
+    },
+    {
+      "type": "header",
+      "content": "Radial gradient spread"
+    },
+    {
+      "type": "range",
+      "id": "gradient_mid",
+      "label": "Gradient mid stop",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "default": 45
+    },
+    {
+      "type": "range",
+      "id": "gradient_end",
+      "label": "Gradient end stop",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "default": 75
+    }
+  ],
+  "blocks": [
+    {
+      "type": "heading",
+      "name": "Heading",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Breathe In"
+        },
+        {
+          "type": "text",
+          "id": "subtitle",
+          "label": "Subtitle",
+          "default": "A subtle pulse that draws the eye to center"
+        }
+      ]
     },
     {
       "type": "text",
-      "id": "subtitle",
-      "label": "Subtitle",
-      "default": "A subtle pulse that draws the eye to center"
+      "name": "Text",
+      "settings": [
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Text",
+          "default": "Add some body copy here to describe your shop."
+        }
+      ]
+    },
+    {
+      "type": "button",
+      "name": "Button",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Shop now"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        },
+        {
+          "type": "checkbox",
+          "id": "open_in_new_tab",
+          "label": "Open in new tab",
+          "default": false
+        }
+      ]
     }
   ],
+  "max_blocks": 5,
   "presets": [
     {
       "name": "Alternate Hero",
-      "category": "t:categories.custom"
+      "category": "t:categories.custom",
+      "blocks": [
+        {
+          "type": "heading"
+        },
+        {
+          "type": "text"
+        },
+        {
+          "type": "button"
+        }
+      ]
     }
   ]
 }

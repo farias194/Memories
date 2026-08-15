@@ -1,25 +1,72 @@
+{% comment %}
+Custom About Story section
+Displays brand story milestones as an animated vertical timeline: a centered
+line sits behind the events and fills with progress as the user scrolls.
+Events alternate left/right on desktop and stack on a left-aligned line on
+mobile. Fully self-contained: styles and scripts are scoped to this section.
+{% endcomment %}
+
 {% assign a_id = section.id | replace: '_', '' | downcase %}
 
 {% style %}
+  .about-story-section-{{ a_id }} {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-right: {{ section.settings.padding_right }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+    padding-left: {{ section.settings.padding_left }}px;
+    margin-top: {{ section.settings.margin_top }}px;
+    margin-right: {{ section.settings.margin_right }}px;
+    margin-bottom: {{ section.settings.margin_bottom }}px;
+    margin-left: {{ section.settings.margin_left }}px;
+  }
+
   .about-story-{{ a_id }} {
-    max-width: 1100px;
+    position: relative;
+    max-width: {{ section.settings.desktop_width_percent }}%;
     margin: 0 auto;
-    padding: 40px 20px;
   }
 
   .about-story-list-{{ a_id }} {
+    position: relative;
     display: flex;
     flex-direction: column;
-    gap: 24px;
+  }
+
+  /* Centered line behind the events */
+  .about-story-line-{{ a_id }} {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: {{ section.settings.line_width }}px;
+    transform: translateX(-50%);
+    background-color: {{ section.settings.line_color }};
+    overflow: hidden;
+    z-index: 1;
+  }
+
+  .about-story-progress-{{ a_id }} {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 0%;
+    background-color: {{ section.settings.line_active_color }};
+    transition: height 0.25s ease;
   }
 
   .about-story-item-{{ a_id }} {
-    display: flex;
-    gap: 16px;
-    align-items: flex-start;
+    position: relative;
+    width: 50%;
+    margin-bottom: 48px;
     opacity: 0;
     transform: translateY(24px);
     transition: opacity 450ms cubic-bezier(.2,.9,.2,1), transform 450ms cubic-bezier(.2,.9,.2,1);
+    z-index: 2;
+  }
+
+  .about-story-item-{{ a_id }}:last-child {
+    margin-bottom: 0;
   }
 
   .about-story-item-{{ a_id }}.visible {
@@ -27,119 +74,441 @@
     transform: translateY(0);
   }
 
+  /* Alternate: odd events on the left, even events on the right */
+  .about-story-item-{{ a_id }}:nth-child(odd) {
+    align-self: flex-start;
+    padding-right: 48px;
+  }
+
+  .about-story-item-{{ a_id }}:nth-child(even) {
+    align-self: flex-end;
+    padding-left: 48px;
+  }
+
+  /* Dots centred on the line */
+  .about-story-dot-{{ a_id }} {
+    position: absolute;
+    top: calc({{ section.settings.content_padding }}px + 16px);
+    width: {{ section.settings.dot_size }}px;
+    height: {{ section.settings.dot_size }}px;
+    border-radius: 50%;
+    background-color: {{ section.settings.dot_color }};
+    border: {{ section.settings.dot_border_width }}px solid {{ section.settings.dot_border_color }};
+    transition: all 0.3s ease;
+    z-index: 3;
+  }
+
+  .about-story-item-{{ a_id }}:nth-child(odd) .about-story-dot-{{ a_id }} {
+    right: calc({{ section.settings.dot_size }}px / -2);
+  }
+
+  .about-story-item-{{ a_id }}:nth-child(even) .about-story-dot-{{ a_id }} {
+    left: calc({{ section.settings.dot_size }}px / -2);
+  }
+
+  .about-story-item-{{ a_id }}.active .about-story-dot-{{ a_id }} {
+    background-color: {{ section.settings.dot_active_color }};
+    border-color: {{ section.settings.dot_active_border_color }};
+    transform: scale({{ section.settings.dot_active_scale }});
+  }
+
+  .about-story-card-{{ a_id }} {
+    background-color: {{ section.settings.content_bg_color }};
+    padding: {{ section.settings.content_padding }}px;
+    border-radius: {{ section.settings.content_border_radius }}px;
+    opacity: {{ section.settings.content_inactive_opacity }};
+    transition: opacity 0.5s ease;
+  }
+
+  .about-story-item-{{ a_id }}.active .about-story-card-{{ a_id }} {
+    opacity: 1;
+  }
+
   .about-story-image-{{ a_id }} {
-    width: 80px;
-    height: 80px;
-    flex: 0 0 80px;
-    border-radius: 8px;
+    margin-bottom: 14px;
+    border-radius: {{ section.settings.content_border_radius }}px;
     overflow: hidden;
-    background: #f5f5f5;
   }
 
   .about-story-image-{{ a_id }} img {
     width: 100%;
-    height: 100%;
+    aspect-ratio: 16 / 9;
     object-fit: cover;
     display: block;
   }
 
-  .about-story-content-{{ a_id }} {
-    flex: 1 1 auto;
-  }
-
   .about-story-title-{{ a_id }} {
-    margin: 0 0 6px;
-    font-size: 18px;
-    font-weight: 700;
+    margin: 0 0 8px;
+    line-height: 1.3;
   }
 
   .about-story-text-{{ a_id }} {
     margin: 0;
-    color: #666;
-    line-height: 1.5;
+    line-height: 1.6;
   }
 
   @media screen and (max-width: 749px) {
-    .about-story-item-{{ a_id }} {
-      gap: 12px;
-      align-items: center;
+    .about-story-{{ a_id }} {
+      max-width: 100%;
     }
 
-    .about-story-image-{{ a_id }} {
-      width: 64px;
-      height: 64px;
-      flex: 0 0 64px;
+    .about-story-line-{{ a_id }} {
+      left: 18px;
+      transform: none;
     }
 
-    .about-story-title-{{ a_id }} { font-size: 16px; }
+    .about-story-item-{{ a_id }},
+    .about-story-item-{{ a_id }}:nth-child(odd),
+    .about-story-item-{{ a_id }}:nth-child(even) {
+      width: 100%;
+      align-self: auto;
+      padding-right: 0;
+      padding-left: 52px;
+    }
+
+    .about-story-item-{{ a_id }}:nth-child(odd) .about-story-dot-{{ a_id }},
+    .about-story-item-{{ a_id }}:nth-child(even) .about-story-dot-{{ a_id }} {
+      right: auto;
+      left: calc(18px - {{ section.settings.dot_size }}px / 2);
+    }
   }
 {% endstyle %}
 
-<div class="about-story-{{ a_id }}">
-  <div class="about-story-list-{{ a_id }}" data-about-list>
-    {% for block in section.blocks %}
-      <div class="about-story-item-{{ a_id }}" data-about-item {{ block.shopify_attributes }}>
-        {% if block.settings.image != blank %}
-          <div class="about-story-image-{{ a_id }}">
-            <img src="{{ block.settings.image | image_url: width: 200 }}" alt="{{ block.settings.title | escape }}" width="200" height="200" loading="lazy" />
+<div class="about-story-section-{{ a_id }}">
+  <div class="about-story-{{ a_id }}">
+    <div class="about-story-line-{{ a_id }}" data-about-line>
+      <div class="about-story-progress-{{ a_id }}" data-about-progress></div>
+    </div>
+
+    <div class="about-story-list-{{ a_id }}" data-about-list>
+      {% for block in section.blocks %}
+        <div class="about-story-item-{{ a_id }}" data-about-item {{ block.shopify_attributes }}>
+          <div class="about-story-dot-{{ a_id }}"></div>
+
+          <div class="about-story-card-{{ a_id }}">
+            {% if block.settings.image != blank %}
+              <div class="about-story-image-{{ a_id }}">
+                <img
+                  src="{{ block.settings.image | image_url: width: 600 }}"
+                  alt="{{ block.settings.title | escape | default: 'Story image' }}"
+                  loading="lazy"
+                  width="600"
+                  height="338"
+                >
+              </div>
+            {% endif %}
+
+            {% if block.settings.title != blank %}
+              <h3
+                class="about-story-title-{{ a_id }}"
+                style="color: {{ block.settings.title_color }}; font-size: {{ block.settings.title_font_size }}px; font-weight: {{ block.settings.title_font_weight }};"
+              >{{ block.settings.title }}</h3>
+            {% endif %}
+
+            {% if block.settings.text != blank %}
+              <div
+                class="about-story-text-{{ a_id }}"
+                style="color: {{ block.settings.text_color }}; font-size: {{ block.settings.text_font_size }}px;"
+              >{{ block.settings.text }}</div>
+            {% endif %}
           </div>
-        {% endif %}
-
-        <div class="about-story-content-{{ a_id }}">
-          {% if block.settings.title != blank %}
-            <h3 class="about-story-title-{{ a_id }}">{{ block.settings.title }}</h3>
-          {% endif %}
-
-          {% if block.settings.text != blank %}
-            <div class="about-story-text-{{ a_id }}">{{ block.settings.text }}</div>
-          {% endif %}
         </div>
-      </div>
-    {% endfor %}
+      {% endfor %}
+    </div>
   </div>
 </div>
 
 <script>
-  (function(){
-    var root = document.currentScript && document.currentScript.previousElementSibling;
-    // In some environments currentScript may be null. Fallback selector:
-    if (!root) root = document.querySelector('.about-story-{{ a_id }}');
+  (function () {
+    var root = document.querySelector('.about-story-{{ a_id }}');
+    if (!root) return;
 
-    function onIntersect(entries, observer){
-      entries.forEach(function(entry){
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          observer.unobserve(entry.target);
+    var list = root.querySelector('[data-about-list]');
+    var line = root.querySelector('[data-about-line]');
+    var progress = root.querySelector('[data-about-progress]');
+    if (!list || !line || !progress) return;
+
+    var items = Array.prototype.slice.call(list.querySelectorAll('[data-about-item]'));
+
+    function update() {
+      var winH = window.innerHeight;
+      var trigger = winH * 0.75;
+      var listRect = list.getBoundingClientRect();
+      var listH = listRect.height || 1;
+      var maxProgress = 0;
+
+      items.forEach(function (item) {
+        var rect = item.getBoundingClientRect();
+        var mid = rect.top + rect.height / 2;
+
+        if (mid < trigger) {
+          item.classList.add('active');
+
+          var relMid = rect.top - listRect.top + rect.height / 2;
+          var p = (relMid / listH) * 100;
+          if (p > maxProgress) maxProgress = p;
+        } else {
+          item.classList.remove('active');
         }
       });
+
+      progress.style.height = Math.min(maxProgress, 100) + '%';
     }
 
-    function init(){
-      if (!root) return;
-      var items = root.querySelectorAll('[data-about-item]');
-      if (!items.length) return;
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
 
-      var observer = new IntersectionObserver(onIntersect, {
-        root: null,
-        rootMargin: '0px 0px -10% 0px',
-        threshold: 0.1
-      });
+    // Entrance fade-in for cards
+    if ('IntersectionObserver' in window) {
+      var observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { root: null, rootMargin: '0px 0px -10% 0px', threshold: 0.1 });
 
-      items.forEach(function(i){ observer.observe(i); });
-    }
-
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', init);
+      items.forEach(function (item) { observer.observe(item); });
     } else {
-      init();
+      items.forEach(function (item) { item.classList.add('visible'); });
     }
+
+    update();
   })();
 </script>
 
 {% schema %}
 {
   "name": "Custom About Story",
-  "settings": [],
+  "tag": "section",
+  "class": "about-story-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Desktop width",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    },
+    {
+      "type": "header",
+      "content": "Timeline line"
+    },
+    {
+      "type": "range",
+      "id": "line_width",
+      "label": "Line width",
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "unit": "px",
+      "default": 2
+    },
+    {
+      "type": "color",
+      "id": "line_color",
+      "label": "Line color",
+      "default": "#e6e6e6"
+    },
+    {
+      "type": "color",
+      "id": "line_active_color",
+      "label": "Active line color",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Timeline dots"
+    },
+    {
+      "type": "range",
+      "id": "dot_size",
+      "label": "Dot size",
+      "min": 8,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "dot_color",
+      "label": "Dot color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "dot_border_color",
+      "label": "Dot border color",
+      "default": "#e6e6e6"
+    },
+    {
+      "type": "range",
+      "id": "dot_border_width",
+      "label": "Dot border width",
+      "min": 1,
+      "max": 4,
+      "step": 1,
+      "unit": "px",
+      "default": 2
+    },
+    {
+      "type": "color",
+      "id": "dot_active_color",
+      "label": "Active dot color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "dot_active_border_color",
+      "label": "Active dot border color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "dot_active_scale",
+      "label": "Active dot scale",
+      "min": 1,
+      "max": 1.5,
+      "step": 0.1,
+      "default": 1.2
+    },
+    {
+      "type": "header",
+      "content": "Content cards"
+    },
+    {
+      "type": "color",
+      "id": "content_bg_color",
+      "label": "Background color",
+      "default": "#f5f5f5"
+    },
+    {
+      "type": "range",
+      "id": "content_padding",
+      "label": "Padding",
+      "min": 12,
+      "max": 40,
+      "step": 4,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "content_border_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "content_inactive_opacity",
+      "label": "Inactive opacity",
+      "min": 0,
+      "max": 1,
+      "step": 0.1,
+      "default": 0.6
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "padding_left",
+      "label": "Left",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "padding_right",
+      "label": "Right",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Margins"
+    },
+    {
+      "type": "range",
+      "id": "margin_top",
+      "label": "Top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "margin_bottom",
+      "label": "Bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "margin_left",
+      "label": "Left",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "margin_right",
+      "label": "Right",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    }
+  ],
   "blocks": [
     {
       "type": "event",
@@ -161,7 +530,54 @@
           "type": "image_picker",
           "id": "image",
           "label": "Image",
-          "info": "Image will be displayed small"
+          "info": "Shown as a 16:9 cover at the top of the card"
+        },
+        {
+          "type": "header",
+          "content": "Typography"
+        },
+        {
+          "type": "range",
+          "id": "title_font_size",
+          "label": "Title size",
+          "min": 16,
+          "max": 32,
+          "step": 2,
+          "unit": "px",
+          "default": 20
+        },
+        {
+          "type": "select",
+          "id": "title_font_weight",
+          "label": "Title weight",
+          "options": [
+            { "value": "400", "label": "Regular" },
+            { "value": "600", "label": "Semibold" },
+            { "value": "700", "label": "Bold" }
+          ],
+          "default": "700"
+        },
+        {
+          "type": "color",
+          "id": "title_color",
+          "label": "Title color",
+          "default": "#000000"
+        },
+        {
+          "type": "range",
+          "id": "text_font_size",
+          "label": "Text size",
+          "min": 12,
+          "max": 20,
+          "step": 1,
+          "unit": "px",
+          "default": 15
+        },
+        {
+          "type": "color",
+          "id": "text_color",
+          "label": "Text color",
+          "default": "#333333"
         }
       ]
     }
@@ -177,6 +593,22 @@
           "settings": {
             "title": "First event",
             "text": "Describe the first event",
+            "image": ""
+          }
+        },
+        {
+          "type": "event",
+          "settings": {
+            "title": "Second event",
+            "text": "Describe the second event",
+            "image": ""
+          }
+        },
+        {
+          "type": "event",
+          "settings": {
+            "title": "Third event",
+            "text": "Describe the third event",
             "image": ""
           }
         }
