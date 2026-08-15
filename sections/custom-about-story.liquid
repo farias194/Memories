@@ -1,0 +1,187 @@
+{% assign a_id = section.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .about-story-{{ a_id }} {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 40px 20px;
+  }
+
+  .about-story-list-{{ a_id }} {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .about-story-item-{{ a_id }} {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 450ms cubic-bezier(.2,.9,.2,1), transform 450ms cubic-bezier(.2,.9,.2,1);
+  }
+
+  .about-story-item-{{ a_id }}.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .about-story-image-{{ a_id }} {
+    width: 80px;
+    height: 80px;
+    flex: 0 0 80px;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #f5f5f5;
+  }
+
+  .about-story-image-{{ a_id }} img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .about-story-content-{{ a_id }} {
+    flex: 1 1 auto;
+  }
+
+  .about-story-title-{{ a_id }} {
+    margin: 0 0 6px;
+    font-size: 18px;
+    font-weight: 700;
+  }
+
+  .about-story-text-{{ a_id }} {
+    margin: 0;
+    color: #666;
+    line-height: 1.5;
+  }
+
+  @media screen and (max-width: 749px) {
+    .about-story-item-{{ a_id }} {
+      gap: 12px;
+      align-items: center;
+    }
+
+    .about-story-image-{{ a_id }} {
+      width: 64px;
+      height: 64px;
+      flex: 0 0 64px;
+    }
+
+    .about-story-title-{{ a_id }} { font-size: 16px; }
+  }
+{% endstyle %}
+
+<div class="about-story-{{ a_id }}">
+  <div class="about-story-list-{{ a_id }}" data-about-list>
+    {% for block in section.blocks %}
+      <div class="about-story-item-{{ a_id }}" data-about-item {{ block.shopify_attributes }}>
+        {% if block.settings.image != blank %}
+          <div class="about-story-image-{{ a_id }}">
+            <img src="{{ block.settings.image | img_url: '200x200' }}" alt="{{ block.settings.title | escape }}" />
+          </div>
+        {% endif %}
+
+        <div class="about-story-content-{{ a_id }}">
+          {% if block.settings.title != blank %}
+            <h3 class="about-story-title-{{ a_id }}">{{ block.settings.title }}</h3>
+          {% endif %}
+
+          {% if block.settings.text != blank %}
+            <div class="about-story-text-{{ a_id }}">{{ block.settings.text }}</div>
+          {% endif %}
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+<script>
+  (function(){
+    var root = document.currentScript && document.currentScript.previousElementSibling;
+    // In some environments currentScript may be null. Fallback selector:
+    if (!root) root = document.querySelector('.about-story-{{ a_id }}');
+
+    function onIntersect(entries, observer){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }
+
+    function init(){
+      if (!root) return;
+      var items = root.querySelectorAll('[data-about-item]');
+      if (!items.length) return;
+
+      var observer = new IntersectionObserver(onIntersect, {
+        root: null,
+        rootMargin: '0px 0px -10% 0px',
+        threshold: 0.1
+      });
+
+      items.forEach(function(i){ observer.observe(i); });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
+    }
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Custom About Story",
+  "settings": [],
+  "blocks": [
+    {
+      "type": "event",
+      "name": "Event",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": ""
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Text",
+          "default": ""
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image",
+          "info": "Image will be displayed small"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 20,
+  "presets": [
+    {
+      "name": "Custom About Story",
+      "category": "t:categories.custom",
+      "blocks": [
+        {
+          "type": "event",
+          "settings": {
+            "title": "First event",
+            "text": "Describe the first event",
+            "image": ""
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
