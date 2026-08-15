@@ -22,8 +22,10 @@
             {% assign rx = '0%' %}{% assign ry = '100%' %}
           {% when 'bottom right' %}
             {% assign rx = '100%' %}{% assign ry = '100%' %}
+          {% when 'center' %}
+            {% assign rx = '50%' %}{% assign ry = '50%' %}
           {% else %}
-            {% assign rx = '0%' %}{% assign ry = '0%' %}
+            {% assign rx = '50%' %}{% assign ry = '50%' %}
         {% endcase %}
         <div class="hero-fade-custom__radial" style="--radial-pos: {{ section.settings.radial_position }}; --radial-pos-x: {{ rx }}; --radial-pos-y: {{ ry }}; --radial-strength: {{ section.settings.radial_strength | divided_by: 100.0 }}; --radial-duration: {{ section.settings.radial_duration }}s; --radial-scale-min: {{ section.settings.radial_scale_min }}; --radial-scale-max: {{ section.settings.radial_scale_max }};"></div>
       {% endif %}
@@ -67,26 +69,16 @@
   .hero-fade-custom__media-wrapper .hero-fade-custom__radial {
     position: absolute;
     inset: 0;
-    z-index: 2;
+    z-index: 2; /* above the image within the wrapper */
     pointer-events: none;
-  }
-
-  /* draw a circular overlay as a pseudo-element so it remains circular regardless of wrapper aspect ratio */
-  .hero-fade-custom__media-wrapper .hero-fade-custom__radial::before {
-    content: '';
-    position: absolute;
-    left: var(--radial-pos-x, 0%);
-    top: var(--radial-pos-y, 0%);
-    width: 200%;
-    height: 200%;
-    transform: translate(-50%, -50%) scale(calc(var(--radial-scale-min, 80) / 100));
-    transform-origin: center;
-    border-radius: 50%;
-    background: radial-gradient(circle at center, rgba(0,0,0,0) 40%, rgba(0,0,0,var(--radial-strength, 0.95)) 100%);
     mix-blend-mode: normal;
+    /* position the radial gradient by x/y vars and keep it circular */
+    transform-origin: var(--radial-pos-x, 0%) var(--radial-pos-y, 0%);
     animation: radial-pulse var(--radial-duration, 12s) ease-in-out infinite;
-    pointer-events: none;
-    z-index: 2;
+    background: radial-gradient(circle at var(--radial-pos-x, 0%) var(--radial-pos-y, 0%), rgba(0,0,0,0) 40%, rgba(0,0,0,var(--radial-strength, 0.95)) 100%);
+    background-repeat: no-repeat;
+    background-size: 200% 200%;
+    transform: scale(calc(var(--radial-scale-min, 80) / 100));
   }
 
   @keyframes radial-pulse {
@@ -253,9 +245,10 @@
         { "value": "top left", "label": "Top left" },
         { "value": "top right", "label": "Top right" },
         { "value": "bottom left", "label": "Bottom left" },
-        { "value": "bottom right", "label": "Bottom right" }
+        { "value": "bottom right", "label": "Bottom right" },
+        { "value": "center", "label": "Center" }
       ],
-      "default": "top left"
+      "default": "center"
     },
     {
       "type": "range",
