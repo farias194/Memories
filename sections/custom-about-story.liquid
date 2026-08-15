@@ -1,9 +1,10 @@
 {% comment %}
 Custom About Story section
-Displays brand story milestones as an animated vertical timeline: a centered
-line sits behind the events and fills with progress as the user scrolls.
-Events alternate left/right on desktop and stack on a left-aligned line on
-mobile. Fully self-contained: styles and scripts are scoped to this section.
+Displays brand story milestones as a vertical timeline: a single centered
+column of event cards with a line running down the middle behind the cards.
+A dot sits centered on the line above each card and flips to the active line
+color as the scroll-driven progress fill crosses it. Fully self-contained:
+styles and scripts are scoped to this section.
 {% endcomment %}
 
 {% assign a_id = section.id | replace: '_', '' | downcase %}
@@ -28,11 +29,11 @@ mobile. Fully self-contained: styles and scripts are scoped to this section.
 
   .about-story-list-{{ a_id }} {
     position: relative;
-    display: flex;
-    flex-direction: column;
+    max-width: {{ section.settings.content_max_width }}px;
+    margin: 0 auto;
   }
 
-  /* Centered line behind the events */
+  /* Line behind the events, centered */
   .about-story-line-{{ a_id }} {
     position: absolute;
     left: 50%;
@@ -52,76 +53,45 @@ mobile. Fully self-contained: styles and scripts are scoped to this section.
     width: 100%;
     height: 0%;
     background-color: {{ section.settings.line_active_color }};
-    transition: height 0.25s ease;
   }
 
   .about-story-item-{{ a_id }} {
     position: relative;
-    width: 50%;
-    margin-bottom: 48px;
-    opacity: 0;
-    transform: translateY(24px);
-    transition: opacity 450ms cubic-bezier(.2,.9,.2,1), transform 450ms cubic-bezier(.2,.9,.2,1);
+    padding-top: 28px;
+    padding-bottom: {{ section.settings.item_gap }}px;
+    text-align: center;
     z-index: 2;
   }
 
   .about-story-item-{{ a_id }}:last-child {
-    margin-bottom: 0;
+    padding-bottom: 0;
   }
 
-  .about-story-item-{{ a_id }}.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  /* Alternate: odd events on the left, even events on the right */
-  .about-story-item-{{ a_id }}:nth-child(odd) {
-    align-self: flex-start;
-    padding-right: 48px;
-  }
-
-  .about-story-item-{{ a_id }}:nth-child(even) {
-    align-self: flex-end;
-    padding-left: 48px;
-  }
-
-  /* Dots centred on the line */
+  /* Dots centred on the line, straddling it */
   .about-story-dot-{{ a_id }} {
     position: absolute;
-    top: calc({{ section.settings.content_padding }}px + 16px);
+    left: 50%;
+    top: 0;
+    transform: translateX(-50%);
     width: {{ section.settings.dot_size }}px;
     height: {{ section.settings.dot_size }}px;
     border-radius: 50%;
     background-color: {{ section.settings.dot_color }};
     border: {{ section.settings.dot_border_width }}px solid {{ section.settings.dot_border_color }};
-    transition: all 0.3s ease;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
     z-index: 3;
   }
 
-  .about-story-item-{{ a_id }}:nth-child(odd) .about-story-dot-{{ a_id }} {
-    right: calc({{ section.settings.dot_size }}px / -2);
-  }
-
-  .about-story-item-{{ a_id }}:nth-child(even) .about-story-dot-{{ a_id }} {
-    left: calc({{ section.settings.dot_size }}px / -2);
-  }
-
   .about-story-item-{{ a_id }}.active .about-story-dot-{{ a_id }} {
-    background-color: {{ section.settings.dot_active_color }};
-    border-color: {{ section.settings.dot_active_border_color }};
-    transform: scale({{ section.settings.dot_active_scale }});
+    background-color: {{ section.settings.line_active_color }};
+    border-color: {{ section.settings.line_active_color }};
   }
 
   .about-story-card-{{ a_id }} {
     background-color: {{ section.settings.content_bg_color }};
     padding: {{ section.settings.content_padding }}px;
     border-radius: {{ section.settings.content_border_radius }}px;
-    opacity: {{ section.settings.content_inactive_opacity }};
-    transition: opacity 0.5s ease;
-  }
-
-  .about-story-item-{{ a_id }}.active .about-story-card-{{ a_id }} {
-    opacity: 1;
+    text-align: left;
   }
 
   .about-story-image-{{ a_id }} {
@@ -152,24 +122,8 @@ mobile. Fully self-contained: styles and scripts are scoped to this section.
       max-width: 100%;
     }
 
-    .about-story-line-{{ a_id }} {
-      left: 18px;
-      transform: none;
-    }
-
-    .about-story-item-{{ a_id }},
-    .about-story-item-{{ a_id }}:nth-child(odd),
-    .about-story-item-{{ a_id }}:nth-child(even) {
-      width: 100%;
-      align-self: auto;
-      padding-right: 0;
-      padding-left: 52px;
-    }
-
-    .about-story-item-{{ a_id }}:nth-child(odd) .about-story-dot-{{ a_id }},
-    .about-story-item-{{ a_id }}:nth-child(even) .about-story-dot-{{ a_id }} {
-      right: auto;
-      left: calc(18px - {{ section.settings.dot_size }}px / 2);
+    .about-story-list-{{ a_id }} {
+      max-width: 100%;
     }
   }
 {% endstyle %}
@@ -257,23 +211,6 @@ mobile. Fully self-contained: styles and scripts are scoped to this section.
 
     window.addEventListener('scroll', update, { passive: true });
     window.addEventListener('resize', update);
-
-    // Entrance fade-in for cards
-    if ('IntersectionObserver' in window) {
-      var observer = new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry) {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
-            observer.unobserve(entry.target);
-          }
-        });
-      }, { root: null, rootMargin: '0px 0px -10% 0px', threshold: 0.1 });
-
-      items.forEach(function (item) { observer.observe(item); });
-    } else {
-      items.forEach(function (item) { item.classList.add('visible'); });
-    }
-
     update();
   })();
 </script>
@@ -297,6 +234,16 @@ mobile. Fully self-contained: styles and scripts are scoped to this section.
       "step": 5,
       "unit": "%",
       "default": 100
+    },
+    {
+      "type": "range",
+      "id": "content_max_width",
+      "label": "Content column width",
+      "min": 480,
+      "max": 900,
+      "step": 20,
+      "unit": "px",
+      "default": 720
     },
     {
       "type": "header",
@@ -332,11 +279,11 @@ mobile. Fully self-contained: styles and scripts are scoped to this section.
       "type": "range",
       "id": "dot_size",
       "label": "Dot size",
-      "min": 8,
-      "max": 24,
+      "min": 10,
+      "max": 28,
       "step": 2,
       "unit": "px",
-      "default": 16
+      "default": 18
     },
     {
       "type": "color",
@@ -361,27 +308,6 @@ mobile. Fully self-contained: styles and scripts are scoped to this section.
       "default": 2
     },
     {
-      "type": "color",
-      "id": "dot_active_color",
-      "label": "Active dot color",
-      "default": "#000000"
-    },
-    {
-      "type": "color",
-      "id": "dot_active_border_color",
-      "label": "Active dot border color",
-      "default": "#000000"
-    },
-    {
-      "type": "range",
-      "id": "dot_active_scale",
-      "label": "Active dot scale",
-      "min": 1,
-      "max": 1.5,
-      "step": 0.1,
-      "default": 1.2
-    },
-    {
       "type": "header",
       "content": "Content cards"
     },
@@ -396,7 +322,7 @@ mobile. Fully self-contained: styles and scripts are scoped to this section.
       "id": "content_padding",
       "label": "Padding",
       "min": 12,
-      "max": 40,
+      "max": 48,
       "step": 4,
       "unit": "px",
       "default": 24
@@ -412,13 +338,18 @@ mobile. Fully self-contained: styles and scripts are scoped to this section.
       "default": 8
     },
     {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
       "type": "range",
-      "id": "content_inactive_opacity",
-      "label": "Inactive opacity",
-      "min": 0,
-      "max": 1,
-      "step": 0.1,
-      "default": 0.6
+      "id": "item_gap",
+      "label": "Gap between events",
+      "min": 24,
+      "max": 120,
+      "step": 8,
+      "unit": "px",
+      "default": 56
     },
     {
       "type": "header",
