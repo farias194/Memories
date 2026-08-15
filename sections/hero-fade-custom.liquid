@@ -34,8 +34,6 @@
       {% endif %}
     </div>
   </div>
-  <div class="hero-fade-custom__overlay"></div>
-
   <div class="hero-fade-custom__content spacing-style" style="{% render 'spacing-style', settings: section.settings %}">
     {{ children }}
   </div>
@@ -45,7 +43,6 @@
   .hero-fade-custom {
     position: relative;
     overflow: hidden;
-    --fade-overlay-color: rgba(0,0,0,0.32);
   }
 
   .hero-fade-custom__background {
@@ -89,14 +86,6 @@
     100% { -webkit-mask-size: var(--mask-size-min, 80%); mask-size: var(--mask-size-min, 80%); opacity: 1; }
   }
 
-  .hero-fade-custom__overlay {
-    position: absolute;
-    inset: 0;
-    z-index: var(--layer-1);
-    pointer-events: none;
-    /* subtle top-to-bottom fade to transparent */
-    background: linear-gradient(to bottom, var(--fade-overlay-color), transparent 45%);
-  }
 
   .hero-fade-custom__content {
     position: relative;
