@@ -9,6 +9,7 @@ Fully self-contained: styles and scripts are scoped to this section only.
 {% style %}
   .testimonials-{{ t_id }} {
     --testimonial-bg: {{ section.settings.card_background_color }};
+    --testimonial-bg-alt: {{ section.settings.card_alternate_background_color }};
     --testimonial-text: {{ section.settings.card_text_color }};
     --testimonial-star: {{ section.settings.star_color }};
     padding: 48px 20px;
@@ -66,6 +67,12 @@ Fully self-contained: styles and scripts are scoped to this section only.
     scroll-snap-align: start;
     flex: 0 0 {{ section.settings.card_width }}%;
   }
+
+  {% if section.settings.alternating_colors %}
+    .testimonials-{{ t_id }}__card:nth-child(even) {
+      background-color: var(--testimonial-bg-alt);
+    }
+  {% endif %}
 
   .testimonials-{{ t_id }}__card[hidden] {
     display: none;
@@ -378,6 +385,20 @@ Fully self-contained: styles and scripts are scoped to this section only.
       "id": "card_background_color",
       "label": "Card background",
       "default": "#F5F5F5"
+    },
+    {
+      "type": "checkbox",
+      "id": "alternating_colors",
+      "label": "Alternating colors",
+      "info": "Cards alternate between the card background color and the alternate card background color below.",
+      "default": false
+    },
+    {
+      "type": "color",
+      "id": "card_alternate_background_color",
+      "label": "Alternate card background",
+      "default": "#E8E8E8",
+      "visible_if": "{{ section.settings.alternating_colors }}"
     },
     {
       "type": "color",

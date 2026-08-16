@@ -4,7 +4,7 @@
       "type": "gift-quiz",
       "settings": {
         "heading": "Find the perfect gift",
-        "description": "<p>Answer a few quick questions and we'll recommend the perfect gift for your loved one.</p>",
+        "description": "<p>Answer a few quick questions and we'll recommend the perfect gift for your loved one.<\/p>",
         "content_max_width": 760,
         "header_alignment": "center",
         "product_columns": 3,
@@ -54,7 +54,7 @@
           "type": "result",
           "settings": {
             "title": "A romantic sparkle",
-            "description": "<p>Something that says it best — elegant, personal, and sure to be treasured.</p>",
+            "description": "<p>Something that says it best — elegant, personal, and sure to be treasured.<\/p>",
             "tags": "romantic,sparkle",
             "products": "product-handle-1\nproduct-handle-2"
           }
@@ -63,7 +63,7 @@
           "type": "result",
           "settings": {
             "title": "Cozy & thoughtful",
-            "description": "<p>Warm, personal, and made to be remembered for years to come.</p>",
+            "description": "<p>Warm, personal, and made to be remembered for years to come.<\/p>",
             "tags": "thoughtful,cozy,classic",
             "products": "product-handle-3\nproduct-handle-4"
           }
@@ -72,7 +72,7 @@
           "type": "result",
           "settings": {
             "title": "Fun & trendy",
-            "description": "<p>Something current and guaranteed to make them smile.</p>",
+            "description": "<p>Something current and guaranteed to make them smile.<\/p>",
             "tags": "fun,trendy,playful",
             "products": "product-handle-5"
           }

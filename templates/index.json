@@ -221,6 +221,112 @@
         "padding-block-end": 0
       }
     },
+    "section_Q4kKyg": {
+      "type": "section",
+      "blocks": {
+        "text_eRiC6M": {
+          "type": "text",
+          "name": "t:names.heading",
+          "settings": {
+            "text": "<h2>City That Never Sleeps<\/h2>",
+            "width": "100%",
+            "max_width": "normal",
+            "alignment": "center",
+            "type_preset": "h2",
+            "font": "var(--font-body--family)",
+            "font_size": "1rem",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "color": "var(--color-foreground)",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 21,
+            "padding-block-end": 21,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        },
+        "text_Y8DWKz": {
+          "type": "text",
+          "name": "t:names.text",
+          "settings": {
+            "text": "<p>For the past 30 years, Memories of New York has been a must-see stop for  thousands of tourists from around the world who want to take home a part of the Big Apple. We carry hundreds of items of your liking - from the  classic \"I  New York\" t-shirts to handbags, snow globes, and keychains -- we have it  all! All of our items are officially licensed New York City souvenirs  and we also offer unique and hard to find pop culture merchandise.<\/p>",
+            "width": "fit-content",
+            "max_width": "normal",
+            "alignment": "left",
+            "type_preset": "rte",
+            "font": "var(--font-body--family)",
+            "font_size": "1rem",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "color": "var(--color-foreground)",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 54,
+            "padding-block-end": 57,
+            "padding-inline-start": 10,
+            "padding-inline-end": 5
+          },
+          "blocks": {}
+        },
+        "button_AJApFf": {
+          "type": "button",
+          "name": "t:names.button",
+          "settings": {
+            "label": "Learn More",
+            "link": "shopify:\/\/pages\/about-page",
+            "open_in_new_tab": false,
+            "style_class": "button-secondary",
+            "width": "fit-content",
+            "custom_width": 100,
+            "width_mobile": "fit-content",
+            "custom_width_mobile": 100
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "text_eRiC6M",
+        "text_Y8DWKz",
+        "button_AJApFf"
+      ],
+      "name": "About Section",
+      "settings": {
+        "content_direction": "column",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "center",
+        "vertical_alignment": "center",
+        "align_baseline": false,
+        "horizontal_alignment_flex_direction_column": "center",
+        "vertical_alignment_flex_direction_column": "flex-start",
+        "gap": 1,
+        "section_width": "full-width",
+        "section_height": "",
+        "section_height_custom": 50,
+        "color_scheme": "scheme-1be183ca-398d-4673-9be5-93de466733c1",
+        "background_media": "image",
+        "video_position": "cover",
+        "background_image": "shopify:\/\/shop_images\/874__MG_9919.jpg",
+        "background_image_position": "cover",
+        "border": "solid",
+        "border_width": 10,
+        "border_opacity": 0,
+        "border_radius": 0,
+        "toggle_overlay": true,
+        "overlay_color": "#fffefdba",
+        "overlay_style": "solid",
+        "gradient_direction": "to top",
+        "padding-block-start": 100,
+        "padding-block-end": 22
+      }
+    },
     "product_list_c9EKfE": {
       "type": "product-list",
       "blocks": {
@@ -636,112 +742,6 @@
         "color_scheme": "scheme-b47cba1b-a009-4dfb-8517-ae8309e76dfc",
         "padding-block-start": 39,
         "padding-block-end": 100
-      }
-    },
-    "section_Q4kKyg": {
-      "type": "section",
-      "blocks": {
-        "text_eRiC6M": {
-          "type": "text",
-          "name": "t:names.heading",
-          "settings": {
-            "text": "<h2>City That Never Sleeps<\/h2>",
-            "width": "100%",
-            "max_width": "normal",
-            "alignment": "center",
-            "type_preset": "h2",
-            "font": "var(--font-body--family)",
-            "font_size": "1rem",
-            "line_height": "normal",
-            "letter_spacing": "normal",
-            "case": "none",
-            "wrap": "pretty",
-            "color": "var(--color-foreground)",
-            "background": false,
-            "background_color": "#00000026",
-            "corner_radius": 0,
-            "padding-block-start": 21,
-            "padding-block-end": 21,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {}
-        },
-        "text_Y8DWKz": {
-          "type": "text",
-          "name": "t:names.text",
-          "settings": {
-            "text": "<p>For the past 30 years, Memories of New York has been a must-see stop for  thousands of tourists from around the world who want to take home a part of the Big Apple. We carry hundreds of items of your liking - from the  classic \"I  New York\" t-shirts to handbags, snow globes, and keychains -- we have it  all! All of our items are officially licensed New York City souvenirs  and we also offer unique and hard to find pop culture merchandise.<\/p>",
-            "width": "fit-content",
-            "max_width": "normal",
-            "alignment": "left",
-            "type_preset": "rte",
-            "font": "var(--font-body--family)",
-            "font_size": "1rem",
-            "line_height": "normal",
-            "letter_spacing": "normal",
-            "case": "none",
-            "wrap": "pretty",
-            "color": "var(--color-foreground)",
-            "background": false,
-            "background_color": "#00000026",
-            "corner_radius": 0,
-            "padding-block-start": 54,
-            "padding-block-end": 57,
-            "padding-inline-start": 10,
-            "padding-inline-end": 5
-          },
-          "blocks": {}
-        },
-        "button_AJApFf": {
-          "type": "button",
-          "name": "t:names.button",
-          "settings": {
-            "label": "Learn More",
-            "link": "shopify:\/\/pages\/about-page",
-            "open_in_new_tab": false,
-            "style_class": "button-secondary",
-            "width": "fit-content",
-            "custom_width": 100,
-            "width_mobile": "fit-content",
-            "custom_width_mobile": 100
-          },
-          "blocks": {}
-        }
-      },
-      "block_order": [
-        "text_eRiC6M",
-        "text_Y8DWKz",
-        "button_AJApFf"
-      ],
-      "name": "About Section",
-      "settings": {
-        "content_direction": "column",
-        "vertical_on_mobile": true,
-        "horizontal_alignment": "center",
-        "vertical_alignment": "center",
-        "align_baseline": false,
-        "horizontal_alignment_flex_direction_column": "center",
-        "vertical_alignment_flex_direction_column": "flex-start",
-        "gap": 1,
-        "section_width": "full-width",
-        "section_height": "",
-        "section_height_custom": 50,
-        "color_scheme": "scheme-1be183ca-398d-4673-9be5-93de466733c1",
-        "background_media": "image",
-        "video_position": "cover",
-        "background_image": "shopify:\/\/shop_images\/874__MG_9919.jpg",
-        "background_image_position": "cover",
-        "border": "solid",
-        "border_width": 10,
-        "border_opacity": 0,
-        "border_radius": 0,
-        "toggle_overlay": true,
-        "overlay_color": "#fffefdba",
-        "overlay_style": "solid",
-        "gradient_direction": "to top",
-        "padding-block-start": 100,
-        "padding-block-end": 22
       }
     },
     "marquee_qQiFzh": {
@@ -1524,6 +1524,9 @@
         "card_background_color": "#f5f5f5",
         "card_text_color": "#1a1a1a",
         "star_color": "#f5a623",
+        "card_gap": 24,
+        "card_border_width": 0,
+        "card_border_color": "#e0e0e0",
         "card_border_radius": 12,
         "heading_type_preset": "h3",
         "description_type_preset": "paragraph"
@@ -1569,13 +1572,92 @@
         "gradient_mid": 45,
         "gradient_end": 75
       }
+    },
+    "gift_quiz_3bQ6xy": {
+      "type": "gift-quiz",
+      "blocks": {
+        "question_GhtFQJ": {
+          "type": "question",
+          "settings": {
+            "question": "Who is this gift for?",
+            "subtitle": "This helps us narrow things down.",
+            "allow_multiple": false,
+            "options": "Partner | romantic,sparkle\nParent | thoughtful,cozy\nFriend | fun,trendy\nChild | playful"
+          }
+        },
+        "question_hXgmp3": {
+          "type": "question",
+          "settings": {
+            "question": "What's the occasion?",
+            "subtitle": "Pick the closest match.",
+            "allow_multiple": false,
+            "options": "Anniversary | romantic\nBirthday | fun,trendy\nJust because | thoughtful\nHoliday | cozy,classic"
+          }
+        },
+        "result_3hGJVg": {
+          "type": "result",
+          "settings": {
+            "title": "A romantic sparkle",
+            "description": "<p>Something that says it best — elegant and personal.<\/p>",
+            "tags": "romantic,sparkle",
+            "products": "product-handle-1\nproduct-handle-2"
+          }
+        },
+        "result_6CdDt7": {
+          "type": "result",
+          "settings": {
+            "title": "Cozy & thoughtful",
+            "description": "<p>Warm, personal, and made to be remembered.<\/p>",
+            "tags": "thoughtful,cozy,classic",
+            "products": "product-handle-3\nproduct-handle-4"
+          }
+        },
+        "result_pmaX4D": {
+          "type": "result",
+          "settings": {
+            "title": "Fun & trendy",
+            "description": "<p>Something current and sure to make them smile.<\/p>",
+            "tags": "fun,trendy,playful",
+            "products": "product-handle-5"
+          }
+        }
+      },
+      "block_order": [
+        "question_GhtFQJ",
+        "question_hXgmp3",
+        "result_3hGJVg",
+        "result_6CdDt7",
+        "result_pmaX4D"
+      ],
+      "name": "Gift Quiz",
+      "settings": {
+        "heading": "Find the perfect gift",
+        "description": "<p>Answer a few questions and we'll recommend the perfect gift for you.<\/p>",
+        "content_max_width": 760,
+        "header_alignment": "center",
+        "product_columns": 3,
+        "heading_type_preset": "h2",
+        "description_type_preset": "paragraph",
+        "question_type_preset": "h3",
+        "result_title_type_preset": "h3",
+        "result_description_type_preset": "paragraph",
+        "padding_top": 48,
+        "padding_bottom": 48,
+        "padding_left": 20,
+        "padding_right": 20,
+        "margin_top": 0,
+        "margin_bottom": 0,
+        "margin_left": 0,
+        "margin_right": 0,
+        "color_scheme": "scheme-b47cba1b-a009-4dfb-8517-ae8309e76dfc"
+      }
     }
   },
   "order": [
     "slideshow_iwFDnr",
+    "section_Q4kKyg",
     "product_list_c9EKfE",
     "collection_list_piHYj3",
-    "section_Q4kKyg",
     "marquee_qQiFzh",
     "featured_product_information_mAkrEW",
     "media_with_content_RmPxat",
@@ -1583,6 +1665,7 @@
     "marquee_gHzWf6",
     "store_location_x36pmi",
     "testimonials_bFBqDq",
-    "alternate_hero_fEwH79"
+    "alternate_hero_fEwH79",
+    "gift_quiz_3bQ6xy"
   ]
 }
