@@ -26,10 +26,14 @@ Fully self-contained: styles are scoped to this section only.
 {% endif %}
 
 {% style %}
+  .store-location-section {
+    position: relative;
+  }
+
   .store-location-{{ sl_id }} {
-    --sl-bg: {{ section.settings.card_background_color }};
-    --sl-text: {{ section.settings.text_color }};
-    --sl-accent: {{ section.settings.accent_color }};
+    --sl-bg: {% if section.settings.card_background_color != blank %}{{ section.settings.card_background_color }}{% else %}var(--color-background){% endif %};
+    --sl-text: {% if section.settings.text_color != blank %}{{ section.settings.text_color }}{% else %}var(--color-foreground){% endif %};
+    --sl-accent: {% if section.settings.accent_color != blank %}{{ section.settings.accent_color }}{% else %}var(--color-primary){% endif %};
     padding: 48px 20px;
     max-width: 1200px;
     margin: 0 auto;
@@ -44,6 +48,7 @@ Fully self-contained: styles are scoped to this section only.
     margin: 0 0 8px;
     font-size: {{ section.settings.heading_size }}px;
     line-height: 1.2;
+    color: var(--sl-text);
   }
 
   .store-location-{{ sl_id }}__description {
@@ -162,7 +167,7 @@ Fully self-contained: styles are scoped to this section only.
     align-items: baseline;
     gap: 16px;
     padding: 8px 0;
-    border-bottom: 1px dashed rgba(0, 0, 0, 0.15);
+    border-bottom: 1px dashed var(--color-border);
     font-size: 14px;
   }
 
@@ -241,7 +246,8 @@ Fully self-contained: styles are scoped to this section only.
   }
 {% endstyle %}
 
-<div class="store-location-{{ sl_id }}">
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<div class="store-location-{{ sl_id }} color-{{ section.settings.color_scheme }}">
   <div class="store-location-{{ sl_id }}__header">
     {% if section.settings.heading != blank %}
       <h2 class="store-location-{{ sl_id }}__heading">{{ section.settings.heading }}</h2>
@@ -428,22 +434,31 @@ Fully self-contained: styles are scoped to this section only.
       "content": "Style"
     },
     {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
       "type": "color",
       "id": "card_background_color",
       "label": "Card background",
-      "default": "#F5F5F5"
+      "info": "Optional. Leave blank to use the selected color scheme's background.",
+      "default": ""
     },
     {
       "type": "color",
       "id": "text_color",
       "label": "Text color",
-      "default": "#1A1A1A"
+      "info": "Optional. Leave blank to use the selected color scheme's text color.",
+      "default": ""
     },
     {
       "type": "color",
       "id": "accent_color",
       "label": "Accent color",
-      "default": "#B33030"
+      "info": "Optional. Leave blank to use the selected color scheme's accent color.",
+      "default": ""
     },
     {
       "type": "range",
