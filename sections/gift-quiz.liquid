@@ -17,6 +17,10 @@ the theme's design tokens (colors, fonts) rather than hard-coded look.
 -%}
 
 {% style %}
+  .gift-quiz-section {
+    position: relative;
+  }
+
   .gift-quiz-section-{{ qz_id }} {
     padding-top: {{ section.settings.padding_top }}px;
     padding-right: {{ section.settings.padding_right }}px;
@@ -329,7 +333,8 @@ the theme's design tokens (colors, fonts) rather than hard-coded look.
   }
 {% endstyle %}
 
-<div class="gift-quiz-section-{{ qz_id }}" data-gift-quiz-root="{{ qz_id }}">
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<div class="gift-quiz-section-{{ qz_id }} color-{{ section.settings.color_scheme }}" data-gift-quiz-root="{{ qz_id }}">
   <div class="gift-quiz-{{ qz_id }}">
     {% if section.settings.heading != blank or section.settings.description != blank %}
       <div class="gift-quiz-{{ qz_id }}__header">
@@ -1010,6 +1015,16 @@ the theme's design tokens (colors, fonts) rather than hard-coded look.
       "step": 4,
       "unit": "px",
       "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
     }
   ],
   "blocks": [
