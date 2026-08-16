@@ -37,12 +37,12 @@ Fully self-contained: styles and scripts are scoped to this section only.
   .testimonials-{{ t_id }}__grid {
     display: grid;
     grid-template-columns: repeat({{ section.settings.columns }}, 1fr);
-    gap: 24px;
+    gap: {{ section.settings.card_gap }}px;
   }
 
   .testimonials-{{ t_id }}__carousel {
     display: flex;
-    gap: 24px;
+    gap: {{ section.settings.card_gap }}px;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
     scroll-behavior: smooth;
@@ -57,6 +57,7 @@ Fully self-contained: styles and scripts are scoped to this section only.
 
   .testimonials-{{ t_id }}__card {
     background-color: var(--testimonial-bg);
+    border: {{ section.settings.card_border_width }}px solid {{ section.settings.card_border_color }};
     border-radius: {{ section.settings.card_border_radius }}px;
     padding: 28px;
     display: flex;
@@ -389,6 +390,32 @@ Fully self-contained: styles and scripts are scoped to this section only.
       "id": "star_color",
       "label": "Star color",
       "default": "#F5A623"
+    },
+    {
+      "type": "range",
+      "id": "card_gap",
+      "label": "Card spacing",
+      "min": 0,
+      "max": 64,
+      "step": 4,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "card_border_width",
+      "label": "Card border thickness",
+      "min": 0,
+      "max": 8,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "color",
+      "id": "card_border_color",
+      "label": "Card border color",
+      "default": "#E0E0E0"
     },
     {
       "type": "range",
