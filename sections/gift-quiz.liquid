@@ -352,7 +352,7 @@ the theme's design tokens (colors, fonts) rather than hard-coded look.
       {%- if block.type == 'question' -%}{%- assign qz_question_count = qz_question_count | plus: 1 -%}{%- endif -%}
       {%- if block.type == 'result' -%}{%- assign qz_has_result = true -%}{%- endif -%}
     {%- endfor -%}
-ss
+
     {% if qz_question_count == 0 %}
       <p>Add at least one question block in the theme editor to use the gift quiz.</p>
     {% else %}
