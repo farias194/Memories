@@ -1,0 +1,63 @@
+{% comment %}
+  ==================================================
+  DISCOUNT PROGRESS BAR – Step 4
+  ==================================================
+  Fetches the discount messages metaobject and renders
+  a progress bar if the cart qualifies.
+{% endcomment %}
+
+{%- assign metaobject_handle = 'discount_messages' -%}
+{%- assign metaobject = shop.metaobjects[metaobject_handle].value -%}
+
+{%- if metaobject and metaobject.messages_json != blank -%}
+  {%- comment -%} Parse the JSON string into a Liquid array {%- endcomment -%}
+  {%- assign messages = metaobject.messages_json | parse_json -%}
+
+  {%- if messages.size > 0 -%}
+    {%- comment -%} Get cart subtotal in cents (minor units) {%- endcomment -%}
+    {%- assign cart_subtotal_cents = cart.items_subtotal_price | times: 100 -%}
+
+    {%- comment -%} Find the NEXT threshold the customer hasn't reached yet {%- endcomment -%}
+    {%- assign next_threshold = nil -%}
+    {%- for msg in messages -%}
+      {%- if msg.enabled == true and msg.thresholdMinor > cart_subtotal_cents -%}
+        {%- if next_threshold == nil or msg.thresholdMinor < next_threshold.thresholdMinor -%}
+          {%- assign next_threshold = msg -%}
+        {%- endif -%}
+      {%- endif -%}
+    {%- endfor -%}
+
+    {%- if next_threshold != nil -%}
+      {%- comment -%} Calculate progress percentage {%- endcomment -%}
+      {%- assign progress_cents = cart_subtotal_cents -%}
+      {%- assign target_cents = next_threshold.thresholdMinor -%}
+      {%- assign percentage = progress_cents | times: 100 | divided_by: target_cents -%}
+      {%- if percentage > 100 -%}{%- assign percentage = 100 -%}{%- endif -%}
+
+      {%- comment -%} Format the remaining amount in the store currency {%- endcomment -%}
+      {%- assign remaining_cents = target_cents | minus: progress_cents -%}
+      {%- assign remaining_amount = remaining_cents | divided_by: 100 | round: 2 -%}
+
+      {%- comment -%} Render the progress bar HTML {%- endcomment -%}
+      <div class="discount-progress-bar" style="margin: 1rem 0; padding: 1rem; background: #f5f5f5; border-radius: 8px;">
+        <div style="display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 8px;">
+          <span>
+            🛒 Spend <strong>{{ remaining_amount | money }}</strong> more to unlock <strong>{{ next_threshold.label }}</strong>
+          </span>
+          <span>{{ percentage | round: 0 }}%</span>
+        </div>
+        <div style="width: 100%; height: 8px; background: #e0e0e0; border-radius: 4px; overflow: hidden;">
+          <div style="width: {{ percentage }}%; height: 100%; background: #2e7d32; transition: width 0.3s ease;"></div>
+        </div>
+        <p style="margin: 8px 0 0 0; font-size: 12px; color: #666;">
+          {{ next_threshold.title }} – Add items to your cart to qualify.
+        </p>
+      </div>
+    {%- else -%}
+      {%- comment -%} All thresholds reached – show a "congrats" message {%- endcomment -%}
+      <div class="discount-progress-bar" style="margin: 1rem 0; padding: 1rem; background: #e8f5e9; border-radius: 8px;">
+        🎉 You've unlocked all available discounts!
+      </div>
+    {%- endif -%}
+  {%- endif -%}
+{%- endif -%}
