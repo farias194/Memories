@@ -4,20 +4,13 @@
   ==================================================
   Reads one metaobject entry per discount threshold
   (type: discount_threshold) and renders a progress
-  bar if the cart qualifies. No JSON parsing needed —
-  this theme era's Liquid reads metaobjects natively.
+  bar if the cart qualifies.
 {% endcomment %}
 
 {%- assign cart_subtotal_cents = cart.items_subtotal_price -%}
 {%- assign thresholds = metaobjects['discount_threshold'] -%}
 
-{%- if thresholds == blank -%}
-  <div style="border: 2px dashed red; padding: 0.5rem 1rem; margin: 1rem 0; font-size: 13px;">
-    <strong>DEBUG discount-progress-bar:</strong> no <code>discount_threshold</code> entries found.
-    <br>Store: {{ shop.permanent_domain }}
-    <br>Cart subtotal (cents): {{ cart_subtotal_cents }}
-  </div>
-{%- else -%}
+{%- if thresholds != blank -%}
   {%- comment -%} Find the NEXT threshold the customer hasn't reached yet {%- endcomment -%}
   {%- assign next_threshold = nil -%}
   {%- for pair in thresholds -%}

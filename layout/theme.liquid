@@ -39,10 +39,6 @@
   </head>
 
   <body class="page-width-{{ settings.page_width }} card-hover-effect-{{ settings.card_hover_effect }}">
-    {% comment %} TEMP V2 DEPLOYMENT MARKER — remove after testing {% endcomment %}
-    <div style="position: fixed; top: 0; right: 0; z-index: 99999; background: #ff00ff; color: #fff; padding: 6px 10px; font-size: 12px; font-weight: bold;">
-      V2-THEME-ACTIVE
-    </div>
     {% render 'skip-to-content-link', href: '#MainContent', text: 'accessibility.skip_to_text' %}
     <div id="header-group">
       {% sections 'header-group' %}
