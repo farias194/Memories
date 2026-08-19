@@ -6,7 +6,7 @@
   a progress bar if the cart qualifies.
 {% endcomment %}
 
-{%- assign metaobject_handle = '$app:discount_messages' -%}
+{%- assign metaobject_handle = 'discount_messages' -%}
 {%- assign metaobject = shop.metaobjects[metaobject_handle].value -%}
 
 {%- if metaobject and metaobject.messages_json != blank -%}
