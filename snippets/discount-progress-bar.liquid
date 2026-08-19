@@ -64,6 +64,9 @@
     <div style="border: 2px dashed red; padding: 0.5rem 1rem; margin: 1rem 0; font-size: 13px;">
       <strong>DEBUG discount-progress-bar:</strong> <code>messages_json</code> parsed to an empty list (0 messages).
       <br>Raw messages_json value: <code>{{ metaobject.messages_json }}</code>
+      <br>parse_json('[1,2]') size: {{ '[1,2]' | parse_json | size }}
+      <br>messages_json length: {{ metaobject.messages_json | size }}
+      <br>messages_json.value length: {{ metaobject.messages_json.value | size }}
     </div>
   {%- endif -%}
 {%- else -%}
