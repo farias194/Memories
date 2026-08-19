@@ -8,28 +8,33 @@
 {% endcomment %}
 
 {%- assign cart_subtotal_cents = cart.items_subtotal_price -%}
-{%- assign thresholds = metaobjects['discount_threshold'] -%}
 
-{%- if thresholds != blank -%}
-  {%- comment -%} Find the NEXT threshold the customer hasn't reached yet {%- endcomment -%}
-  {%- assign next_threshold = nil -%}
-  {%- for pair in thresholds -%}
-    {%- assign t = pair[1] -%}
-    {%- assign is_enabled = t.enabled.value -%}
-    {%- assign threshold_cents = t.threshold_minor.value | plus: 0 -%}
-    {%- if is_enabled != false and is_enabled != 'false' and threshold_cents > cart_subtotal_cents -%}
-      {%- if next_threshold == nil -%}
+{%- comment -%}
+  metaobjects['discount_threshold'] supports KEYED access but NOT iteration
+  ({% for %} over it yields nothing) in this Liquid era — so iterate a fixed
+  handle range instead. The app writes handles discount-1..N (sorted by
+  threshold, ascending).
+{%- endcomment -%}
+
+{%- assign next_threshold = nil -%}
+{%- for i in (1..10) -%}
+  {%- assign t = metaobjects['discount_threshold']['discount-' | append: i] -%}
+  {%- if t == blank -%}{%- continue -%}{%- endif -%}
+  {%- assign is_enabled = t.enabled.value -%}
+  {%- assign threshold_cents = t.threshold_minor.value | plus: 0 -%}
+  {%- if is_enabled != false and is_enabled != 'false' and threshold_cents > cart_subtotal_cents -%}
+    {%- if next_threshold == nil -%}
+      {%- assign next_threshold = t -%}
+    {%- else -%}
+      {%- assign nt_cents = next_threshold.threshold_minor.value | plus: 0 -%}
+      {%- if threshold_cents < nt_cents -%}
         {%- assign next_threshold = t -%}
-      {%- else -%}
-        {%- assign nt_cents = next_threshold.threshold_minor.value | plus: 0 -%}
-        {%- if threshold_cents < nt_cents -%}
-          {%- assign next_threshold = t -%}
-        {%- endif -%}
       {%- endif -%}
     {%- endif -%}
-  {%- endfor -%}
+  {%- endif -%}
+{%- endfor -%}
 
-  {%- if next_threshold != nil -%}
+{%- if next_threshold != nil -%}
     {%- comment -%} Calculate progress percentage {%- endcomment -%}
     {%- assign progress_cents = cart_subtotal_cents -%}
     {%- assign target_cents = next_threshold.threshold_minor.value | plus: 0 -%}
@@ -54,17 +59,7 @@
       </p>
     </div>
   {%- else -%}
-    <div style="border: 2px dashed blue; padding: 0.5rem 1rem; margin: 1rem 0; font-size: 12px;">
-      <strong>DEBUG:</strong> cart_cents={{ cart_subtotal_cents }} | thresholds.size={{ thresholds.size }}
-      <br>keyed discount-1 thr='{{ metaobjects['discount_threshold']['discount-1'].threshold_minor.value }}'
-      <br>keyed discount-2 thr='{{ metaobjects['discount_threshold']['discount-2'].threshold_minor.value }}'
-      <br>keyed discount-3 thr='{{ metaobjects['discount_threshold']['discount-3'].threshold_minor.value }}'
-      {%- for pair in thresholds -%}
-        <br>pair[0]='{{ pair[0] }}' | pair[1]='{{ pair[1] }}' | title='{{ pair[1].title.value }}' | thr='{{ pair[1].threshold_minor.value }}' | thr+0='{{ pair[1].threshold_minor.value | plus: 0 }}' | enabled='{{ pair[1].enabled.value }}'
-      {%- endfor -%}
-    </div>
     <div class="discount-progress-bar" style="margin: 1rem 0; padding: 1rem; background: #e8f5e9; border-radius: 8px;">
       🎉 You've unlocked all available discounts!
     </div>
   {%- endif -%}
-{%- endif -%}
