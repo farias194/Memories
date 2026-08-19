@@ -18,7 +18,8 @@
 
 {%- assign next_threshold = nil -%}
 {%- for i in (1..10) -%}
-  {%- assign t = metaobjects['discount_threshold']['discount-' | append: i] -%}
+  {%- assign handle = 'discount-' | append: i -%}
+  {%- assign t = metaobjects['discount_threshold'][handle] -%}
   {%- if t == blank -%}{%- continue -%}{%- endif -%}
   {%- assign is_enabled = t.enabled.value -%}
   {%- assign threshold_cents = t.threshold_minor.value | plus: 0 -%}
