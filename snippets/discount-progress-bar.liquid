@@ -58,5 +58,19 @@
         🎉 You've unlocked all available discounts!
       </div>
     {%- endif -%}
+  {%- else -%}
+    <div style="border: 2px dashed red; padding: 0.5rem 1rem; margin: 1rem 0; font-size: 13px;">
+      <strong>DEBUG discount-progress-bar:</strong> <code>messages_json</code> parsed to an empty list (0 messages).
+    </div>
   {%- endif -%}
+{%- else -%}
+  <div style="border: 2px dashed red; padding: 0.5rem 1rem; margin: 1rem 0; font-size: 13px;">
+    <strong>DEBUG discount-progress-bar:</strong>
+    {%- if metaobject == nil -%}
+      No metaobject found for type “{{ metaobject_handle }}”. The definition is missing, has no Storefront access, or the type key is wrong.
+    {%- else -%}
+      Metaobject found, but the <code>messages_json</code> field is blank.
+    {%- endif -%}
+    <br>Cart subtotal (cents): {{ cart.items_subtotal_price }}
+  </div>
 {%- endif -%}
