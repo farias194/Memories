@@ -54,6 +54,15 @@
       </p>
     </div>
   {%- else -%}
+    <div style="border: 2px dashed blue; padding: 0.5rem 1rem; margin: 1rem 0; font-size: 12px;">
+      <strong>DEBUG:</strong> cart_cents={{ cart_subtotal_cents }} | thresholds.size={{ thresholds.size }}
+      {%- for pair in thresholds -%}
+        <br>pair[0]='{{ pair[0] }}' | pair[1]='{{ pair[1] }}' | title='{{ pair[1].title.value }}' | thr='{{ pair[1].threshold_minor.value }}' | thr+0='{{ pair[1].threshold_minor.value | plus: 0 }}' | enabled='{{ pair[1].enabled.value }}'
+      {%- endfor -%}
+      {%- for t in thresholds -%}
+        <br>direct t='{{ t }}' | t.thr='{{ t.threshold_minor.value }}'
+      {%- endfor -%}
+    </div>
     <div class="discount-progress-bar" style="margin: 1rem 0; padding: 1rem; background: #e8f5e9; border-radius: 8px;">
       🎉 You've unlocked all available discounts!
     </div>
