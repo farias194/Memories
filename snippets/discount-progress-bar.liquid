@@ -6,8 +6,10 @@
   a progress bar if the cart qualifies.
 {% endcomment %}
 
+{%- assign metaobject_type = 'discount_messages' -%}
 {%- assign metaobject_handle = 'discount_messages' -%}
-{%- assign metaobject = shop.metaobjects[metaobject_handle].value -%}
+{%- comment -%} Use the top-level `metaobjects` object (shop.metaobjects is deprecated in this theme era) {%- endcomment -%}
+{%- assign metaobject = metaobjects[metaobject_type][metaobject_handle] -%}
 
 {%- if metaobject and metaobject.messages_json != blank -%}
   {%- comment -%} Parse the JSON string into a Liquid array {%- endcomment -%}
@@ -72,7 +74,7 @@
       Metaobject found, but the <code>messages_json</code> field is blank.
     {%- endif -%}
     <br>Store: {{ shop.permanent_domain }}
-    <br>Available metaobject types: {%- for pair in shop.metaobjects -%} {{ pair[0] }}{%- endfor -%}
+    <br>Available metaobject types: {%- for pair in metaobjects -%} {{ pair[0] }}{%- endfor -%}
     <br>Cart subtotal (cents): {{ cart.items_subtotal_price }}
   </div>
 {%- endif -%}
