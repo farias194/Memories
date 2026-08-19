@@ -15,9 +15,16 @@
   {%- assign next_threshold = nil -%}
   {%- for pair in thresholds -%}
     {%- assign t = pair[1] -%}
-    {%- if t.enabled.value == true and t.threshold_minor.value > cart_subtotal_cents -%}
-      {%- if next_threshold == nil or t.threshold_minor.value < next_threshold.threshold_minor.value -%}
+    {%- assign is_enabled = t.enabled.value -%}
+    {%- assign threshold_cents = t.threshold_minor.value | plus: 0 -%}
+    {%- if is_enabled != false and is_enabled != 'false' and threshold_cents > cart_subtotal_cents -%}
+      {%- if next_threshold == nil -%}
         {%- assign next_threshold = t -%}
+      {%- else -%}
+        {%- assign nt_cents = next_threshold.threshold_minor.value | plus: 0 -%}
+        {%- if threshold_cents < nt_cents -%}
+          {%- assign next_threshold = t -%}
+        {%- endif -%}
       {%- endif -%}
     {%- endif -%}
   {%- endfor -%}
@@ -25,7 +32,7 @@
   {%- if next_threshold != nil -%}
     {%- comment -%} Calculate progress percentage {%- endcomment -%}
     {%- assign progress_cents = cart_subtotal_cents -%}
-    {%- assign target_cents = next_threshold.threshold_minor.value -%}
+    {%- assign target_cents = next_threshold.threshold_minor.value | plus: 0 -%}
     {%- assign percentage = progress_cents | times: 100 | divided_by: target_cents -%}
     {%- if percentage > 100 -%}{%- assign percentage = 100 -%}{%- endif -%}
 
