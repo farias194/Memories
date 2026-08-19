@@ -71,6 +71,8 @@
     {%- else -%}
       Metaobject found, but the <code>messages_json</code> field is blank.
     {%- endif -%}
+    <br>Store: {{ shop.permanent_domain }}
+    <br>Available metaobject types: {%- for pair in shop.metaobjects -%} {{ pair[0] }}{%- endfor -%}
     <br>Cart subtotal (cents): {{ cart.items_subtotal_price }}
   </div>
 {%- endif -%}
