@@ -1,5 +1,121 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
+    "hero_dLnPE9": {
+      "type": "hero",
+      "blocks": {
+        "text_qxVzMY": {
+          "type": "text",
+          "settings": {
+            "text": "<h1>New arrivals</h1>",
+            "width": "fit-content",
+            "max_width": "narrow",
+            "alignment": "left",
+            "type_preset": "h1",
+            "font": "var(--font-body--family)",
+            "font_size": "1rem",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "color": "var(--color-foreground)",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        },
+        "text_NCyb9b": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Made with care and unconditionally loved by our customers.</p>",
+            "width": "fit-content",
+            "max_width": "narrow",
+            "alignment": "left",
+            "type_preset": "rte",
+            "font": "var(--font-body--family)",
+            "font_size": "1rem",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "color": "var(--color-foreground)",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 32,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        },
+        "button_Pji4Fc": {
+          "type": "button",
+          "name": "t:names.button",
+          "settings": {
+            "label": "Shop now",
+            "link": "shopify://collections/all",
+            "open_in_new_tab": false,
+            "style_class": "button",
+            "width": "fit-content",
+            "custom_width": 100,
+            "width_mobile": "fit-content",
+            "custom_width_mobile": 100
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "text_qxVzMY",
+        "text_NCyb9b",
+        "button_Pji4Fc"
+      ],
+      "name": "t:names.hero",
+      "settings": {
+        "media_type_1": "image",
+        "image_1": "shopify://shop_images/GettyImages-1583295198.jpg",
+        "media_type_2": "image",
+        "stack_media_on_mobile": false,
+        "custom_mobile_media": false,
+        "media_type_1_mobile": "image",
+        "media_type_2_mobile": "image",
+        "link": "",
+        "open_in_new_tab": false,
+        "content_direction": "column",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "flex-start",
+        "vertical_alignment": "center",
+        "align_baseline": false,
+        "horizontal_alignment_flex_direction_column": "center",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 16,
+        "section_width": "page-width",
+        "section_height": "large",
+        "section_height_custom": 50,
+        "color_scheme": "scheme-5",
+        "toggle_overlay": true,
+        "overlay_color": "#00000026",
+        "overlay_style": "gradient",
+        "gradient_direction": "to top",
+        "blurred_reflection": false,
+        "reflection_opacity": 75,
+        "padding-block-start": 40,
+        "padding-block-end": 40
+      }
+    },
     "main": {
       "type": "main-page",
       "blocks": {
@@ -18,115 +134,6 @@
         "color_scheme": "",
         "padding-block-start": 0,
         "padding-block-end": 0
-      }
-    },
-    "hero_NXRcwK": {
-      "type": "hero",
-      "blocks": {
-        "text_kzTmB6": {
-          "type": "text",
-          "name": "t:names.heading",
-          "settings": {
-            "text": "<h2>About Us<\/h2>",
-            "width": "100%",
-            "max_width": "normal",
-            "alignment": "left",
-            "type_preset": "h1",
-            "font": "var(--font-body--family)",
-            "font_size": "1rem",
-            "line_height": "normal",
-            "letter_spacing": "normal",
-            "case": "none",
-            "wrap": "pretty",
-            "color": "var(--color-primary)",
-            "background": false,
-            "background_color": "#00000026",
-            "corner_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {}
-        },
-        "spacer_7aKJeg": {
-          "type": "spacer",
-          "name": "t:names.spacer",
-          "settings": {
-            "size": "percent",
-            "percent_size": 63,
-            "pixel_size": 120,
-            "custom_mobile_size": false,
-            "size_mobile": "percent",
-            "percent_size_mobile": 100,
-            "pixel_size_mobile": 120
-          },
-          "blocks": {}
-        },
-        "text_EgRJFG": {
-          "type": "text",
-          "name": "t:names.text",
-          "settings": {
-            "text": "<p>We make things that work better and last longer. Our products solve real problems with clean design and honest materials.<\/p>",
-            "width": "100%",
-            "max_width": "normal",
-            "alignment": "left",
-            "type_preset": "rte",
-            "font": "var(--font-body--family)",
-            "font_size": "1rem",
-            "line_height": "normal",
-            "letter_spacing": "normal",
-            "case": "none",
-            "wrap": "pretty",
-            "color": "var(--color-foreground)",
-            "background": false,
-            "background_color": "#00000026",
-            "corner_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {}
-        }
-      },
-      "block_order": [
-        "text_kzTmB6",
-        "spacer_7aKJeg",
-        "text_EgRJFG"
-      ],
-      "name": "t:names.hero",
-      "settings": {
-        "media_type_1": "image",
-        "image_1": "shopify:\/\/shop_images\/GettyImages-1583295198.jpg",
-        "media_type_2": "image",
-        "image_2": "shopify:\/\/shop_images\/BROOKLYNPARK.jpg",
-        "stack_media_on_mobile": true,
-        "custom_mobile_media": false,
-        "media_type_1_mobile": "image",
-        "media_type_2_mobile": "image",
-        "link": "",
-        "open_in_new_tab": false,
-        "content_direction": "column",
-        "vertical_on_mobile": true,
-        "horizontal_alignment": "flex-start",
-        "vertical_alignment": "center",
-        "align_baseline": false,
-        "horizontal_alignment_flex_direction_column": "center",
-        "vertical_alignment_flex_direction_column": "flex-start",
-        "gap": 16,
-        "section_width": "page-width",
-        "section_height": "large",
-        "section_height_custom": 50,
-        "color_scheme": "scheme-3",
-        "toggle_overlay": true,
-        "overlay_color": "#00000026",
-        "overlay_style": "gradient",
-        "gradient_direction": "to top",
-        "blurred_reflection": false,
-        "reflection_opacity": 75,
-        "padding-block-start": 40,
-        "padding-block-end": 40
       }
     },
     "section_3GFbQY": {
@@ -157,7 +164,7 @@
             "alt": "",
             "custom_width": 54,
             "custom_width_mobile": 100,
-            "aspect_ratio": "16\/9",
+            "aspect_ratio": "16/9",
             "border": "none",
             "border_width": 1,
             "border_opacity": 100,
@@ -213,7 +220,7 @@
               "type": "text",
               "name": "t:names.text",
               "settings": {
-                "text": "<p>Take a look behind the scenes of our latest product launch.<\/p>",
+                "text": "<p>Take a look behind the scenes of our latest product launch.</p>",
                 "width": "fit-content",
                 "max_width": "normal",
                 "alignment": "left",
@@ -240,7 +247,7 @@
               "name": "t:names.button",
               "settings": {
                 "label": "Discover the collection",
-                "link": "shopify:\/\/collections\/all",
+                "link": "shopify://collections/all",
                 "open_in_new_tab": false,
                 "style_class": "link",
                 "width": "fit-content",
@@ -291,95 +298,131 @@
         "padding-block-end": 97
       }
     },
-    "blocks_TEnNLj": {
-      "type": "_blocks",
+    "store_location_A3xKrV": {
+      "type": "store-location",
       "blocks": {
-        "ai_gen_block_d6c47d8_EhdXtj": {
-          "type": "ai_gen_block_d6c47d8",
+        "hours_YnYejd": {
+          "type": "hours",
           "settings": {
-            "line_position": 40,
-            "line_width": 2,
-            "line_color": "#e6e6e6",
-            "line_active_color": "#000000",
-            "dot_size": 16,
-            "dot_color": "#ffffff",
-            "dot_border_color": "#e6e6e6",
-            "dot_border_width": 2,
-            "dot_active_color": "#000000",
-            "dot_active_border_color": "#000000",
-            "dot_active_scale": 1.2,
-            "content_bg_color": "#f5f5f5",
-            "content_padding": 20,
-            "content_border_radius": 8,
-            "content_inactive_opacity": 0.3,
-            "date_color": "#666666",
-            "date_font_size": 14,
-            "title_color": "#000000",
-            "title_font_size": 20,
-            "description_color": "#333333",
-            "description_font_size": 14,
-            "desktop_width_percent": 100,
-            "item_1_enabled": true,
-            "item_1_date": "May 2026",
-            "item_1_title": "Company founded",
-            "item_1_description": "Our journey began with a simple idea and a passion for excellence.",
-            "item_2_enabled": true,
-            "item_2_date": "August 2026",
-            "item_2_title": "First product launch",
-            "item_2_description": "We introduced our flagship product to the market with overwhelming success.",
-            "item_3_enabled": true,
-            "item_3_date": "December 2026",
-            "item_3_title": "Expanded globally",
-            "item_3_description": "We opened offices in 10 countries and reached customers worldwide.",
-            "item_4_enabled": true,
-            "item_4_date": "March 2027",
-            "item_4_title": "Innovation award",
-            "item_4_description": "Recognized for our commitment to innovation and sustainable practices.",
-            "item_5_enabled": true,
-            "item_5_date": "Today",
-            "item_5_title": "Looking forward",
-            "item_5_description": "Continuing to grow and serve our customers with excellence every day."
-          },
-          "blocks": {}
+            "day": "Monday – Friday",
+            "time": "9:00 AM – 6:00 PM",
+            "closed": false
+          }
+        },
+        "hours_4MD8yw": {
+          "type": "hours",
+          "settings": {
+            "day": "Saturday",
+            "time": "10:00 AM – 5:00 PM",
+            "closed": false
+          }
+        },
+        "hours_hWB7Bk": {
+          "type": "hours",
+          "settings": {
+            "day": "Sunday",
+            "time": "",
+            "closed": true
+          }
         }
       },
       "block_order": [
-        "ai_gen_block_d6c47d8_EhdXtj"
+        "hours_YnYejd",
+        "hours_4MD8yw",
+        "hours_hWB7Bk"
       ],
-      "name": "Scroll timeline",
+      "name": "Store Location & Hours",
       "settings": {
-        "content_direction": "column",
-        "vertical_on_mobile": true,
-        "horizontal_alignment": "flex-start",
-        "vertical_alignment": "center",
-        "align_baseline": false,
-        "horizontal_alignment_flex_direction_column": "flex-start",
-        "vertical_alignment_flex_direction_column": "center",
-        "gap": 40,
-        "section_width": "page-width",
-        "section_height": "",
-        "section_height_custom": 50,
+        "heading": "Visit Our Store",
+        "description": "<p>Stop by and browse our full selection of official NYC souvenirs.</p>",
+        "address": "123 Broadway\nNew York, NY 10001",
+        "phone": "(212) 555-0199",
+        "email": "hello@memoriesnyc.com",
+        "map_url": "",
+        "map_height": 420,
+        "show_directions": true,
+        "directions_url": "",
         "color_scheme": "",
-        "background_media": "none",
-        "video_position": "cover",
-        "background_image_position": "cover",
-        "border": "none",
-        "border_width": 1,
-        "border_opacity": 100,
-        "border_radius": 0,
-        "toggle_overlay": false,
-        "overlay_color": "#00000026",
-        "overlay_style": "solid",
-        "gradient_direction": "to top",
-        "padding-block-start": 66,
-        "padding-block-end": 62
+        "card_border_radius": 12,
+        "heading_size": 32
+      }
+    },
+    "custom_about_story_6faWHe": {
+      "type": "custom-about-story",
+      "blocks": {
+        "event_jhc8pi": {
+          "type": "event",
+          "settings": {
+            "title": "First event",
+            "text": "Describe the first event",
+            "title_font_size": 20,
+            "title_font_weight": "700",
+            "title_color": "#000000",
+            "text_font_size": 15,
+            "text_color": "#333333"
+          }
+        },
+        "event_QqxeD3": {
+          "type": "event",
+          "settings": {
+            "title": "Second event",
+            "text": "Describe the second event",
+            "title_font_size": 20,
+            "title_font_weight": "700",
+            "title_color": "#000000",
+            "text_font_size": 15,
+            "text_color": "#333333"
+          }
+        },
+        "event_T46UFR": {
+          "type": "event",
+          "settings": {
+            "title": "Third event",
+            "text": "Describe the third event",
+            "title_font_size": 20,
+            "title_font_weight": "700",
+            "title_color": "#000000",
+            "text_font_size": 15,
+            "text_color": "#333333"
+          }
+        }
+      },
+      "block_order": [
+        "event_jhc8pi",
+        "event_QqxeD3",
+        "event_T46UFR"
+      ],
+      "name": "Custom About Story",
+      "settings": {
+        "desktop_width_percent": 100,
+        "content_max_width": 720,
+        "line_width": 2,
+        "line_color": "#e6e6e6",
+        "line_active_color": "#000000",
+        "dot_size": 18,
+        "dot_color": "#ffffff",
+        "dot_border_color": "#e6e6e6",
+        "dot_border_width": 2,
+        "content_bg_color": "#f5f5f5",
+        "content_padding": 24,
+        "content_border_radius": 8,
+        "item_gap": 56,
+        "padding_top": 48,
+        "padding_bottom": 48,
+        "padding_left": 20,
+        "padding_right": 20,
+        "margin_top": 0,
+        "margin_bottom": 0,
+        "margin_left": 0,
+        "margin_right": 0
       }
     }
   },
   "order": [
+    "hero_dLnPE9",
     "main",
-    "hero_NXRcwK",
     "section_3GFbQY",
-    "blocks_TEnNLj"
+    "custom_about_story_6faWHe",
+    "store_location_A3xKrV"
   ]
 }

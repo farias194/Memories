@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "slideshow_iwFDnr": {
@@ -7,7 +16,7 @@
           "type": "_slide",
           "settings": {
             "media_type_1": "image",
-            "image_1": "shopify:\/\/shop_images\/GettyImages-1583295198.jpg",
+            "image_1": "shopify://shop_images/GettyImages-1583295198.jpg",
             "content_direction": "column",
             "vertical_on_mobile": true,
             "horizontal_alignment": "flex-start",
@@ -32,7 +41,7 @@
               "type": "text",
               "name": "t:names.heading",
               "settings": {
-                "text": "<h1>New York's <\/h1><h1>Souvenir Shop<\/h1>",
+                "text": "<h1>New York's </h1><h1>Souvenir Shop</h1>",
                 "width": "fit-content",
                 "max_width": "normal",
                 "alignment": "left",
@@ -57,11 +66,11 @@
             "text_7PdxRd": {
               "type": "text",
               "settings": {
-                "text": "<p>Introducing our latest products, made especially for the season. Shop your favorites before they're gone!<\/p>",
+                "text": "<p>Introducing our latest products, made especially for the season. Shop your favorites before they're gone!</p>",
                 "width": "fit-content",
                 "max_width": "normal",
                 "alignment": "left",
-                "type_preset": "custom",
+                "type_preset": "paragraph",
                 "font": "var(--font-body--family)",
                 "font_size": "1rem",
                 "line_height": "normal",
@@ -83,7 +92,7 @@
               "type": "button",
               "settings": {
                 "label": "Shop now",
-                "link": "shopify:\/\/collections\/all",
+                "link": "shopify://collections/all",
                 "open_in_new_tab": false,
                 "style_class": "button",
                 "width": "fit-content",
@@ -104,7 +113,7 @@
           "type": "_slide",
           "settings": {
             "media_type_1": "image",
-            "image_1": "shopify:\/\/shop_images\/5f6f7095-b3ee-4b2d-ab65-44612236880c.webp",
+            "image_1": "shopify://shop_images/5f6f7095-b3ee-4b2d-ab65-44612236880c.webp",
             "content_direction": "column",
             "vertical_on_mobile": true,
             "horizontal_alignment": "flex-start",
@@ -129,7 +138,7 @@
               "type": "text",
               "name": "t:names.heading",
               "settings": {
-                "text": "<h2>Bestsellers<\/h2>",
+                "text": "<h2>Bestsellers</h2>",
                 "width": "fit-content",
                 "max_width": "normal",
                 "alignment": "left",
@@ -154,7 +163,7 @@
             "text_Waggy3": {
               "type": "text",
               "settings": {
-                "text": "<p>pins & misc 50% off<\/p>",
+                "text": "<p>pins & misc 50% off</p>",
                 "width": "fit-content",
                 "max_width": "normal",
                 "alignment": "left",
@@ -180,7 +189,7 @@
               "type": "button",
               "settings": {
                 "label": "Shop now",
-                "link": "shopify:\/\/collections\/sports",
+                "link": "shopify://collections/sports",
                 "open_in_new_tab": false,
                 "style_class": "button",
                 "width": "fit-content",
@@ -228,7 +237,7 @@
           "type": "text",
           "name": "t:names.heading",
           "settings": {
-            "text": "<h2>City That Never Sleeps<\/h2>",
+            "text": "<h2>City That Never Sleeps</h2>",
             "width": "100%",
             "max_width": "normal",
             "alignment": "center",
@@ -254,11 +263,11 @@
           "type": "text",
           "name": "t:names.text",
           "settings": {
-            "text": "<p>For the past 30 years, Memories of New York has been a must-see stop for  thousands of tourists from around the world who want to take home a part of the Big Apple. We carry hundreds of items of your liking - from the  classic \"I  New York\" t-shirts to handbags, snow globes, and keychains -- we have it  all! All of our items are officially licensed New York City souvenirs  and we also offer unique and hard to find pop culture merchandise.<\/p>",
+            "text": "<p>For the past 30 years, Memories of New York has been a must-see stop for  thousands of tourists from around the world who want to take home a part of the Big Apple. We carry hundreds of items of your liking - from the  classic \"I  New York\" t-shirts to handbags, snow globes, and keychains -- we have it  all! All of our items are officially licensed New York City souvenirs  and we also offer unique and hard to find pop culture merchandise.</p>",
             "width": "fit-content",
             "max_width": "normal",
             "alignment": "left",
-            "type_preset": "rte",
+            "type_preset": "paragraph",
             "font": "var(--font-body--family)",
             "font_size": "1rem",
             "line_height": "normal",
@@ -281,7 +290,7 @@
           "name": "t:names.button",
           "settings": {
             "label": "Learn More",
-            "link": "shopify:\/\/pages\/about-page",
+            "link": "shopify://pages/about-page",
             "open_in_new_tab": false,
             "style_class": "button-secondary",
             "width": "fit-content",
@@ -313,7 +322,7 @@
         "color_scheme": "scheme-1be183ca-398d-4673-9be5-93de466733c1",
         "background_media": "image",
         "video_position": "cover",
-        "background_image": "shopify:\/\/shop_images\/874__MG_9919.jpg",
+        "background_image": "shopify://shop_images/874__MG_9919.jpg",
         "background_image_position": "cover",
         "border": "solid",
         "border_width": 10,
@@ -368,7 +377,7 @@
               "type": "_product-list-text",
               "name": "t:names.collection_title",
               "settings": {
-                "text": "<h3>{{ closest.collection.title }}<\/h3>",
+                "text": "<h3>{{ closest.collection.title }}</h3>",
                 "width": "fit-content",
                 "max_width": "normal",
                 "alignment": "left",
@@ -394,11 +403,11 @@
               "type": "text",
               "name": "t:names.text",
               "settings": {
-                "text": "<p>We make things that work better and last longer. Our products solve real problems with clean design and honest materials.<\/p>",
+                "text": "<p>We make things that work better and last longer. Our products solve real problems with clean design and honest materials.</p>",
                 "width": "100%",
                 "max_width": "normal",
                 "alignment": "left",
-                "type_preset": "rte",
+                "type_preset": "h3",
                 "font": "var(--font-body--family)",
                 "font_size": "1rem",
                 "line_height": "normal",
@@ -543,7 +552,7 @@
         "section_width": "page-width",
         "horizontal_alignment": "flex-start",
         "gap": 0,
-        "color_scheme": "scheme-1",
+        "color_scheme": "scheme-b47cba1b-a009-4dfb-8517-ae8309e76dfc",
         "padding-block-start": 16,
         "padding-block-end": 60
       }
@@ -555,7 +564,7 @@
           "type": "group",
           "name": "t:names.header",
           "settings": {
-            "content_direction": "row",
+            "content_direction": "column",
             "vertical_on_mobile": false,
             "horizontal_alignment": "space-between",
             "vertical_alignment": "center",
@@ -595,11 +604,11 @@
               "type": "text",
               "name": "t:names.text",
               "settings": {
-                "text": "<p>Shop by our Collections<\/p>",
+                "text": "<p>Shop by Collections</p>",
                 "width": "100%",
                 "max_width": "normal",
                 "alignment": "center",
-                "type_preset": "h2",
+                "type_preset": "h1",
                 "font": "var(--font-body--family)",
                 "font_size": "1rem",
                 "line_height": "normal",
@@ -621,11 +630,11 @@
               "type": "text",
               "name": "t:names.text",
               "settings": {
-                "text": "<p>We have a wide variety of souvenirs check them out<\/p>",
+                "text": "<p>We have a wide variety of souvenirs check them out</p>",
                 "width": "100%",
                 "max_width": "normal",
                 "alignment": "center",
-                "type_preset": "rte",
+                "type_preset": "h3",
                 "font": "var(--font-body--family)",
                 "font_size": "1rem",
                 "line_height": "normal",
@@ -740,7 +749,7 @@
         "section_width": "full-width",
         "gap": 47,
         "color_scheme": "scheme-b47cba1b-a009-4dfb-8517-ae8309e76dfc",
-        "padding-block-start": 39,
+        "padding-block-start": 91,
         "padding-block-end": 100
       }
     },
@@ -753,7 +762,7 @@
           "settings": {
             "icon": "price_tag",
             "width": 24,
-            "link": "shopify:\/\/collections",
+            "link": "shopify://collections",
             "open_in_new_tab": false
           },
           "blocks": {}
@@ -762,7 +771,7 @@
           "type": "text",
           "name": "t:names.heading",
           "settings": {
-            "text": "<h2>Buy 2 get 50% off<\/h2>",
+            "text": "<h2>Buy 2 get 50% off</h2>",
             "width": "fit-content",
             "max_width": "normal",
             "alignment": "left",
@@ -922,7 +931,7 @@
                   "type": "text",
                   "name": "t:names.text",
                   "settings": {
-                    "text": "<p>We make things that work better and last longer. Our products solve real problems with clean design and honest materials.<\/p>",
+                    "text": "<p>We make things that work better and last longer. Our products solve real problems with clean design and honest materials.</p>",
                     "width": "100%",
                     "max_width": "normal",
                     "alignment": "center",
@@ -1055,8 +1064,87 @@
         "limit_details_width": false,
         "gap": 0,
         "color_scheme": "scheme-b47cba1b-a009-4dfb-8517-ae8309e76dfc",
-        "padding-block-start": 16,
-        "padding-block-end": 17
+        "padding-block-start": 58,
+        "padding-block-end": 58
+      }
+    },
+    "gift_quiz_3bQ6xy": {
+      "type": "gift-quiz",
+      "blocks": {
+        "question_GhtFQJ": {
+          "type": "question",
+          "settings": {
+            "question": "Who is this gift for?",
+            "subtitle": "This helps us narrow things down.",
+            "allow_multiple": false,
+            "options": "Partner | romantic,sparkle\nParent | thoughtful,cozy\nFriend | fun,trendy\nChild | playful"
+          }
+        },
+        "question_hXgmp3": {
+          "type": "question",
+          "settings": {
+            "question": "What's the occasion?",
+            "subtitle": "Pick the closest match.",
+            "allow_multiple": false,
+            "options": "Anniversary | romantic\nBirthday | fun,trendy\nJust because | thoughtful\nHoliday | cozy,classic"
+          }
+        },
+        "result_3hGJVg": {
+          "type": "result",
+          "settings": {
+            "title": "A romantic sparkle",
+            "description": "<p>Something that says it best — elegant and personal.</p>",
+            "tags": "romantic,sparkle",
+            "products": "product-handle-1\nproduct-handle-2"
+          }
+        },
+        "result_6CdDt7": {
+          "type": "result",
+          "settings": {
+            "title": "Cozy & thoughtful",
+            "description": "<p>Warm, personal, and made to be remembered.</p>",
+            "tags": "thoughtful,cozy,classic",
+            "products": "product-handle-3\nproduct-handle-4"
+          }
+        },
+        "result_pmaX4D": {
+          "type": "result",
+          "settings": {
+            "title": "Fun & trendy",
+            "description": "<p>Something current and sure to make them smile.</p>",
+            "tags": "fun,trendy,playful",
+            "products": "product-handle-5"
+          }
+        }
+      },
+      "block_order": [
+        "question_GhtFQJ",
+        "question_hXgmp3",
+        "result_3hGJVg",
+        "result_6CdDt7",
+        "result_pmaX4D"
+      ],
+      "name": "Gift Quiz",
+      "settings": {
+        "heading": "Find the perfect gift",
+        "description": "<p>Answer a few questions and we'll recommend the perfect gift for you.</p>",
+        "content_max_width": 760,
+        "header_alignment": "center",
+        "product_columns": 3,
+        "heading_type_preset": "h2",
+        "description_type_preset": "paragraph",
+        "question_type_preset": "h3",
+        "result_title_type_preset": "h3",
+        "result_description_type_preset": "paragraph",
+        "padding_top": 104,
+        "padding_bottom": 108,
+        "padding_left": 20,
+        "padding_right": 20,
+        "margin_top": 0,
+        "margin_bottom": 0,
+        "margin_left": 0,
+        "margin_right": 0,
+        "color_scheme": "scheme-b47cba1b-a009-4dfb-8517-ae8309e76dfc"
       }
     },
     "media_with_content_RmPxat": {
@@ -1067,11 +1155,11 @@
           "static": true,
           "settings": {
             "media_type": "image",
-            "image": "shopify:\/\/shop_images\/SouvenirPin-NYC-ILOVENY-2__75183__38422.1541519929.1280.1280_grande_aa946f46-8be0-4dd5-b440-f3d6bf919183.webp",
+            "image": "shopify://shop_images/SouvenirPin-NYC-ILOVENY-2__75183__38422.1541519929.1280.1280_grande_aa946f46-8be0-4dd5-b440-f3d6bf919183.webp",
             "link": "",
             "video_loop": true,
             "video_autoplay": false,
-            "image_position": "contain",
+            "image_position": "cover",
             "video_position": "cover"
           },
           "blocks": {}
@@ -1089,7 +1177,7 @@
               "type": "text",
               "name": "t:names.caption",
               "settings": {
-                "text": "<p>Bestseller<\/p>",
+                "text": "<p>Bestseller</p>",
                 "width": "fit-content",
                 "max_width": "normal",
                 "alignment": "left",
@@ -1154,7 +1242,7 @@
                   "type": "text",
                   "name": "t:names.heading",
                   "settings": {
-                    "text": "<h2>Our signature product<\/h2>",
+                    "text": "<h2>Our signature product</h2>",
                     "width": "fit-content",
                     "max_width": "normal",
                     "alignment": "left",
@@ -1179,7 +1267,7 @@
                 "text_r8mRMq": {
                   "type": "text",
                   "settings": {
-                    "text": "<p>Made with care and unconditionally loved by our customers, this signature bestseller exceeds all expectations.<\/p>",
+                    "text": "<p>Made with care and unconditionally loved by our customers, this signature bestseller exceeds all expectations.</p>",
                     "width": "fit-content",
                     "max_width": "narrow",
                     "alignment": "left",
@@ -1211,7 +1299,7 @@
               "type": "button",
               "settings": {
                 "label": "Shop now",
-                "link": "shopify:\/\/collections\/all",
+                "link": "shopify://collections/all",
                 "open_in_new_tab": false,
                 "style_class": "link",
                 "width": "fit-content",
@@ -1232,13 +1320,13 @@
       "name": "t:names.editorial",
       "settings": {
         "media_position": "right",
-        "media_width": "narrow",
-        "media_height": "auto",
-        "section_width": "full-width",
+        "media_width": "wide",
+        "media_height": "80svh",
+        "section_width": "page-width",
         "extend_media": true,
         "color_scheme": "scheme-4",
         "padding-block-start": 0,
-        "padding-block-end": 1
+        "padding-block-end": 0
       }
     },
     "featured_blog_posts_mCVBw4": {
@@ -1249,7 +1337,7 @@
           "name": "t:names.title",
           "static": true,
           "settings": {
-            "text": "<h3>{{ closest.blog.title }}<\/h3>",
+            "text": "<h3>{{ closest.blog.title }}</h3>",
             "width": "fit-content",
             "max_width": "normal",
             "alignment": "left",
@@ -1315,7 +1403,7 @@
                 "case": "none",
                 "wrap": "pretty",
                 "color": "var(--color-foreground)",
-                "text": "<h3>{{ closest.article.title }}<\/h3>",
+                "text": "<h3>{{ closest.article.title }}</h3>",
                 "read_only": false,
                 "alignment": "left",
                 "show_alignment": false,
@@ -1389,7 +1477,7 @@
         "text_Whm9Xj": {
           "type": "text",
           "settings": {
-            "text": "<p>We make things that work better and last longer.<\/p>",
+            "text": "<p>We make things that work better and last longer.</p>",
             "width": "fit-content",
             "max_width": "normal",
             "alignment": "left",
@@ -1460,7 +1548,7 @@
       "name": "Store Location & Hours",
       "settings": {
         "heading": "Visit Our Store",
-        "description": "<p>Stop by and browse our full selection of official NYC souvenirs.<\/p>",
+        "description": "<p>Stop by and browse our full selection of official NYC souvenirs.</p>",
         "address": "123 Broadway\nNew York, NY 10001",
         "phone": "(212) 555-0199",
         "email": "hello@memoriesnyc.com",
@@ -1480,7 +1568,7 @@
           "type": "review",
           "settings": {
             "rating": 5,
-            "quote": "<p>Found the perfect gift for my mom — great selection and quick shipping!<\/p>",
+            "quote": "<p>Found the perfect gift for my mom — great selection and quick shipping!</p>",
             "quote_type_preset": "paragraph",
             "author": "Alex Rivera",
             "source": "Google"
@@ -1490,7 +1578,7 @@
           "type": "review",
           "settings": {
             "rating": 5,
-            "quote": "<p>Authentic souvenirs and friendly staff. My kids loved the snow globes.<\/p>",
+            "quote": "<p>Authentic souvenirs and friendly staff. My kids loved the snow globes.</p>",
             "quote_type_preset": "paragraph",
             "author": "Jordan Lee",
             "source": "Yelp"
@@ -1500,7 +1588,7 @@
           "type": "review",
           "settings": {
             "rating": 4,
-            "quote": "<p>Great quality t-shirts and the prices are fair. Will be back!<\/p>",
+            "quote": "<p>Great quality t-shirts and the prices are fair. Will be back!</p>",
             "quote_type_preset": "paragraph",
             "author": "Sam Patel",
             "source": "Trustpilot"
@@ -1515,13 +1603,15 @@
       "name": "Testimonials",
       "settings": {
         "heading": "What our customers say",
-        "description": "<p>Read why customers love shopping with us.<\/p>",
+        "description": "<p>Read why customers love shopping with us.</p>",
         "layout": "carousel",
         "columns": 3,
         "card_width": 33,
         "autoplay_enable": true,
         "autoplay_speed": 5,
         "card_background_color": "#f5f5f5",
+        "alternating_colors": false,
+        "card_alternate_background_color": "#e8e8e8",
         "card_text_color": "#1a1a1a",
         "star_color": "#f5a623",
         "card_gap": 24,
@@ -1564,92 +1654,13 @@
       ],
       "name": "Alternate Hero",
       "settings": {
-        "image": "shopify:\/\/shop_images\/GettyImages-1583295198.jpg",
+        "image": "shopify://shop_images/GettyImages-1583295198.jpg",
         "zoom_duration": 20,
         "pulse_duration": 8,
         "pulse_scale": 140,
         "fade_duration": 2,
         "gradient_mid": 45,
         "gradient_end": 75
-      }
-    },
-    "gift_quiz_3bQ6xy": {
-      "type": "gift-quiz",
-      "blocks": {
-        "question_GhtFQJ": {
-          "type": "question",
-          "settings": {
-            "question": "Who is this gift for?",
-            "subtitle": "This helps us narrow things down.",
-            "allow_multiple": false,
-            "options": "Partner | romantic,sparkle\nParent | thoughtful,cozy\nFriend | fun,trendy\nChild | playful"
-          }
-        },
-        "question_hXgmp3": {
-          "type": "question",
-          "settings": {
-            "question": "What's the occasion?",
-            "subtitle": "Pick the closest match.",
-            "allow_multiple": false,
-            "options": "Anniversary | romantic\nBirthday | fun,trendy\nJust because | thoughtful\nHoliday | cozy,classic"
-          }
-        },
-        "result_3hGJVg": {
-          "type": "result",
-          "settings": {
-            "title": "A romantic sparkle",
-            "description": "<p>Something that says it best — elegant and personal.<\/p>",
-            "tags": "romantic,sparkle",
-            "products": "product-handle-1\nproduct-handle-2"
-          }
-        },
-        "result_6CdDt7": {
-          "type": "result",
-          "settings": {
-            "title": "Cozy & thoughtful",
-            "description": "<p>Warm, personal, and made to be remembered.<\/p>",
-            "tags": "thoughtful,cozy,classic",
-            "products": "product-handle-3\nproduct-handle-4"
-          }
-        },
-        "result_pmaX4D": {
-          "type": "result",
-          "settings": {
-            "title": "Fun & trendy",
-            "description": "<p>Something current and sure to make them smile.<\/p>",
-            "tags": "fun,trendy,playful",
-            "products": "product-handle-5"
-          }
-        }
-      },
-      "block_order": [
-        "question_GhtFQJ",
-        "question_hXgmp3",
-        "result_3hGJVg",
-        "result_6CdDt7",
-        "result_pmaX4D"
-      ],
-      "name": "Gift Quiz",
-      "settings": {
-        "heading": "Find the perfect gift",
-        "description": "<p>Answer a few questions and we'll recommend the perfect gift for you.<\/p>",
-        "content_max_width": 760,
-        "header_alignment": "center",
-        "product_columns": 3,
-        "heading_type_preset": "h2",
-        "description_type_preset": "paragraph",
-        "question_type_preset": "h3",
-        "result_title_type_preset": "h3",
-        "result_description_type_preset": "paragraph",
-        "padding_top": 48,
-        "padding_bottom": 48,
-        "padding_left": 20,
-        "padding_right": 20,
-        "margin_top": 0,
-        "margin_bottom": 0,
-        "margin_left": 0,
-        "margin_right": 0,
-        "color_scheme": "scheme-b47cba1b-a009-4dfb-8517-ae8309e76dfc"
       }
     }
   },
@@ -1660,12 +1671,12 @@
     "collection_list_piHYj3",
     "marquee_qQiFzh",
     "featured_product_information_mAkrEW",
+    "gift_quiz_3bQ6xy",
     "media_with_content_RmPxat",
     "featured_blog_posts_mCVBw4",
     "marquee_gHzWf6",
     "store_location_x36pmi",
     "testimonials_bFBqDq",
-    "alternate_hero_fEwH79",
-    "gift_quiz_3bQ6xy"
+    "alternate_hero_fEwH79"
   ]
 }
