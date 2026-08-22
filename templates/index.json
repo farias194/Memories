@@ -1621,47 +1621,6 @@
         "heading_type_preset": "h3",
         "description_type_preset": "paragraph"
       }
-    },
-    "alternate_hero_fEwH79": {
-      "type": "alternate-hero",
-      "blocks": {
-        "heading_RH9cM7": {
-          "type": "heading",
-          "settings": {
-            "title": "Breathe In",
-            "subtitle": "A subtle pulse that draws the eye to center"
-          }
-        },
-        "text_yB9EEC": {
-          "type": "text",
-          "settings": {
-            "text": "Add some body copy here to describe your shop."
-          }
-        },
-        "button_EN88V8": {
-          "type": "button",
-          "settings": {
-            "label": "Shop now",
-            "link": "",
-            "open_in_new_tab": false
-          }
-        }
-      },
-      "block_order": [
-        "heading_RH9cM7",
-        "text_yB9EEC",
-        "button_EN88V8"
-      ],
-      "name": "Alternate Hero",
-      "settings": {
-        "image": "shopify://shop_images/GettyImages-1583295198.jpg",
-        "zoom_duration": 20,
-        "pulse_duration": 8,
-        "pulse_scale": 140,
-        "fade_duration": 2,
-        "gradient_mid": 45,
-        "gradient_end": 75
-      }
     }
   },
   "order": [
@@ -1676,7 +1635,6 @@
     "featured_blog_posts_mCVBw4",
     "marquee_gHzWf6",
     "store_location_x36pmi",
-    "testimonials_bFBqDq",
-    "alternate_hero_fEwH79"
+    "testimonials_bFBqDq"
   ]
 }
