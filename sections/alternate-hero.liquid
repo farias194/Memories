@@ -562,21 +562,25 @@
     );
     background-size: 100% 100%;
     background-position: center;
-    animation: alt-hero-radial-pulse-{{ section.id }} {{ section.settings.pulse_duration }}s ease-in-out infinite;
+    transform-origin: center;
+    animation-name: alt-hero-radial-pulse-{{ section.id }};
+    animation-duration: {{ section.settings.pulse_duration }}s;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
   }
 
   @keyframes alt-hero-radial-pulse-{{ section.id }} {
     0% {
-      background-size: 100% 100%;
-      opacity: 0.9;
+      transform: scale(1);
+      opacity: 0.7;
     }
     50% {
-      background-size: {{ section.settings.pulse_scale }}% {{ section.settings.pulse_scale }}%;
+      transform: scale({{ section.settings.pulse_scale | divided_by: 100.0 }});
       opacity: 1;
     }
     100% {
-      background-size: 100% 100%;
-      opacity: 0.9;
+      transform: scale(1);
+      opacity: 0.7;
     }
   }
 
